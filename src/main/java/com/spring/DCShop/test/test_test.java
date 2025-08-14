@@ -7,5 +7,5 @@ public class test_test {
 	
 	public test_test() {};
 
-
+	public String testText ="test";
 }
