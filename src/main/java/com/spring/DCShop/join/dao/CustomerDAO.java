@@ -4,7 +4,13 @@ import com.spring.DCShop.join.dto.CustomerDTO;
 
 public interface CustomerDAO {
 
-	// 회원가입 처리
+	/**
+	 * @purpose 회원가입 처리
+	 */
 	public int insertCustomer(CustomerDTO dto);
 	
+	/**
+	 * @purpose ID 중복확인 처리
+	 */
+	public int useridCheck(String strId);
 }

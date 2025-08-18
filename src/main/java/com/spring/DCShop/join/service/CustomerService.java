@@ -9,13 +9,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.Model;
 
 public interface CustomerService {
-	
-	//약관 동의
+
+	/**
+	 * @purpose 약관 동의
+	 */
 	public void totalAgreement(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
-	
-	// 회원가입 처리
-	public void signInAction(HttpServletRequest request, HttpServletResponse response, Model model) 
+
+	/**
+	 * @purpose 회원가입 처리
+	 */
+	public void signInAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
-	
+
+	/**
+	 * @purpose ID 중복확인 처리
+	 */
+	public void idConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+
 }

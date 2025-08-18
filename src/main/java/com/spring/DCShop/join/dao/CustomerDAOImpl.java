@@ -26,4 +26,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	}
 
+	@Override
+	public int useridCheck(String strId) {
+		System.out.println("CustomerDAOImpl - useridCheck()");
+
+		int selectCnt = sqlSession.selectOne("com.spring.DCShop.join.dao.CustomerDAO.useridCheck", strId);
+
+		return selectCnt;
+	}
+
 }

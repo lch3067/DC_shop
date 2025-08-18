@@ -10,4 +10,9 @@
 		INSERT INTO MVC_CUSTOMER_TBL (user_id, user_password, user_name, user_birthday, user_address, user_hp, user_email) 
 		VALUES (#{user_id}, #{user_password}, #{user_name}, #{user_birthday}, #{user_address}, #{user_hp}, #{user_email})
 	</insert>
+	
+	<!-- ID 중복확인 처리 -->
+	<select id="useridCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MVC_CUSTOMER_TBL WHERE USER_ID = #{strId}
+	</select>
 </mapper>

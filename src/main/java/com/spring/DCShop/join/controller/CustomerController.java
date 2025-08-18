@@ -21,40 +21,60 @@ import com.spring.DCShop.join.service.CustomerService;
 
 @Controller
 public class CustomerController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-	
+
 	@Autowired
 	private CustomerService service;
-	
-	//약관동의 페이지로 이동
+
+	/**
+	 * 약관동의 페이지로 이동
+	 */
 	@RequestMapping("termsAgreement.do")
-	public String termsAgreement(HttpServletRequest request, HttpServletResponse response, Model model) 
-			throws ServletException, IOException{
+	public String termsAgreement(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
 		logger.info("CustomerController - join.do");
-		
+
 		return "join/termsAgreement";
 	}
-	
-	// 약관동의 완료 -> 회원가입 페이지로 이동
+
+	/**
+	 * 약관동의 완료 -> 회원가입 페이지로 이동
+	 */
 	@RequestMapping("join.do")
-	public String join(HttpServletRequest request, HttpServletResponse response, Model model) 
-		throws ServletException, IOException{
+	public String join(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
 		logger.info("CustomerController - join.do");
 		service.totalAgreement(request, response, model);
-		
+
 		return "join/join";
 	}
-	
+
 	// -> 개랑 고양이 join페이지?
-	
+
+	/**
+	 * @purpose 회원가입 처리
+	 */
 	@RequestMapping("joinAction.do")
-	public String joinAction(HttpServletRequest request, HttpServletResponse response, Model model) 
-			throws ServletException, IOException{
+	public String joinAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
 		logger.info("CustomerController - joinAction.do");
-		
+
 		service.signInAction(request, response, model);
-		
+
 		return "join/joinAction";
+	}
+
+	/**
+	 * purpose 아이디 중복시 처리
+	 */
+	@RequestMapping("/idConfirmAction.do")
+	public String idConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url ==> /idConfirmAction.do >>>");
+
+		service.idConfirmAction(request, response, model);
+
+		return "join/idConfirmAction";
 	}
 }

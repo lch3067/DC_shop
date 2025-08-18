@@ -20,8 +20,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerDAO dao;
-	
-	// 약관 동의 항목 체크
+
+	/**
+	 * @purpose 약관 동의
+	 */
 	@Override
 	public void totalAgreement(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
@@ -65,7 +67,9 @@ public class CustomerServiceImpl implements CustomerService {
 		model.addAttribute("agreementdto", agreementdto);
 	}
 
-	// 회원가입 처리
+	/**
+	 * @purpose 회원가입 처리
+	 */
 	@Override
 	public void signInAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
@@ -120,5 +124,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 		// 6단계. jsp로 전달을 위한 처리하기
 		model.addAttribute("insertCnt", insertCnt);
+	}
+
+	/**
+	 * @purpose ID 중복확인 처리
+	 */
+	@Override
+	public void idConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("CustomerServiceImpl - idConfirmAction()");
+
+		// 3단계.화면에서 입력받은 값을 가져온다.
+		String strId = request.getParameter("user_id");
+
+		System.out.println(strId);
+
+		// 4단계. 싱글톤 방식으로 DAO 객체 생성, 다형성 적용
+		// CustomerDAO getInstance = CustomerDaoImpl.getInstance();
+
+		// 5단계. 아이디 중복확인 처리
+		int selectCnt = dao.useridCheck(strId);
+
+		// 6단계. jsp로 처리결과 전달
+		model.addAttribute("selectCnt", selectCnt);
+		model.addAttribute("strId", strId);
+
 	}
 }
