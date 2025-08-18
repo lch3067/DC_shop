@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/setting.jsp" %>
+<%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,20 +35,20 @@
 							<!-- 게시글이 있으면 -->
 							<c:forEach var="dto" items="${list}">
 								<tr>
-									<td>${dto.}</td>
-									<td>${dto.}</td>
+									<td>${dto.b_num}</td>
+									<td>${dto.b_category}</td>
 									<td>
-										<a href="${path}/board_detail?b_num=${dto.}"> 
-											${dto.} 
-											<c:if test="${dto. != 0}">
-												[${dto.}]
+										<a href="${path}/board_detail?b_num=${dto.b_num}"> 
+											${dto.b_title} 
+											<c:if test="">
+												[]
 											</c:if>
 										</a>
 									</td>
-									<td>${dto.}</td>
-									<td>${dto.}</td>
-									<td>${dto.}</td>
-									<td>${dto.}</td>
+									<td>${dto.b_user_id}</td>
+									<td>${dto.b_recommend}</td>
+									<td>${dto.b_readCnt}</td>
+									<td>${dto.b_regDate}</td>
 								</tr>
 							</c:forEach>
 						</table>
