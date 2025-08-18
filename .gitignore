@@ -1,0 +1,13 @@
+# Maven 설정 파일 무시
+.project
+.classpath
+.springBeans
+.settings/
+
+# Build / Packaging
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
