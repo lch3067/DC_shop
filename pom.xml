@@ -130,6 +130,61 @@
 		</dependency>
 		<!-- Mybatis 설정 끝 -->
 
+		<!-- 메일 지원: Spring JavaMailSender -->
+		<!-- 스프링이 메일 보내는 버튼을 만들어 줘요. (JavaMailSender 쓰게 해주는 어댑터) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- JavaMail (javax.mail) - JDK11 호환 -->
+		<!-- 진짜로 메일을 SMTP로 “보내는 엔진”이에요. 우체국 트럭 같은 역할. -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<!-- Java Activation (JDK 11에서 필요) -->
+		<!-- 메일에 첨부파일 -->
+		<dependency>
+			<groupId>com.sun.activation</groupId>
+			<artifactId>javax.activation</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+
+		<!-- Jackson 시작 : 서버에서 JSON ↔ 자바 객체로 바꿔주는 번역기예요. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- jdbc -->
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
