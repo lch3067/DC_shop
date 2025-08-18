@@ -113,9 +113,9 @@
 												style="color: red">*</span></label></th>
 										<td><input type="text" id="user_id" name="user_id"
 											class="input" size="20" placeholder="공백없이 20자 이내로 작성"
-											required autofocus> <input type=button name="dubChk"
-											value="중복확인" style="margin-left: 10px" onclick="confirmId()">
-										</td>
+											required autofocus>
+											<button type="button" class="btn btn-dark btn-sm ms-2"
+												onclick="confirmId()">중복확인</button></td>
 									</tr>
 									<tr>
 										<th><label for="user_password">비밀번호<span
@@ -148,9 +148,8 @@
 												style="color: red">*</span></label></th>
 										<td><input type="text" id="user_address"
 											name="user_address" class="input" size="30"
-											placeholder="주소를 검색하세요." required autofocus>
-											<button type="button" id="addrSearchBtn"
-												style="margin-left: 8px;">주소검색</button>
+											placeholder="주소를 검색하세요.(선택)" required autofocus> <!-- <button type="button" id="addrSearchBtn"
+												class="btn btn-outline-secondary btn-sm ms-2">주소검색</button> -->
 											<div id="addrResult"
 												style="border: 1px solid #ccc; background: #fff; max-height: 200px; overflow-y: auto; display: none; position: absolute; z-index: 100;"></div>
 										</td>
@@ -204,36 +203,36 @@
 												</div>
 											</div>
 
-											<div id="emailMsg" class="msg"></div> <!-- 인증코드 영역 (초기 숨김) -->
-											<div id="emailVerifyBox"
-												class="row g-2 align-items-center mt-2 d-none">
-												<label class="col-auto col-form-label" for="emailCode">인증코드</label>
-												<div class="col-auto">
-													<input type="text" id="emailCode" class="form-control"
-														maxlength="6" inputmode="numeric" pattern="\d{6}"
-														placeholder="6자리">
+											<div id="emailMsg" class="msg"></div> <!-- 인증코드 입력 영역: 최초 숨김 -->
+											<!-- 인증코드 영역 (초기 숨김) -->
+											<div id="emailVerifyBox" class="hidden">
+												<div class="row">
+													<label>인증코드</label> <input type="text" id="emailCode"
+														class="inp" maxlength="6" inputmode="numeric"
+														placeholder="6자리" />
+													<div class="col-auto">
+														<button type="button" id="btnVerify"
+															class="btn btn-outline-secondary"
+															onclick="verifyEmailCode()">검증</button>
+													</div>
+													<div class="col-auto">
+														<span id="emailTimer" class="badge text-bg-secondary"></span>
+													</div>
 												</div>
-												<div class="col-auto">
-													<button type="button" id="btnVerify"
-														class="btn btn-outline-secondary"
-														onclick="verifyEmailCode()">검증</button>
-												</div>
-												<div class="col-auto">
-													<span id="emailTimer" class="badge text-bg-secondary"></span>
-												</div>
-											</div> <input type="hidden" id="user_email" name="user_email">
+												<input type="hidden" id="user_email" name="user_email">
+											</div>
 										</td>
 									</tr>
 
-
 									<tr>
-										<td colspan="2" style="border-botton: none"><br>
-											<div align="right">
-												<input class="inputButton" type="submit" value="회원가입">
-												<input class="inputButton" type="reset" value="취소">
-												<input class="inputButton" type="button" value="가입취소"
-													onclick="window.location='main.do'">
+										<td colspan="2" class="border-0">
+											<div class="d-flex justify-content-end gap-2 mt-3">
+												<!-- 코드 발송과 동일 톤 -->
+												<button type="submit" class="btn btn-dark">회원가입</button>
+												<button type="reset" class="btn btn-outline-secondary">취소</button>
+												<a class="btn btn-light" href="main.do">가입취소</a>
 											</div>
+										</td>
 									</tr>
 								</table>
 								<input type="hidden" name="privacyAgree" value="${privacyAgree}">
