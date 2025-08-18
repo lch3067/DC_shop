@@ -48,10 +48,13 @@ public class CustomerController {
 	
 	// -> 개랑 고양이 join페이지?
 	
-//	@RequestMapping("joinAction.do")
-//	public String joinAction(HttpServletRequest request, HttpServletResponse response, Model model) 
-//			throws ServletException, IOException{
-//		
-//		return "join/joinAction";
-//	}
+	@RequestMapping("joinAction.do")
+	public String joinAction(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException{
+		logger.info("CustomerController - joinAction.do");
+		
+		service.signInAction(request, response, model);
+		
+		return "join/joinAction";
+	}
 }

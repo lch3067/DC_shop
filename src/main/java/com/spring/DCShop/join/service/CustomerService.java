@@ -14,5 +14,8 @@ public interface CustomerService {
 	public void totalAgreement(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
+	// 회원가입 처리
+	public void signInAction(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException;
 	
 }
