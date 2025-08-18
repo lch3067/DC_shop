@@ -547,7 +547,7 @@ body {
 				<a href="#" class="nav-link" onclick="window.location='${path}/comm_main'">COMMUNITY</a>
 				
 				<c:if test="${empty sessionScope.sessionid}">
-				<a href="#" class="nav-link" onclick="window.location='${path}/yak'">회원가입</a>
+				<a href="#" class="nav-link" onclick="window.location='${path}/termsAgreement.do'">회원가입</a>
 				</c:if>
 				<c:if test="${!(empty sessionScope.sessionid)}">
 				<a href="#" class="nav-link" onclick="window.location='${path}/yak'">나의정보</a>
