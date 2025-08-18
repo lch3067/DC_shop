@@ -1,4 +1,13 @@
 # Maven 설정 파일 무시
-pom.xml
+.project
+.classpath
+.springBeans
+.settings/
 
-test.txt
+# Build / Packaging
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
