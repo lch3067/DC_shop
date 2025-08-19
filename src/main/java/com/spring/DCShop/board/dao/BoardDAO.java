@@ -1,5 +1,49 @@
 package com.spring.DCShop.board.dao;
 
+import java.util.List;
+
+import com.spring.DCShop.board.dto.BoardDTO;
+import com.spring.DCShop.board.dto.CommentDTO;
+
 public interface BoardDAO {
 
+	// 게시판 목록
+	public List<BoardDTO> boardListAction();
+	
+	// 게시글 전체 개수
+	public int boardListTotal();
+	
+	// 댓글 개수
+	public int commentListTotal();
+	
+	// 게시판 상세페이지
+	public BoardDTO boardDetailAction(int b_num);
+	
+	// 게시판 등록
+	public int boardInsertAction(BoardDTO dto);
+	
+	// 게시판 수정 정보
+	public BoardDTO boardUpdateDTOAction(int b_num);
+	
+	// 게시판 수정 등록
+	public int boardUpdateAction(BoardDTO dto);
+	
+	// 게시판 삭제
+	public int boardDeleteAction(int b_num);
+	
+	// 댓글 목록
+	public List<CommentDTO> commentListAction();
+	
+	// 댓글 등록
+	public int commentInsertAction(CommentDTO dto);
+	
+	// 댓글 수정
+	public int commentUpdateAction(int c_num);
+			
+	// 댓글 삭제
+	public int commentDeleteAction(int c_num);
+	
+	// 검색
+	public List<BoardDTO> searchAction(String b_category);
+	
 }
