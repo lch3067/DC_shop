@@ -154,7 +154,6 @@
 			<version>1.2.0</version>
 		</dependency>
 
-
 		<!-- Jackson 시작 : 서버에서 JSON ↔ 자바 객체로 바꿔주는 번역기예요. -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -171,7 +170,9 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.13.5</version>
 		</dependency>
-		
+
+		<!-- jdbc 오류 나신분들만 pom.xml에 추가 -->
+		<!-- Cannot load JDBC driver class 'oracle.jdbc.driver.OracleDriver' -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc6</artifactId>
@@ -184,6 +185,22 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- jdbc -->
+
+		<!-- 지민님 의존성 : 시작 -->
+		<!-- Spring TX (트랜잭션) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>5.3.39</version>
+		</dependency>
+
+		<!-- Commons Pool -->
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- 지민님 의존성 : 끝-->
 
 		<!-- Test -->
 		<dependency>
