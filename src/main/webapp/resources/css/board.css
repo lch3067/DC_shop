@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+#container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#contents {
+	max-width: 1100px;
+	min-width: 1100px;
+	width: 100%;
+	margin: 0 auto;
+	min-height: 800px;
+}
+
+.titleArea h1 {
+	color : #55555;
+}
+
+.table_div {
+	margin-top: 50px;
+	width: 900px;
+	margin: 0 auto;
+}
+
+.table_div  table {
+	width: 900px; 
+	text-align: center;
+	border: 0;
+	border-spacing: 0;
+	border_collapse: collapse;
+}
+
+.table_div  table th {
+	font-weight: 400;
+	background-color: #f6f6f6;
+}
+
+.table_div  table th, td {
+	height: 29px;
+	padding: 14px 20px;
+	line-height: 22px;
+	vertical-align: middle;
+	color: #6d6d6d;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.table_div table td.title {
+	text-align: left;
+}
+
+.table_div table td.title a {
+	text-decoration: none;
+	color: #6d6d6d;
+}
+
+.inputButton {
+	background: #1a1a1a;
+	color: #fff;
+	display: inline-block;
+	padding: 12px 20px;
+	heignt: 40px;
+	font-size: 13px;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	line-height: 1;
+	font-weight: bold;
+	text-align: center;
+}
+
+.paging .pagination {
+    margin: 30px 0 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.paging .pagination a {
+    display: block;
+    width: 40px;
+    line-height: 40px;
+    box-sizing: border-box;
+    vertical-align: top;
+    background-size: 40px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #e5e5e5;
+}
+
+.paging .pagination a:hover {
+    background-color: #000;
+    color: #fff;
+    border-color: #e5e5e5;
+}
+
+.paging .pagination .active {
+    color: #000;
+    border-color: #000;
+}

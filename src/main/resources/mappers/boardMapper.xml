@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.spring.DCShop.board.dao.BoardDAO">
+ 
+ 	<!-- 게시판 목록 -->
+ 	<select id="boardListAction" parameterType="java.util.Map" resultType="com.spring.DCShop.board.dto.BoardDTO">
+ 		SELECT *
+		  FROM (SELECT A.*
+					 , rownum AS rn 
+				  FROM (SELECT * FROM board_tbl 
+					     ORDER BY b_num DESC) A 
+				) 
+		 WHERE rn BETWEEN #{start} AND #{end}
+ 	</select>
+ 
+ 	<!-- 게시글 전체 개수 -->
+ 	<select id="boardListTotal" resultType="int">
+ 		SELECT COUNT(*) FROM board_tbl
+ 	</select>
+ 	
+ 
+  </mapper>

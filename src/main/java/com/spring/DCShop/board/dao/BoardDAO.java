@@ -1,6 +1,7 @@
 package com.spring.DCShop.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.DCShop.board.dto.BoardDTO;
 import com.spring.DCShop.board.dto.CommentDTO;
@@ -8,7 +9,7 @@ import com.spring.DCShop.board.dto.CommentDTO;
 public interface BoardDAO {
 
 	// 게시판 목록
-	public List<BoardDTO> boardListAction();
+	public List<BoardDTO> boardListAction(Map<String, Object> map);
 	
 	// 게시글 전체 개수
 	public int boardListTotal();

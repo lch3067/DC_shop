@@ -8,6 +8,16 @@
 <!-- 반응형 웹 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>board_list</title>
+
+<link rel="stylesheet" href="${path}/resources/css/board.css">
+
+<script type="text/javascript">
+	$(function() {
+		$('#btnInsert').click(function() {
+			location.href="${path}/board_insert.bc";
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="wrap">
@@ -19,7 +29,12 @@
 				<div class="titleArea">
 					<h1 align="center"> 게시판 </h1>
 				</div>
+				
 				<div>
+					<!-- 검색 부분 -->
+				</div>
+				
+				<div class="table_div">
 					<form name="boardList">
 						<table>
 							<tr>
@@ -35,24 +50,30 @@
 							<!-- 게시글이 있으면 -->
 							<c:forEach var="dto" items="${list}">
 								<tr>
-									<td>${dto.b_num}</td>
+									<td class="num">${dto.b_num}</td>
 									<td>${dto.b_category}</td>
-									<td>
+									<td class="title">
 										<a href="${path}/board_detail?b_num=${dto.b_num}"> 
 											${dto.b_title} 
-											<c:if test="">
+											<%-- <c:if test="">
 												[]
-											</c:if>
+											</c:if> --%>
 										</a>
 									</td>
-									<td>${dto.b_user_id}</td>
+									<td>${dto.u_id}</td>
 									<td>${dto.b_recommend}</td>
-									<td>${dto.b_readCnt}</td>
-									<td>${dto.b_regDate}</td>
+									<td>${dto.b_views}</td>
+									<td>${dto.b_dateposted}</td>
 								</tr>
 							</c:forEach>
 						</table>
-						<div>
+						
+						<div align="right">
+							<br>
+							<input type="button" class="inputButton" value="글쓰기" id="btnInsert">
+						</div>
+						
+						<div class="paging">
 							<ul class="pagination">
 								<!-- 페이징 처리 -->
 								<!-- 이전 버튼 활성화 -->
