@@ -22,5 +22,10 @@
  		SELECT COUNT(*) FROM board_tbl
  	</select>
  	
+ 	<!-- 게시판 등록 -->
+ 	<insert id="boardInsertAction" parameterType="com.spring.DCShop.board.dto.BoardDTO">
+		INSERT INTO board_tbl (b_num, u_id, b_title, b_contents, b_category, b_dateposted, b_updateDate, b_views, b_recommend, b_image)
+		VALUES (SELECT NVL(MAX(b_num)+1,1), #{u_id}, #{b_title}, #{b_contents}, #{b_category}, sysdate, NULL, 0, 0, #{b_image});
+ 	</insert>
  
   </mapper>

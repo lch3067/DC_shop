@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface BoardService {
 
@@ -19,7 +20,7 @@ public interface BoardService {
 		throws ServletException, IOException;
 	
 	// 게시판 등록
-	public void boardInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
 	// 게시판 수정 정보
@@ -27,7 +28,7 @@ public interface BoardService {
 			throws ServletException, IOException;
 	
 	// 게시판 수정 등록
-	public void boardUpdateAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	public void boardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
 	// 게시판 삭제

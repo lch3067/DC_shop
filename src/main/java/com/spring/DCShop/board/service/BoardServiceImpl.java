@@ -1,5 +1,8 @@
 package com.spring.DCShop.board.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.board.dto.BoardDTO;
@@ -66,9 +71,65 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시판 등록
 	@Override
-	public void boardInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - boardInsertAction()");
 		
+		MultipartFile file = request.getFile("b_image");
+		System.out.println("file : " + file);
+		
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/board_upload/");
+		System.out.println("saveDir : " + saveDir);
+		
+		String realDir = "D:\\DEV05\\workspace_DCshop\\DCShop\\src\\main\\webapp\\resources\\board_upload\\";
+		System.out.println("realDir : " + realDir);
+		
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		
+		try {
+			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
+			BoardDTO dto = new BoardDTO();
+			dto.setU_id("happy08");
+			// dto.setU_id((String)request.getSession().getAttribute("sessionID"));
+			dto.setB_title(request.getParameter("b_title"));
+			dto.setB_content(request.getParameter("b_content"));
+			dto.setB_category(request.getParameter("b_category"));
+			
+			if(file.getOriginalFilename() != null) {
+				file.transferTo(new File(saveDir + file.getOriginalFilename())); 	// import java.io.File
+				fis = new FileInputStream(saveDir + file.getOriginalFilename());
+				fos = new FileOutputStream(realDir + file.getOriginalFilename());
+				
+				int data = 0;
+				while((data = fis.read())!= -1) {
+					fos.write(data);
+				}
+				
+				String b_image1 = "/DCShop_team/resources/board_upload/" + file.getOriginalFilename();
+				System.out.println("p_img1 : " + b_image1);
+				dto.setB_image(b_image1);
+			} else {
+				dto.setB_image(null);
+			}
+			
+			
+			// 게시글 작성 처리 후 컨트롤러에서 board_list로 이동
+			int insertCnt = dao.boardInsertAction(dto);
+			
+			// jsp로 처리결과 전달
+			model.addAttribute("insertCnt", insertCnt);
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(fis != null) fis.close();
+			if(fos != null) fos.close();
+		}
+		
+		// int b_num = dao.selectB_num((String)request.getSession().getAttribute("sessionID"));
+		
+		// return b_num;
 	}
 
 	// 게시판 수정 정보
@@ -80,7 +141,7 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시판 수정 등록
 	@Override
-	public void boardUpdateAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	public void boardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		
 	}

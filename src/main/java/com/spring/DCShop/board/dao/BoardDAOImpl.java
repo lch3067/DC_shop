@@ -50,6 +50,10 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 등록
 	@Override
 	public int boardInsertAction(BoardDTO dto) {
+		System.out.println("BoardDAOImpl - boardInsertAction()");
+		
+		sqlSession.insert("com.spring.DCShop.board.dao.BoardDAO.boardInsertAction", dto);
+		
 		return 0;
 	}
 

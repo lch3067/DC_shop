@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.DCShop.board.service.BoardServiceImpl;
 
@@ -38,8 +39,25 @@ public class BoardController {
 	
 	
 	// 게시판 작성
+	@RequestMapping("board_insert")
+	public String board_insert(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => board_insert >>>");
+		
+		return "board/board_insert";
+	}
 	
 	// 게시판 등록
+	@RequestMapping("board_insertAction")
+	public void board_insertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => board_insertAction >>>");
+		
+		service.boardInsertAction(request, response, model);
+		
+		String viewPage=request.getContextPath() + "/board_list";
+		response.sendRedirect(viewPage);
+	}
 	
 	// 게시판 수정
 	

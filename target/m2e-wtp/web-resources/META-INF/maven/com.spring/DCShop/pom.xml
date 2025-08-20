@@ -144,7 +144,7 @@
 		</dependency>
 		<!-- Mybatis 설정 끝 -->
 		
-		<!-- fileupload 시작 : 상품등록, 수정시 필요함 -->
+		<!-- fileupload 시작 -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>

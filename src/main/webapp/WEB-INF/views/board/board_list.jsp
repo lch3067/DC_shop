@@ -14,7 +14,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('#btnInsert').click(function() {
-			location.href="${path}/board_insert.bc";
+			location.href="${path}/board_insert";
 		});
 	});
 </script>
