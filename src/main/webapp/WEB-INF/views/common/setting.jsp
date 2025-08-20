@@ -8,3 +8,4 @@
 <!-- 컨텍스트패스 즉 플젝명(jsp_pj_ict05 => 세번째 패지키)를 path 변수에 설정  -->
 <c:set var="path" value="${pageContext.request.contextPath}" />  <!-- value="jsp_pj_ict05" -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- 따로 닫아야 한다. -->
+<link rel="stylesheet" href="${path}/resources/css/pet/join.css?v=1">

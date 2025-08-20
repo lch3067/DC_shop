@@ -26,6 +26,7 @@ public class PetController {
 	
 	@RequestMapping("/insertPet.do")
 	public String insertPet(){
+		logger.info("PetController - insertPet.do");
 		
 		return "pet/insert";
 	}
@@ -35,6 +36,8 @@ public class PetController {
 			throws ServletException, IOException{
 		
 		service.insertPetAction(request, response, model);
+		logger.info("PetController - insertAction.do");
+		
 		return "pet/insertAction";
 	}
 

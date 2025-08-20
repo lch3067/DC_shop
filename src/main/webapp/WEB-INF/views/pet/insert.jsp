@@ -17,13 +17,15 @@
 <!-- js -->
 <script src="https://kit.fontawesome.com/11defe47b4.js" crossorigin="anonymous"></script>
 <script src="${path}/resources/js/common/main.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script type="text/javascript">
-	
+
 	function get_dog() {
 		
 		$("#selectBox").empty();
 		
+		$("#selectBox").append("<option value=''>상세품종 선택</option>");
         $("#selectBox").append("<option value='말티즈'>말티즈</option>");
         $("#selectBox").append("<option value='포메라니안'>포메라니안</option>");
         $("#selectBox").append("<option value='푸들'>푸들</option>");
@@ -36,12 +38,15 @@
         $("#selectBox").append("<option value='시바견'>시바견</option>");
         $("#selectBox").append("<option value='비글'>비글</option>");
         $("#selectBox").append("<option value='기타'>기타</option>");
+        $("#selectBox").val('');       //  기본값
+        handleKindChange(document.getElementById('selectBox'));
         
 	}
 	function get_cat() {
 		
 		$("#selectBox").empty();
 		
+		$("#selectBox").append("<option value=''>상세품종 선택</option>");
 		$("#selectBox").append("<option value='코숏'>코숏</option>");
         $("#selectBox").append("<option value='먼치킨'>먼치킨</option>");
         $("#selectBox").append("<option value='샴'>샴</option>");
@@ -54,6 +59,8 @@
         $("#selectBox").append("<option value='아비시니안'>아비시니안</option>");
         $("#selectBox").append("<option value='뱅갈'>뱅갈</option>");
         $("#selectBox").append("<option value='기타'>기타</option>");
+        $("#selectBox").val('');       //  기본값
+        handleKindChange(document.getElementById('selectBox'));
         
 	}
 </script>
@@ -91,7 +98,7 @@
 				  <th>* 반려동물 종류</th>
 				  <td colspan="2">
 				    <div class="radio-compact">
-				      <label><input type="radio" name="pet_type" value="강아지" onclick="get_dog()"> 강아지</label>
+				      <label><input type="radio" name="pet_type" value="강아지" onclick="get_dog()" required> 강아지</label>
 				      <label><input type="radio" name="pet_type" value="고양이" onclick="get_cat()"> 고양이</label>
 				    </div>
 				  </td>
@@ -100,9 +107,11 @@
 				<tr>
 					<th>상세품종</th>
 					<td colspan="2" width="300px">
-					<select id="selectBox" name="pet_kind">
+					<select id="selectBox" name="pet_kind" onchange="handleKindChange(this)">
 						<option value=''>반려동물 종류를 선택해주세요.</option>
 			  		</select>
+			  		<!-- '기타'선택 시 -->
+			  		<input type="text" id="pet_kind_custom" class="input" placeholder="직접입력"  style="display:none;">
 					</td>
 				</tr>
 
@@ -148,13 +157,20 @@
                       
                       <button type="button" class="inputButton" id="addAnotherBtn">+ 추가 등록</button>
                       
-                      <input class="inputButton" type="submit" value="등록">
+                      <input class="inputButton" type="submit" value="등록" id="submitBtn">
                       <input class="inputButton" type="reset" value="초기화">
                       <input class="inputButton" type="button" value="취소" onclick="history.back()">
                     </div>
                   </td>
                 </tr>
               </table>
+              
+              <!-- 추가로 모을 리스트 영역 + 서버 보낼 히든 -->
+				<div id="addedPetsWrap" style="margin-top:10px; display:none;">
+				  <div class="small text-secondary" id="petCountLabel"></div>
+				  <div id="addedPets" class="pet-list"></div>
+				  <input type="hidden" name="petsJson" id="petsJson">
+				</div>
             </form>
           </div><!-- .join -->
         </div>
@@ -199,6 +215,170 @@
       r.addEventListener("change", updateSize);
     });
   });
+</script>
+
+<script>
+function handleKindChange(sel){
+  var isOther   = sel.value === '기타';
+  var $select   = $('#selectBox');
+  var $custom   = $('#pet_kind_custom');
+
+  if(isOther){
+    $custom.show().attr('name','pet_kind').focus(); // 입력칸이 서버 전송 담당
+    $select.removeAttr('name');                     
+  }else{
+    $custom.hide().removeAttr('name').val('');      // 입력칸 숨김/초기화
+    $select.attr('name','pet_kind');               
+  }
+}
+
+// 초기 상태 반영
+$(function(){
+  handleKindChange(document.getElementById('selectBox'));
+
+  // 폼 제출 시 “기타”면 값 필수 확인
+  $('form[action="insertAction.do"]').on('submit', function(e){
+    if($('#selectBox').val() === '기타' && !$('#pet_kind_custom').val().trim()){
+      alert('상세품종을 직접 입력해주세요.');
+      e.preventDefault();
+    }
+  });
+});
+</script>
+
+<script>
+const pets = [];
+
+function readCurrentPet() {
+  const name = $('input[name="pet_name"]').val().trim();
+  const birthday = $('input[name="pet_birthday"]').val();
+  const type = $('input[name="pet_type"]:checked').val();     // 강아지/고양이
+  const kindSel = $('#selectBox').val();
+  const kindCustom = $('#pet_kind_custom').val().trim();
+  const kind = (kindSel === '기타' ? kindCustom : kindSel);
+  const gender = $('select[name="pet_gender"]').val();
+  const neutered = $('input[name="pet_neutered"]:checked').val(); // Y/N
+  const kg = $('#pet_kg').val();
+  const size = $('#pet_size').val();
+  const userId = $('input[name="user_id"]').val();
+
+  // 간단 검증
+  if(!name || !birthday || !type || !gender || !kg){
+    alert('필수 항목(*)을 모두 입력하세요.');
+    return null;
+  }
+  if(kindSel === '기타' && !kindCustom){
+    alert('상세품종을 직접 입력하세요.');
+    return null;
+  }
+  return { user_id:userId, pet_name:name, pet_birthday:birthday, pet_type:type,
+           pet_kind:kind || '', pet_gender:gender, pet_neutered:neutered,
+           pet_kg:kg, pet_size:size };
+}
+
+//HTML 특수문자 이스케이프 (XSS 방지)
+function esc(s){
+  s = (s == null ? '' : String(s));
+  return s.replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]); });
+}
+
+function renderPets(){
+	 const $wrap = $('#addedPetsWrap');        // 전체 래퍼
+	 const $list = $('#addedPets').empty();    // 칩 목록
+	 var count = Array.isArray(pets) ? pets.length : 0;
+	 
+	  if (pets.length === 0){
+	    $wrap.hide();                           // 아무것도 안 보이게
+	    $('#petCountLabel').text('');
+	    $('#petsJson').val('');
+	    return;
+}
+	  
+  // 한 마리 이상이면 보이게
+  $wrap.show();
+  $('#petCountLabel').text('추가된 반려동물 ' + count + '마리');
+
+  for(var i=0;i<pets.length;i++){
+    var p = pets[i];
+    var genderLabel  = (p.pet_gender === 'M' ? '수컷' : (p.pet_gender === 'F' ? '암컷' : '-'));
+    var neuterLabel  = (p.pet_neutered === 'Y' ? 'Y(네)' : 'N(아니오)');
+    var sizeLabel    = p.pet_size ? esc(p.pet_size) : '-';
+
+    var html =
+      '<div class="pet-chip">' +
+        '<div class="chip-lines">' +
+          '<span><b>펫 이름:</b> ' + esc(p.pet_name) + '</span>' + 
+          '<span><b>생일:</b> ' + esc(p.pet_birthday) + '</span>' +
+          '<span><b>반려동물 종류:</b> ' + esc(p.pet_type) + '</span>' +
+          '<span><b>상세품종:</b> ' + esc(p.pet_kind || '-') + '</span>' +
+          '<span><b>성별:</b> ' + genderLabel + '</span>' +
+          '<span><b>중성화 여부:</b> ' + neuterLabel + '</span>' +
+          '<span><b>몸무게:</b> ' + esc(p.pet_kg) + 'kg</span>' +
+          '<span><b>체급:</b> ' + sizeLabel + '</span>' +
+        '</div>' +
+        '<button type="button" class="del" data-idx="' + i + '">삭제</button>' +
+      '</div>';
+
+    $list.append(html);
+  }
+
+  $('#petsJson').val(JSON.stringify(pets));
+}
+
+// 클릭: 추가 등록
+$('#addAnotherBtn').on('click', function(){
+  const pet = readCurrentPet();
+  if(!pet) return;
+
+  pets.push(pet);
+  renderPets();
+
+  // 폼 비우기(다시 입력할 수 있게)
+  $('input[name="pet_name"]').val('');
+  $('input[name="pet_birthday"]').val('');
+  // 상세품종 초기화
+  $('#selectBox').val('');
+  $('#pet_kind_custom').val('').hide().removeAttr('name');
+  $('#selectBox').attr('name','pet_kind');
+  // 성별/중성화/체중 초기화
+  $('select[name="pet_gender"]').val('');
+  $('input[name="pet_neutered"][value="N"]').prop('checked', true);
+  $('#pet_kg').val('');
+  $('#pet_size').val('');
+  $('#sizeText').text('체급: -');
+});
+
+// 칩 삭제
+$('#addedPets').on('click', '.del', function(){
+  const idx = +$(this).data('idx');
+  pets.splice(idx, 1);
+  renderPets();
+});
+
+// 제출 시: 폼에 입력 중인 내용이 또 있다면 같이 담아 보내기
+$('form[action="insertAction.do"]').on('submit', function(){
+  // 폼에 남은 값이 완성되어 있으면 한 마리 더 추가
+  const hasSomething =
+    $('input[name="pet_name"]').val().trim() ||
+    $('#selectBox').val() || $('#pet_kind_custom').val().trim();
+
+  if(hasSomething){
+    const extra = readCurrentPet();
+    if(extra){ pets.push(extra); renderPets(); }
+  }
+});
+
+//등록 버튼 클릭 시: 리스트가 있으면 브라우저 required 우회
+$('#submitBtn').on('click', function () {
+  if (pets.length > 0) {
+    // 개별 필드의 required 해제(리스트 기반으로만 제출)
+    $('input[name="pet_name"]').prop('required', false);
+    $('input[name="pet_birthday"]').prop('required', false);
+    $('select[name="pet_gender"]').prop('required', false);
+    $('input[name="pet_kg"]').prop('required', false);
+    // pet_type 라디오는 계속 체크 상태라 괜찮음(라디오에 required 이미 한 쪽만 있음)
+  }
+});
 </script>
 
 </body>
