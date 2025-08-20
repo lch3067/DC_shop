@@ -21,7 +21,7 @@
 
 <script type="text/javascript">
 
-	function get_dog() {
+	function get_dog() { // "강아지" 클릭 시, "상세품종"의 옵션을 강아지 품종 리스트로 바꿈
 		
 		$("#selectBox").empty();
 		
@@ -38,11 +38,11 @@
         $("#selectBox").append("<option value='시바견'>시바견</option>");
         $("#selectBox").append("<option value='비글'>비글</option>");
         $("#selectBox").append("<option value='기타'>기타</option>");
-        $("#selectBox").val('');       //  기본값
-        handleKindChange(document.getElementById('selectBox'));
+        $("#selectBox").val('');       //  기본값 비움
+        handleKindChange(document.getElementById('selectBox'));  // handleKindChange 호출.
         
 	}
-	function get_cat() {
+	function get_cat() {  // "고양이" 클릭 시, "상세품종" 옵션을 고양이 품종 리스트로 갈아끼움
 		
 		$("#selectBox").empty();
 		
@@ -59,8 +59,8 @@
         $("#selectBox").append("<option value='아비시니안'>아비시니안</option>");
         $("#selectBox").append("<option value='뱅갈'>뱅갈</option>");
         $("#selectBox").append("<option value='기타'>기타</option>");
-        $("#selectBox").val('');       //  기본값
-        handleKindChange(document.getElementById('selectBox'));
+        $("#selectBox").val('');       //  기본값 비움
+        handleKindChange(document.getElementById('selectBox')); // handleKindChange 호출.
         
 	}
 </script>
@@ -166,10 +166,10 @@
               </table>
               
               <!-- 추가로 모을 리스트 영역 + 서버 보낼 히든 -->
-				<div id="addedPetsWrap" style="margin-top:10px; display:none;">
-				  <div class="small text-secondary" id="petCountLabel"></div>
-				  <div id="addedPets" class="pet-list"></div>
-				  <input type="hidden" name="petsJson" id="petsJson">
+				<div id="addedPetsWrap" style="margin-top:10px; display:none;">  <!-- 추가된 반려동물들을 보여주는 영역(처음엔 숨김) -->
+				  <div class="small text-secondary" id="petCountLabel"></div> <!-- 추가된 반려동물 n마리 문구 -->
+				  <div id="addedPets" class="pet-list"></div>  <!-- 칩 형태로 각각 표시 -->
+				  <input type="hidden" name="petsJson" id="petsJson">  <!-- 모든 추가 된 동물들을 JSON 문자열로 서버에 보내는 hidden -->
 				</div>
             </form>
           </div><!-- .join -->
@@ -189,12 +189,12 @@
 
   function getSelectedType(){
     const r = document.querySelector('input[name="pet_type"]:checked');
-    return r ? r.value : "강아지";
+    return r ? r.value : "강아지"; // r이 null이 아니면 r.value 반환 r이 null이면 "강아지" 반환
   }
 
   function updateSize(){
     const type = getSelectedType();  
-    const kg   = parseFloat(document.getElementById("pet_kg").value);
+    const kg = parseFloat(document.getElementById("pet_kg").value);
     const sizeTextEl = document.getElementById("sizeText");
     const sizeHidden = document.getElementById("pet_size");
 
@@ -203,25 +203,42 @@
       sizeHidden.value = "";
       return;
     }
-    const bucket = (size[type] || size["강아지"]).find(r => kg <= r.max);
-    sizeTextEl.textContent = "체급: " + bucket.label;
-    sizeHidden.value = bucket.label;
-  }
+    const arr = size[type] || size["강아지"];  // 강아지/고양이 기준표
+    let bucket = null;  // 결과 담을 변수
 
-  document.addEventListener("DOMContentLoaded", ()=>{
-    updateSize();
-    document.getElementById("pet_kg").addEventListener("input", updateSize);
-    document.querySelectorAll('input[name="pet_type"]').forEach(r=>{
-      r.addEventListener("change", updateSize);
-    });
+    for (let i = 0; i < arr.length; i++) {
+      if (kg <= arr[i].max) {
+        bucket = arr[i];
+        break;   // 첫 번째로 맞는 조건에서 멈춤
+      }
+    }
+    if (bucket != null) {
+        sizeTextEl.textContent = "체급: " + bucket.label;
+        sizeHidden.value = bucket.label;
+      } else {
+        sizeTextEl.textContent = "체급: -";
+        sizeHidden.value = "";
+      }
+   }
+  
+  document.addEventListener("DOMContentLoaded", function(){
+	updateSize();
+
+    var kgInput = document.getElementById("pet_kg");
+    kgInput.addEventListener("input", updateSize);
+
+    var radios = document.getElementsByName("pet_type");
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].addEventListener("change", updateSize);
+    }
   });
 </script>
 
 <script>
 function handleKindChange(sel){
-  var isOther   = sel.value === '기타';
-  var $select   = $('#selectBox');
-  var $custom   = $('#pet_kind_custom');
+  var isOther = sel.value === '기타';
+  var $select = $('#selectBox');
+  var $custom = $('#pet_kind_custom');
 
   if(isOther){
     $custom.show().attr('name','pet_kind').focus(); // 입력칸이 서버 전송 담당
@@ -247,7 +264,7 @@ $(function(){
 </script>
 
 <script>
-const pets = [];
+const pets = []; // 추가 등록된 반력동물이 담기는 배열
 
 function readCurrentPet() {
   const name = $('input[name="pet_name"]').val().trim();
@@ -263,7 +280,7 @@ function readCurrentPet() {
   const userId = $('input[name="user_id"]').val();
 
   // 간단 검증
-  if(!name || !birthday || !type || !gender || !kg){
+  if(!name || !birthday || !type || !gender || !kg){  // 필수 항목 중 하나라도 비어있으면 경고 띄우고 함수 중단
     alert('필수 항목(*)을 모두 입력하세요.');
     return null;
   }
@@ -288,7 +305,7 @@ function renderPets(){
 	 var count = Array.isArray(pets) ? pets.length : 0;
 	 
 	  if (pets.length === 0){
-	    $wrap.hide();                           // 아무것도 안 보이게
+	    $wrap.hide();                           // 아무것도 없을 경우 => 아무것도 안 보이게
 	    $('#petCountLabel').text('');
 	    $('#petsJson').val('');
 	    return;
@@ -322,7 +339,7 @@ function renderPets(){
     $list.append(html);
   }
 
-  $('#petsJson').val(JSON.stringify(pets));
+  $('#petsJson').val(JSON.stringify(pets));  // 서버 전송용
 }
 
 // 클릭: 추가 등록
