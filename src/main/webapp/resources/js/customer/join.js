@@ -33,8 +33,21 @@ function selectEmailChk(selectElem) {
 
 // 2. join.jsp - onSubmit시 - 회원가입페이지 필수 체크
 
+
+function copyFormData(srcForm, dstForm){
+    const fd = new FormData(srcForm);
+    for (const [k, v] of fd.entries()) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = k;
+      input.value = v;
+      dstForm.appendChild(input);
+    }
+}
+
+
 // onSubmit(제출)
-function singleCheck() {
+function singleCheck(e) {
 	/* 2-1. 중복확인 버튼 안 눌렀을때 0으로 설정
 		<input type="hidden" name="hiddenUserid" value="0">
 		hiddenUserid : 중복확인 버튼 안눌렀을때 체크(0: 클릭안함, 1:클릭함)
@@ -43,7 +56,7 @@ function singleCheck() {
 	/* 2-2. 중복확인 버튼 클릭하지 않는 경우 "중복확인 해주세요.!!" 메시지 띄운다.*/
 	if (document.inputform.hiddenUserid.value == "0") {
 		alert("중복확인 해주세요.!!");
-		document.inputform.dubChk.focus();
+		document.inputform.user_id.focus();
 		return false;
 	}
 
@@ -53,11 +66,37 @@ function singleCheck() {
 		return false;
 	}
 
-	if(document.inputform.emailVerified.value == "N") {                   
-		alert("이메일 인증을 해주세요");
-		return false;
-	}
+	//if(document.inputform.emailVerified.value == "N") {                   
+		//alert("이메일 인증을 해주세요");
+		//return false;
+	//}
+	
+	e && e.preventDefault();
+	
+	let url = CTX + "/choose.do";
+	window.open(url, "confirm", "menubar=no, width=500, height=400");
+	return false;
 }
+
+
+// 팝업에서 선택을 넘겨줄 때 호출될 콜백
+  function onJoinChoice(nextPath){           // nextPath: 'joinAction.do' | 'insertPet.do'
+    const f = document.forms['inputform'];
+    if(!f){ alert('폼을 찾을 수 없습니다.'); return; }
+    f.method = 'post';
+    f.action = CTX + '/' + nextPath;        // CTX는 setting.jsp 등에서 컨텍스트 루트
+    f.submit();                              // onsubmit 재호출 안됨 → 무한루프 없음
+  }
+
+  // postMessage 폴백(선택 사항): 혹시 opener 직접호출이 막힌 경우 대비
+  window.addEventListener('message', function(ev){
+    if (ev.origin !== window.location.origin) return;       // 동일 오리진만 허용(보안)
+    if (ev.data && ev.data.type === 'JOIN_FLOW_DECIDE') {
+      onJoinChoice(ev.data.target);                          // target에 'joinAction.do' 등
+    }
+  });
+
+
 
 // 3. 사용가능한 id를 찾은 경우 => 자식창에서 부모창으로 user_id을 전달
 /*
@@ -73,6 +112,7 @@ function setUserId(userid) {
 
 }
 
+// 주소 API
 $(function() {
   // 실시간 검색
   $('#user_address').on('keyup', function(e) {
@@ -132,5 +172,7 @@ $(function() {
     $('#user_address').focus();
   });
 });
+
+
 
 

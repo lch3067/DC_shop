@@ -17,7 +17,7 @@
 <script type="text/javascript"
 	src="${path}/resources/js/customer/join.js" defer></script>
 <script type="text/javascript"
-	src="${path}/resources/js/customer/emailAuthentication.js" defer></script>
+	src="${path}/resources/js/customer/emailAuthentication.js"></script>
 
 <style type="text/css">
 .stepper {
@@ -89,9 +89,7 @@
 
 				<!-- 상단 중앙1 시작 -->
 				<div id="section1">
-					<h1 align="center">
-						회원가입창
-						</h2>
+					<h1 align="center">회원가입창</h1>
 				</div>
 				<hr style="border: 5px solid">
 				<!-- 상단 중앙2 시작 -->
@@ -99,8 +97,7 @@
 					<div id="s2_inner">
 						<!-- join 시작 -->
 						<div class="join">
-							<form name="inputform" action="joinAction.do" method="post"
-								onsubmit="return singleCheck()">
+							<form name="inputform">
 
 								<!-- 2-1. 중복확인 버튼 안 눌렀을때 0으로 설정 -->
 								<input type="hidden" name="hiddenUserid" value="0"> <input
@@ -112,8 +109,7 @@
 										<th><label for="user_id">아이디<span
 												style="color: red">*</span></label></th>
 										<td><input type="text" id="user_id" name="user_id"
-											class="input" size="20" placeholder="공백없이 20자 이내로 작성"
-											required autofocus>
+											class="input" size="20" placeholder="공백없이 20자 이내로 작성" autofocus>
 											<button type="button" class="btn btn-dark btn-sm ms-2"
 												onclick="confirmId()">중복확인</button></td>
 									</tr>
@@ -228,9 +224,9 @@
 										<td colspan="2" class="border-0">
 											<div class="d-flex justify-content-end gap-2 mt-3">
 												<!-- 코드 발송과 동일 톤 -->
-												<button type="submit" class="btn btn-dark">회원가입</button>
+												<button type="button" class="btn btn-dark" onclick="singleCheck(event)">회원가입</button>
 												<button type="reset" class="btn btn-outline-secondary">취소</button>
-												<a class="btn btn-light" href="main.do">가입취소</a>
+												<a class="btn btn-danger" href="main.do">가입취소</a>
 											</div>
 										</td>
 									</tr>
