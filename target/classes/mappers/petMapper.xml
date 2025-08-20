@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  
+<mapper namespace="spring.mvc.pet_join2.dao.PetDAO">  <!-- namespace="패키지명.인터페이스" -->
+
+	
+	<insert id="insertPet" parameterType="spring.mvc.pet_join2.dto.PetDTO">
+		INSERT INTO mvc_pet_tbl
+            (pet_num, pet_name, pet_birthday, pet_type, pet_kind, pet_gender, pet_kg, pet_size, pet_neutered, user_id)
+        VALUES
+            ((SELECT NVL(MAX(pet_num)+1,1) FROM mvc_pet_tbl), #{pet_name}, #{pet_birthday}, #{pet_type}, #{pet_kind}, #{pet_gender}, #{pet_kg}, #{pet_size}, #{pet_neutered}, #{user_id})
+	</insert>
+</mapper> 
