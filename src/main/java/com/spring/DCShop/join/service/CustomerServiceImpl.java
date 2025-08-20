@@ -145,6 +145,8 @@ public class CustomerServiceImpl implements CustomerService {
 		// 5단계. 아이디 중복확인 처리
 		int selectCnt = dao.useridCheck(strId);
 
+		System.out.println("selectCnt" + selectCnt);
+		
 		// 6단계. jsp로 처리결과 전달
 		model.addAttribute("selectCnt", selectCnt);
 		model.addAttribute("strId", strId);

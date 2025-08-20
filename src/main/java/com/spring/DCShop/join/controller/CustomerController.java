@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -76,5 +77,16 @@ public class CustomerController {
 		service.idConfirmAction(request, response, model);
 
 		return "join/idConfirmAction";
+	}
+	
+	/**
+	 * purpose 아이디 중복시 처리
+	 */
+	@RequestMapping("/choose.do")
+	public String choose(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url ==> /choose.do >>>");
+
+		return "join/choose";
 	}
 }
