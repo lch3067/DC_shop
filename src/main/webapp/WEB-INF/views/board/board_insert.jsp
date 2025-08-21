@@ -24,9 +24,9 @@
 				$('#b_title').focus();
 				return false;
 			}
-			if($.trim($('#b_content').val()) == "") {
+			if($.trim($('#b_contents').val()) == "") {
 				alert("글내용을 입력해주세요.");
-				$('#b_content').focus();
+				$('#b_contents').focus();
 				return false;
 			}
 			
@@ -78,14 +78,14 @@
 								<tr>
 									<th style="width: 200px"> 글내용 </th>
 									<td style="width: 200px; text-align:center">
-										<textarea rows="5" cols="93" name="b_content" id="b_content"> </textarea>
+										<textarea rows="5" cols="93" name="b_contents" id="b_contents"> </textarea>
 									</td>
 								</tr>
 								<tr>
 									<th style="width: 200px"> 이미지 </th>
 									<td style="width: 200px; text-align:left">
 										<input type="file" class="input" name="b_image" 
-											id="b_image" accept="image/*">
+											id="b_image" accept="fimage/*">
 									</td>
 								</tr>
 							</table>

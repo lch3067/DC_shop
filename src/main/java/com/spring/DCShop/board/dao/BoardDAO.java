@@ -5,11 +5,12 @@ import java.util.Map;
 
 import com.spring.DCShop.board.dto.BoardDTO;
 import com.spring.DCShop.board.dto.CommentDTO;
+import com.spring.DCShop.user.dto.UserDTO;
 
 public interface BoardDAO {
 
 	// 게시판 목록
-	public List<BoardDTO> boardListAction(Map<String, Object> map);
+	public List<UserDTO> boardListAction(Map<String, Object> map);
 	
 	// 게시글 전체 개수
 	public int boardListTotal();
@@ -18,7 +19,7 @@ public interface BoardDAO {
 	public int commentListTotal();
 	
 	// 게시판 상세페이지
-	public BoardDTO boardDetailAction(int b_num);
+	public UserDTO boardDetailAction(int b_num);
 	
 	// 게시판 등록
 	public int boardInsertAction(BoardDTO dto);

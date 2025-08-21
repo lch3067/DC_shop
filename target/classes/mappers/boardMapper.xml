@@ -6,17 +6,47 @@
   
  <mapper namespace="com.spring.DCShop.board.dao.BoardDAO">
  
+	 <!-- 1:다 매핑 -->
+ 	<resultMap id="boardsMap" type="com.spring.DCShop.user.dto.UserDTO">
+ 		<id property="u_member_id" column="u_member_id"/>
+ 		<result property="u_nickname" column="u_nickname"/>
+ 		<collection property="boardDTO" column="u_member_id" resultMap="getBoard"/>
+ 	</resultMap>
+ 	
+ 	<!-- 1:1 매핑 -->
+ 	<resultMap id="boardMap" type="com.spring.DCShop.user.dto.UserDTO">
+ 		<id property="u_member_id" column="u_member_id"/>
+ 		<result property="u_nickname" column="u_nickname"/>
+ 		<association property="boardDTO" column="u_member_id" resultMap="getBoard"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="getBoard" type="com.spring.DCShop.board.dto.BoardDTO">
+ 		<id property="b_num" column="b_num"/>
+ 		<result property="u_member_id" column="u_member_id"/>
+ 		<result property="b_title" column="b_title"/>
+ 		<result property="b_contents" column="b_contents"/>
+ 		<result property="b_category" column="b_category"/>
+ 		<result property="b_dateposted" column="b_dateposted"/>
+ 		<result property="b_updateDate" column="b_updateDate"/>
+ 		<result property="b_views" column="b_views"/>
+ 		<result property="b_recommend" column="b_recommend"/>
+ 		<result property="b_image" column="b_image"/>
+ 	</resultMap>
+ 
  	<!-- 게시판 목록 -->
- 	<select id="boardListAction" parameterType="java.util.Map" resultType="com.spring.DCShop.board.dto.BoardDTO">
+ 	<select id="boardListAction" parameterType="java.util.Map" resultMap="boardsMap">
  		SELECT *
 		  FROM (SELECT A.*
 					 , rownum AS rn 
-				  FROM (SELECT * FROM board_tbl 
-					     ORDER BY b_num DESC) A 
+				  FROM (SELECT b.*
+							 , u.u_nickname
+						FROM user_tbl u, board_tbl b
+						WHERE u.u_member_id = b.u_member_id
+						ORDER BY b_num DESC) A 
 				) 
 		 WHERE rn BETWEEN #{start} AND #{end}
  	</select>
- 
+ 	
  	<!-- 게시글 전체 개수 -->
  	<select id="boardListTotal" resultType="int">
  		SELECT COUNT(*) FROM board_tbl
@@ -24,8 +54,23 @@
  	
  	<!-- 게시판 등록 -->
  	<insert id="boardInsertAction" parameterType="com.spring.DCShop.board.dto.BoardDTO">
-		INSERT INTO board_tbl (b_num, u_id, b_title, b_contents, b_category, b_dateposted, b_updateDate, b_views, b_recommend, b_image)
-		VALUES (SELECT NVL(MAX(b_num)+1,1), #{u_id}, #{b_title}, #{b_contents}, #{b_category}, sysdate, NULL, 0, 0, #{b_image});
+		INSERT INTO board_tbl (b_num, u_member_id, b_title, b_contents, b_category, b_dateposted, b_updateDate, b_views, b_recommend, b_image)
+		VALUES ((SELECT NVL(MAX(b_num)+1,1) FROM board_tbl), #{u_member_id}, #{b_title}, #{b_contents}, #{b_category}, sysdate, NULL, 0, 0, 
+			<if test='b_image != null'>
+				#{b_image}
+			</if>
+			<if test='b_image == null'>
+				null
+			</if>)
  	</insert>
+ 	
+ 	<!-- 게시판 상세페이지 -->
+ 	<select id="boardDetailAction" parameterType="int" resultMap="boardMap">
+ 		SELECT b.*
+			 , u.u_nickname
+		  FROM user_tbl u, board_tbl b
+		 WHERE u.u_member_id = b.u_member_id
+		   AND b.b_num = #{b_num}
+ 	</select>
  
   </mapper>

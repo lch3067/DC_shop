@@ -48,23 +48,25 @@
 							</tr>
 							
 							<!-- 게시글이 있으면 -->
-							<c:forEach var="dto" items="${list}">
+							<c:forEach var="user" items="${list}">
+								<c:forEach var="board" items="${user.boardDTO}">
 								<tr>
-									<td class="num">${dto.b_num}</td>
-									<td>${dto.b_category}</td>
+									<td class="num">${board.b_num}</td>
+									<td>${board.b_category}</td>
 									<td class="title">
-										<a href="${path}/board_detail?b_num=${dto.b_num}"> 
-											${dto.b_title} 
+										<a href="${path}/board_detail?b_num=${board.b_num}"> 
+											${board.b_title} 
 											<%-- <c:if test="">
 												[]
 											</c:if> --%>
 										</a>
 									</td>
-									<td>${dto.u_id}</td>
-									<td>${dto.b_recommend}</td>
-									<td>${dto.b_views}</td>
-									<td>${dto.b_dateposted}</td>
+									<td>${user.u_nickname}</td>
+									<td>${board.b_recommend}</td>
+									<td>${board.b_views}</td>
+									<td>${board.b_dateposted}</td>
 								</tr>
+								</c:forEach>
 							</c:forEach>
 						</table>
 						
@@ -79,7 +81,7 @@
 								<!-- 이전 버튼 활성화 -->
 								<c:if test="${paging.startPage > 10}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> [이전] </a>
+										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> < </a>
 									</li>
 								</c:if>
 								
@@ -93,7 +95,7 @@
 								<!-- 다음 버튼 활성화 -->
 								<c:if test="${paging.endPage < paging.pageCount}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> [다음] </a>
+										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> > </a>
 									</li>
 								</c:if>
 							</ul>

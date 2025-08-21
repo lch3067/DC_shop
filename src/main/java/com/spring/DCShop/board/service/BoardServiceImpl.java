@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.board.dto.BoardDTO;
 import com.spring.DCShop.board.page.Paging;
+import com.spring.DCShop.user.dto.UserDTO;
 
 
 @Service
@@ -54,8 +56,11 @@ public class BoardServiceImpl implements BoardService {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<BoardDTO> list = dao.boardListAction(map);
+		List<UserDTO> list = dao.boardListAction(map);
 		System.out.println("list : " + list);
+		
+		// 댓글 개수 구하기
+		// dao.commentListTotal();
 		
 		//jsp로 처리결과 전달
 		model.addAttribute("list", list);
@@ -66,7 +71,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void boardDetailAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - boardDetailAction()");
 		
+		// 화면에서 입력받은 값을 가져오기
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		
+		UserDTO dto = dao.boardDetailAction(b_num);
+		
+		System.out.println(dto);
+		
+		model.addAttribute("dto", dto);
 	}
 
 	// 게시판 등록
@@ -74,15 +88,9 @@ public class BoardServiceImpl implements BoardService {
 	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		System.out.println("BoardServiceImpl - boardInsertAction()");
-		
+
 		MultipartFile file = request.getFile("b_image");
 		System.out.println("file : " + file);
-		
-		String saveDir = request.getSession().getServletContext().getRealPath("/resources/board_upload/");
-		System.out.println("saveDir : " + saveDir);
-		
-		String realDir = "D:\\DEV05\\workspace_DCshop\\DCShop\\src\\main\\webapp\\resources\\board_upload\\";
-		System.out.println("realDir : " + realDir);
 		
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
@@ -90,13 +98,22 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
 			BoardDTO dto = new BoardDTO();
-			dto.setU_id("happy08");
 			// dto.setU_id((String)request.getSession().getAttribute("sessionID"));
+			dto.setU_member_id(1);
 			dto.setB_title(request.getParameter("b_title"));
-			dto.setB_content(request.getParameter("b_content"));
+			dto.setB_contents(request.getParameter("b_contents"));
 			dto.setB_category(request.getParameter("b_category"));
 			
-			if(file.getOriginalFilename() != null) {
+			if(!file.isEmpty()) {
+				ServletContext save = request.getSession().getServletContext();
+				System.out.println(save);
+				
+				String saveDir = request.getSession().getServletContext().getRealPath("/resources/board_upload/");
+				System.out.println("saveDir : " + saveDir);
+				
+				String realDir = "D:\\DEV05\\workspace_DCshop\\DCShop\\src\\main\\webapp\\resources\\board_upload\\";
+				System.out.println("realDir : " + realDir);
+				
 				file.transferTo(new File(saveDir + file.getOriginalFilename())); 	// import java.io.File
 				fis = new FileInputStream(saveDir + file.getOriginalFilename());
 				fos = new FileOutputStream(realDir + file.getOriginalFilename());

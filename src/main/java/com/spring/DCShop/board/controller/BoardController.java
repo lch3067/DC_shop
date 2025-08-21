@@ -36,7 +36,15 @@ public class BoardController {
 	}
 	
 	// 게시판 상세페이지
-	
+	@RequestMapping("board_detail")
+	public String board_detail(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("<<< url => board_detail >>>");
+		
+		service.boardDetailAction(request, response, model);
+		
+		return "board/board_detail";
+	}
 	
 	// 게시판 작성
 	@RequestMapping("board_insert")

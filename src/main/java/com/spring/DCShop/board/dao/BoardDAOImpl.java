@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.DCShop.board.dto.BoardDTO;
 import com.spring.DCShop.board.dto.CommentDTO;
+import com.spring.DCShop.user.dto.UserDTO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -18,9 +19,9 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 게시판 목록
 	@Override
-	public List<BoardDTO> boardListAction(Map<String, Object> map) {
+	public List<UserDTO> boardListAction(Map<String, Object> map) {
 		
-		List<BoardDTO> list = sqlSession.selectList("com.spring.DCShop.board.dao.BoardDAO.boardListAction", map);
+		List<UserDTO> list = sqlSession.selectList("com.spring.DCShop.board.dao.BoardDAO.boardListAction", map);
 		
 		return list;
 	}
@@ -43,8 +44,12 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 게시판 상세페이지
 	@Override
-	public BoardDTO boardDetailAction(int b_num) {
-		return null;
+	public UserDTO boardDetailAction(int b_num) {
+		System.out.println("BoardDAOImpl - boardInsertAction");
+		
+		UserDTO dto = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.boardDetailAction", b_num);
+		
+		return dto;
 	}
 
 	// 게시판 등록
