@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.DCShop.board.service.BoardServiceImpl;
@@ -39,11 +40,34 @@ public class BoardController {
 	@RequestMapping("board_detail")
 	public String board_detail(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		System.out.println("<<< url => board_detail >>>");
+		logger.info("<<< url => board_detail >>>");
 		
 		service.boardDetailAction(request, response, model);
 		
 		return "board/board_detail";
+	}
+	
+	// 게시판 추천 추가 클릭
+	@RequestMapping("recommend/add")
+	@ResponseBody
+	public int recommend_add(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => recommend/add >>>");
+		
+		int success = service.recommendAddAction(request, response, model);
+		
+		return success;
+	}
+	
+	// 게시판 추천 삭제 클릭
+	@RequestMapping("recommend/remove")
+	public String recommend_remove(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => recommend/remove >>>");
+		
+		
+		
+		return "";
 	}
 	
 	// 게시판 작성

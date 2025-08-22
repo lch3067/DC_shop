@@ -45,11 +45,41 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 상세페이지
 	@Override
 	public UserDTO boardDetailAction(int b_num) {
-		System.out.println("BoardDAOImpl - boardInsertAction");
+		System.out.println("BoardDAOImpl - boardInsertAction()");
 		
 		UserDTO dto = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.boardDetailAction", b_num);
 		
 		return dto;
+	}
+	
+	// 조회수 증가
+	@Override
+	public void viewsUpdateAction(int b_num) {
+		System.out.println("BoardDAOImpl - viewsUpdateAction()");
+		
+		sqlSession.update("com.spring.DCShop.board.dao.BoardDAO.viewsUpdateAction", b_num);
+	}
+	
+	// 추천 추가 클릭
+	public void recommendAddAction(Map<String, Object> map) {
+		System.out.println("BoardDAOImpl - recommendAddAction()");
+		
+		sqlSession.insert("com.spring.DCShop.board.dao.BoardDAO.recommendAddAction", map);
+	}
+	
+	// 추천 삭제 클릭
+	public void recommendRemoveAction(Map<String, Object> map) {
+		System.out.println("BoardDAOImpl - recommendRemoveAction()");
+		
+	}
+	
+	// 추천수 변경
+	public int recommendUpdateAction(int b_num) {
+		System.out.println("BoardDAOImpl - recommendUpdateAction()");
+		
+		int success = sqlSession.update("com.spring.DCShop.board.dao.BoardDAO.recommendUpdateAction", b_num);
+		
+		return success;
 	}
 
 	// 게시판 등록

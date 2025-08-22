@@ -19,6 +19,14 @@ public interface BoardService {
 	public void boardDetailAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 	
+	// 게시판 추천 추가 클릭
+	public int recommendAddAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+	
+	// 게시판 추천 삭제 클릭
+	public void recommendRemoveAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+	
 	// 게시판 등록
 	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;

@@ -15,6 +15,16 @@
 	$(function() {
 		$('#btnInsert').click(function() {
 			location.href="${path}/board_insert";
+			/* 로그인 들어오면 위에 삭제하고 주석 풀고 변수들 맞추기
+			if(${sessionScope.sessionID != null}) {
+				location.href="${path}/board_insert";
+			} else {
+				if(confirm("글 작성하려면 로그인 해주세요.")) {	// 확인 눌렀을 때
+					// 로그인 페이지로 이동	
+					// location.href="${path}/";
+				}
+				// 취소 누르면 목록페이지 그대로
+			} */
 		});
 	});
 </script>
@@ -54,7 +64,7 @@
 									<td class="num">${board.b_num}</td>
 									<td>${board.b_category}</td>
 									<td class="title">
-										<a href="${path}/board_detail?b_num=${board.b_num}"> 
+										<a href="${path}/board_detail?b_num=${board.b_num}&listClick=1"> 
 											${board.b_title} 
 											<%-- <c:if test="">
 												[]

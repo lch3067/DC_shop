@@ -21,6 +21,18 @@ public interface BoardDAO {
 	// 게시판 상세페이지
 	public UserDTO boardDetailAction(int b_num);
 	
+	// 조회수 증가
+	public void viewsUpdateAction(int b_num);
+	
+	// 추천 추가 클릭
+	public void recommendAddAction(Map<String, Object> map);
+	
+	// 추천 삭제 클릭
+	public void recommendRemoveAction(Map<String, Object> map);
+	
+	// 추천수 변경
+	public int recommendUpdateAction(int b_num);
+	
 	// 게시판 등록
 	public int boardInsertAction(BoardDTO dto);
 	

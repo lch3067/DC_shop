@@ -45,7 +45,7 @@
 		<!-- 컨텐츠 부분 -->
 		<div id="container">
 			<div id="contents">
-				<div>
+				<div class="titleArea">
 					<h1 align="center"> 게시글 작성</h1>
 				</div>
 				<div>

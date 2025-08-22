@@ -76,11 +76,49 @@ public class BoardServiceImpl implements BoardService {
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		
-		UserDTO dto = dao.boardDetailAction(b_num);
+		// 조회수 증가 - 목록에서 클릭했을시에만 증가하도록
+		int listClick = Integer.parseInt(request.getParameter("listClick"));
+		if(listClick == 1) {
+			dao.viewsUpdateAction(b_num);
+		}
 		
-		System.out.println(dto);
+		UserDTO user = dao.boardDetailAction(b_num);
 		
-		model.addAttribute("dto", dto);
+		model.addAttribute("user", user);
+	}
+	
+	// 게시판 추천 추가 클릭
+	public int recommendAddAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - recommendAddAction()");
+		
+		// 화면에서 입력받은 값을 가져오기
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		int u_member_id = Integer.parseInt(request.getParameter("u_member_id"));
+		
+		//String b_num = request.getParameter("b_num");
+		//String u_member_id = request.getParameter("u_member_id");
+		
+		System.out.println(b_num);
+		System.out.println(u_member_id);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("b_num", b_num);
+		map.put("u_member_id", u_member_id);
+		
+		dao.recommendAddAction(map);
+		
+		// board_tbl에 추천수 반영
+		int success = dao.recommendUpdateAction(b_num);
+		
+		return success;
+	}
+	
+	// 게시판 추천 삭제 클릭
+	public void recommendRemoveAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - recommendRemoveAction()");
+		
 	}
 
 	// 게시판 등록
