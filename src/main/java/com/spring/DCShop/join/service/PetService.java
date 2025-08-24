@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 
 public interface PetService {
 	
-	// 반려동물 등록
-	public void insertPetAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	// 사용자와 반려동물 등록
+	public boolean insertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 
 }

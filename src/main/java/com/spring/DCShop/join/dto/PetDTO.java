@@ -5,13 +5,13 @@ import java.sql.Date;
 public class PetDTO {
 
 	private int pet_num;
+	private Integer u_member_id;
 	private String pet_name;
 	private Date pet_birthday;
 	private String pet_type;
 	private String pet_kind;
 	private String pet_gender;
 	private double pet_kg;
-	private String user_id;
 	private String pet_size;
 	private String pet_neutered;
 	
@@ -20,17 +20,17 @@ public class PetDTO {
 	}
 
 	public PetDTO(int pet_num, String pet_name, Date pet_birthday, String pet_type, String pet_kind, String pet_gender,
-			double pet_kg, String user_id, String pet_size, String pet_neutered) {
+			double pet_kg, Integer u_member_id, String pet_size, String pet_neutered) {
 		super();
 		this.pet_num = pet_num;
+		this.u_member_id = u_member_id;
 		this.pet_name = pet_name;
-		this.pet_birthday = pet_birthday;
-		this.pet_type = pet_type;
-		this.pet_kind = pet_kind;
 		this.pet_gender = pet_gender;
+		this.pet_type = pet_type;
 		this.pet_kg = pet_kg;
-		this.user_id = user_id;
 		this.pet_size = pet_size;
+		this.pet_birthday = pet_birthday;
+		this.pet_kind = pet_kind;
 		this.pet_neutered = pet_neutered;
 	}
 
@@ -90,12 +90,12 @@ public class PetDTO {
 		this.pet_kg = pet_kg;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public Integer getU_memeber_id() {
+		return u_member_id;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setU_member_id(Integer u_member_id) {
+		this.u_member_id = u_member_id;
 	}
 
 	public String getPet_size() {
@@ -118,7 +118,7 @@ public class PetDTO {
 	public String toString() {
 		return "PetDTO [pet_num=" + pet_num + ", pet_name=" + pet_name + ", pet_birthday=" + pet_birthday
 				+ ", pet_type=" + pet_type + ", pet_kind=" + pet_kind + ", pet_gender=" + pet_gender + ", pet_kg="
-				+ pet_kg + ", user_id=" + user_id + ", pet_size=" + pet_size + ", pet_neutered=" + pet_neutered + "]";
+				+ pet_kg + ", u_member_id=" + u_member_id + ", pet_size=" + pet_size + ", pet_neutered=" + pet_neutered + "]";
 	}
 
 	

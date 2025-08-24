@@ -1,5 +1,7 @@
 package com.spring.DCShop.join.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,7 @@ public class PetDAOImpl implements PetDAO{
 
 	// 반려동물 등록
 	@Override
-	public int insertPet(PetDTO dto) {
+	public int insertPet(List<PetDTO> dto) {
 		System.out.println("PetDAOImpl - insertPet()");
 		System.out.println(dto);
 	

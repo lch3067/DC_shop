@@ -1,7 +1,7 @@
 package com.spring.DCShop.join.service;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,82 +9,66 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.DCShop.join.dao.CustomerDAO;
 import com.spring.DCShop.join.dao.PetDAO;
+import com.spring.DCShop.join.dto.CustomerDTO;
 import com.spring.DCShop.join.dto.PetDTO;
 
 @Service
-public class PetServiceImpl implements PetService{
-	
+public class PetServiceImpl implements PetService {
+
 	@Autowired
-	private PetDAO dao;
-	
-	// 펫등록 처리
-	@Override
-	public void insertPetAction(HttpServletRequest request, HttpServletResponse response, Model model)
-			throws ServletException, IOException {
-		System.out.println("PetServiceImpl - insertPetAction()");
-		
-		PetDTO dto = new PetDTO();
-		
-		dto.setPet_name(request.getParameter("pet_name"));
-		
-		String birthdayStr = request.getParameter("pet_birthday");
-		if (birthdayStr != null && !birthdayStr.trim().equals("")) {
-		    dto.setPet_birthday(Date.valueOf(birthdayStr));
-		} else {
-		    dto.setPet_birthday(null);
-		}
-		
-		dto.setPet_kind(request.getParameter("pet_kind"));
-		dto.setPet_gender(request.getParameter("pet_gender"));
-		
-		String petType = request.getParameter("pet_type");
-		dto.setPet_type(petType);
+	private PetDAO petDAO;
 
-		String petKgStr = request.getParameter("pet_kg");
-		if (petKgStr != null && !petKgStr.trim().equals("")) {
-		    double petKg = Double.parseDouble(petKgStr);
-		    dto.setPet_kg(petKg);
+	@Autowired
+	private CustomerDAO customerDAO;
 
-		    // 강아지 / 고양이 구분
-		    if ("강아지".equals(petType)) {
-		        if (petKg <= 5) {
-		            dto.setPet_size("소형");
-		        } else if (petKg <= 15) {
-		            dto.setPet_size("중형");
-		        } else {
-		            dto.setPet_size("대형");
-		        }
-		    } else if ("고양이".equals(petType)) {
-		        if (petKg <= 4) {
-		            dto.setPet_size("소형");
-		        } else if (petKg <= 6) {
-		            dto.setPet_size("중형");
-		        } else {
-		            dto.setPet_size("대형");
-		        }
-		    }
+	private static final ObjectMapper OM = new ObjectMapper();
 
-		} else {
-		    dto.setPet_kg(0.0);
-		    dto.setPet_size("소형"); // 기본값
+	// 사용자 정보 및 펫 정보 등록
+	// 원자성
+	@Override 
+	public boolean insertAction(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException { 
+		System.out.println("PetServiceImpl - insertPetAction()"); 
+		try { 
+			// 1) 세션의 고객 
+			CustomerDTO customer = (CustomerDTO) request.getSession().getAttribute("customerdto"); 
+			System.out.println("출력[customer] => " + customer); 
+
+			// 2) 고객 insert (+ selectKey로 u_member_id 채워짐) 
+			customerDAO.insertCustomer(customer); 
+
+			// 3) 펫 JSON 파싱 (없으면 빈 리스트) 
+			String json = request.getParameter("petsJson"); 
+			System.out.println("출력[json] => " + json); 
+			List<PetDTO> petsDTO = (json != null && !json.trim().isEmpty()) 
+					? OM.readValue(json, new TypeReference<List<PetDTO>>() {}) 
+					: java.util.Collections.emptyList();
+			
+			System.out.println("출력[petsDTO] => " + petsDTO); 
+		
+			// 4) 펫 FK 세팅 + 일괄 insert
+			int expected = petsDTO.size(); 
+			if (expected > 0) { 
+				int fk = customer.getU_member_id(); 
+				for (PetDTO p : petsDTO) { 
+					System.out.println("[fk] => " + fk); 
+					p.setU_member_id(fk); 
+				} 
+				petDAO.insertPet(petsDTO); 
+			}
+				
+		} catch (Exception e) { 
+			e.printStackTrace(); 
+			return false; 
 		}
-		
-		dto.setUser_id(request.getParameter("user_id"));
-		
-		String neutered = request.getParameter("pet_neutered");
-		if (neutered == null || neutered.trim().isEmpty()) {
-		    neutered = "N";   // 기본값
-		}
-		dto.setPet_neutered(neutered);
-		
-		int insertCnt = dao.insertPet(dto);
-		
-		model.addAttribute("insertCnt", insertCnt);
+		return true;
 		
 	}
-
 }
-

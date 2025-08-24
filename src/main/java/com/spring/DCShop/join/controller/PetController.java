@@ -13,27 +13,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.DCShop.join.service.CustomerService;
+import com.spring.DCShop.join.service.CustomerServiceImpl;
+import com.spring.DCShop.join.service.PetService;
 import com.spring.DCShop.join.service.PetServiceImpl;
 
 @Controller
 public class PetController {
 	
 	@Autowired
-	private PetServiceImpl service;
+	private PetService pService;
+	
+	@Autowired
+	private CustomerService custService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(PetController.class);
 	
 	
 	@RequestMapping("/insertPet.do")
-	public String insertPet(HttpServletRequest request, HttpServletResponse response, Model model){
+	public String insertPet(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException{
 		logger.info("PetController - insertPet.do");
-		
-		System.out.println(request.getParameter("agreementdto"));
-		
-		System.out.println(request.getParameter("user_id"));
-		
-		
-		
+
+		custService.signInAction(request, response, model);
 		
 		return "pet/insert";
 	}
@@ -41,10 +43,10 @@ public class PetController {
 	@RequestMapping("/insertAction.do")
 	public String insertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException{
-		
-		service.insertPetAction(request, response, model);
 		logger.info("PetController - insertAction.do");
 		
+		boolean ok = pService.insertAction(request, response, model);
+	    model.addAttribute("joinSuccess", ok);
 		return "pet/insertAction";
 	}
 
