@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 	setTimeout(function() {
-		window.location="${path}/main";
+		window.location="${path}/main.do";
 	}, 1000);
 </script>
 
