@@ -54,19 +54,19 @@ function startEmailTimer(ttlSec){
 // 코드 발송
 function authnum_email(){
 
-	if(!$('#user_email1').val()) {
+	if(!$('#u_mail1').val()) {
 		alert("이메일을 입력해주세요.");
-		 $('#user_email1').focus();
+		 $('#u_mail1').focus();
 		return false;
 	}
 	
-	if(!$('#user_email2').val()) {
+	if(!$('#u_mail2').val()) {
 		alert("목록을 선택해주세요.");
-		 $('#user_email2').focus();
+		 $('#u_mail2').focus();
 		return false;
 	}
 
-	var to = $('#user_email1').val().trim() + "@" + $('#user_email2').val();
+	var to = $('#u_mail1').val().trim() + "@" + $('#u_mail2').val();
 	console.log(to);
 	if(!to || !to.includes('@')){ showMsg('올바른 이메일을 입력하세요.', 'err', 2500); $('#to').focus(); return; }
 

@@ -97,27 +97,36 @@
 					<div id="s2_inner">
 						<!-- join 시작 -->
 						<div class="join">
-							<form name="inputform">
+							<form name="inputform" action="insertPet.do" method="post"
+									onsubmit="return singleCheck()">
 
 								<!-- 2-1. 중복확인 버튼 안 눌렀을때 0으로 설정 -->
-								<input type="hidden" name="hiddenUserid" value="0"> <input
-									type="hidden" id="emailVerified" name="emailVerified" value="N">
-								<input type="hidden" id="agreementdto" name="agreementdto"
-									value="${agreementdto}">
+								<input type="hidden" name="hiddenUserid" value="0"> 
+								<input type="hidden" name="hiddenUserNickName" value="0"> 
+								<input type="hidden" id="emailVerified" name="emailVerified" value="N">
+								<input type="hidden" id="agreePrivacy" name="agreePrivacy" value="${agreementdto.agreePrivacy}">
+								<input type="hidden" id="agreeMarketing" name="agreeMarketing" value="${agreementdto.agreeMarketing}">
 								<table>
 									<tr>
-										<th><label for="user_id">아이디<span
-												style="color: red">*</span></label></th>
-										<td><input type="text" id="user_id" name="user_id"
+										<th><label for="u_id">아이디<span style="color: red">*</span></label></th>
+										<td><input type="text" id="u_id" name="u_id"
 											class="input" size="20" placeholder="공백없이 20자 이내로 작성" autofocus>
 											<button type="button" class="btn btn-dark btn-sm ms-2"
-												onclick="confirmId()">중복확인</button></td>
+												onclick="confirmId()">아이디 중복확인</button></td>
 									</tr>
 									<tr>
-										<th><label for="user_password">비밀번호<span
+										<th><label for="u_nickname">닉네임<span
 												style="color: red">*</span></label></th>
-										<td><input type="password" id="user_password"
-											name="user_password" class="input" size="20"
+										<td><input type="text" id="u_nickname" name="u_nickname"
+											class="input" size="20" placeholder="공백없이 20자 이내로 작성" autofocus>
+											<button type="button" class="btn btn-dark btn-sm ms-2"
+												onclick="confirmNickName()">닉네임 중복확인</button></td>
+									</tr>
+									<tr>
+										<th><label for="u_password">비밀번호<span
+												style="color: red">*</span></label></th>
+										<td><input type="password" id="u_password"
+											name="u_password" class="input" size="20"
 											placeholder="공백없이 20자 이내로 작성" required autofocus></td>
 									</tr>
 									<tr>
@@ -128,62 +137,54 @@
 											placeholder="비밀번호 재입력" required autofocus></td>
 									</tr>
 									<tr>
-										<th><label for="user_name">이름<span
+										<th><label for="u_name">이름<span
 												style="color: red">*</span></label></th>
-										<td><input type="text" id="user_name" name="user_name"
+										<td><input type="text" id="u_name" name="u_name"
 											class="input" size="20" placeholder="이름 작성" required
 											autofocus></td>
 									</tr>
 									<tr>
 										<th><label>생년월일<span style="color: red">*</span></label></th>
-										<td><input type="date" name="user_birthday" class="input"
+										<td><input type="date" name="u_birthday" class="input"
 											size="8" placeholder="-없이 생년월일 6자리 입력" required autofocus></td>
 									</tr>
 									<tr>
-										<th rowspan="2"><label for="user_address">주소<span
-												style="color: red">*</span></label></th>
-										<td><input type="text" id="user_address"
-											name="user_address" class="input" size="30"
-											placeholder="주소를 검색하세요.(선택)" required autofocus> <!-- <button type="button" id="addrSearchBtn"
-												class="btn btn-outline-secondary btn-sm ms-2">주소검색</button> -->
-											<div id="addrResult"
-												style="border: 1px solid #ccc; background: #fff; max-height: 200px; overflow-y: auto; display: none; position: absolute; z-index: 100;"></div>
+										<th rowspan="2">
+											<label for="u_address">주소<span style="color: red">*</span></label>
+										</th>
+										<td>
+											<input type="text" id="u_address" name="u_address" class="input" style="width: 500px;" placeholder="주소를 검색하세요.(선택)" required autofocus>
+											<div id="addrResult" style="border: 1px solid #ccc; background: #fff; max-height: 200px; overflow-y: auto; display: none; position: absolute; z-index: 100;"></div>
+											<input type="text" id="u_zip_code" name="u_zip_code" class="input" style="width: 100px;" placeholder="우편 번호 입력해주세요." required autofocus>
 										</td>
 									</tr>
 									<tr>
-										<td><input type="text" id="user_deTailaddress"
-											name="user_deTailaddress" class="input" size="30"
-											placeholder="상세 주소 입력해주세요." required autofocus> <input
-											type="text" id="user_zipCodeaddress"
-											name="user_zipCodeaddress" class="input" size="30"
-											placeholder="우편 번호 입력해주세요." required autofocus></td>
+										<td>
+											<input type="text" id="u_deTailaddress" name="u_deTailAddress" class="input" size="30" placeholder="상세 주소 입력해주세요." required autofocus>
+										</td>
 									</tr>
 									<tr>
-										<th><label for="user_hp1">휴대폰 번호<span
-												style="color: red">*</span></label></th>
-										<td><input type="text" id="user_hp1" name="user_hp1"
-											class="input" size="3" style="width: 100px"> - <input
-											type="text" id="user_hp2" name="user_hp2" class="input"
-											size="4" style="width: 100px"> - <input type="text"
-											id="user_hp3" name="user_hp3" class="input" size="4"
-											style="width: 100px"></td>
+										<th><label for="u_phone1">휴대폰 번호<span style="color: red">*</span></label></th>
+										<td>
+											<input type="text" id="u_phone1" name="u_phone1" class="input" maxlength="3" style="width: 100px"> 
+											- 
+											<input type="text" id="u_phone2" name="u_phone2" class="input" maxlength="4" style="width: 100px"> 
+											- 
+											<input type="text" id="u_phone3" name="u_phone3" class="input" maxlength="4" style="width: 100px">
+										</td>
 									</tr>
 
 									<tr>
-										<th><label for="user_email1">이메일<span
+										<th><label for="u_mail1">이메일<span
 												style="color: red">*</span></label></th>
 										<td>
 											<div class="row g-2 align-items-center">
 												<div class="col-12 col-md">
 													<!-- 한 줄로 붙는 input-group (좁으면 자동 줄바꿈) -->
 													<div class="input-group">
-														<input type="text" id="user_email1" name="user_email1"
-															class="form-control" placeholder="아이디" required>
-														<span class="input-group-text">@</span> <input type="text"
-															id="user_email2" name="user_email2" class="form-control"
-															placeholder="도메인" required> <select
-															class="form-select" id="user_email3" name="user_email3"
-															onchange="selectEmailChk(this)">
+														<input type="text" id="u_mail1" name="u_mail1" class="form-control" placeholder="아이디" required>
+														<span class="input-group-text">@</span> <input type="text" id="u_mail2" name="u_mail2" class="form-control" placeholder="도메인" required> 
+														<select class="form-select" id="u_mail3" name="u_mail3" onchange="selectEmailChk(this)">
 															<option value="">직접입력</option>
 															<option value="naver.com">naver.com</option>
 															<option value="gmail.com">gmail.com</option>
@@ -224,7 +225,7 @@
 										<td colspan="2" class="border-0">
 											<div class="d-flex justify-content-end gap-2 mt-3">
 												<!-- 코드 발송과 동일 톤 -->
-												<button type="button" class="btn btn-dark" onclick="singleCheck(event)">회원가입</button>
+												<button type="submit" class="btn btn-dark">펫등록</button>
 												<button type="reset" class="btn btn-outline-secondary">취소</button>
 												<a class="btn btn-danger" href="main.do">가입취소</a>
 											</div>

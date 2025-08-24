@@ -7,20 +7,50 @@ var CTX = window.CTX
 // 아이디 중복확인 버튼 클릭시
 // 1. 아이디 중복확인 페이지 open
 function confirmId() {
-	if (!document.inputform.user_id.value) {
+	const userId = document.getElementById('u_id');
+	if (!userId) {
 		alert("아이디를 입력하세요.");
-		document.inputform.user_id.focus();
+		document.inputform.u_id.focus();
 		return false;
 	}
 	//중복확인 버튼 클릭시 컨트롤러 url을 전달, 컨트롤러에 소스 추가
-	let url = CTX + "/idConfirmAction.do?user_id=" + document.inputform.user_id.value;
+	let url = CTX + "/idConfirmAction.do?u_id=" + document.inputform.u_id.value;
 	window.open(url, "confirm", "menubar=no, width=500, height=400");
 }
+
+function confirmNickName() {
+	const userNickName = document.getElementById('u_nickname');
+	if (!userNickName) {
+		alert("닉네임을 입력하세요.");
+		document.inputform.u_id.focus();
+		return false;
+	}
+	//중복확인 버튼 클릭시 컨트롤러 url을 전달, 컨트롤러에 소스 추가
+	let url = CTX + "/nickNameConfirmAction.do?u_nickname=" + document.inputform.u_nickname.value;
+	window.open(url, "confirm", "menubar=no, width=500, height=400");
+}
+
+function setUserId(userid) {
+
+	opener.document.inputform.u_id.value = userid;
+	opener.document.inputform.hiddenUserid.value = "1";
+	self.close();
+
+}
+
+function setUserNickName(userNickName) {
+
+	opener.document.inputform.u_nickname.value = userNickName;
+	opener.document.inputform.hiddenUserNickName.value = "1";
+	self.close();
+
+}
+
 
 // 회원가입, 수정시의 이메일
 function selectEmailChk(selectElem) {
 
-	const email2 = document.getElementById('user_email2');
+	const email2 = document.getElementById('u_mail2');
 	const value = selectElem.value;
 	if (value === '0') {
 		email2.value = '';
@@ -56,12 +86,12 @@ function singleCheck(e) {
 	/* 2-2. 중복확인 버튼 클릭하지 않는 경우 "중복확인 해주세요.!!" 메시지 띄운다.*/
 	if (document.inputform.hiddenUserid.value == "0") {
 		alert("중복확인 해주세요.!!");
-		document.inputform.user_id.focus();
+		document.inputform.u_id.focus();
 		return false;
 	}
 
 	// 비밀번호 불일치 => 과제
-	if (document.inputform.user_password.value != document.inputform.re_password.value) {
+	if (document.inputform.u_password.value != document.inputform.re_password.value) {
 		alert("비밀번호가 불이치합니다.");
 		return false;
 	}
@@ -71,11 +101,6 @@ function singleCheck(e) {
 		//return false;
 	//}
 	
-	e && e.preventDefault();
-	
-	let url = CTX + "/choose.do";
-	window.open(url, "confirm", "menubar=no, width=500, height=400");
-	return false;
 }
 
 
@@ -96,26 +121,10 @@ function singleCheck(e) {
     }
   });
 
-
-
-// 3. 사용가능한 id를 찾은 경우 => 자식창에서 부모창으로 user_id을 전달
-/*
-	opener : window 객체의 open() 메서드로 열린 자식창(=증복확인창)에서 부모창(=회원가입창)에 접근할 때 사용
-	hiddenUserId : 증복확인 버튼 안눌렀을때 체크(0: 클릭안함, 1: 클릭함)
-	selft.close() // 자식창 닫기
-*/
-function setUserId(userid) {
-
-	opener.document.inputform.user_id.value = userid;
-	opener.document.inputform.hiddenUserid.value = "1";
-	self.close();
-
-}
-
 // 주소 API
 $(function() {
   // 실시간 검색
-  $('#user_address').on('keyup', function(e) {
+  $('#u_address').on('keyup', function(e) {
     var keyword = $(this).val().trim();
     if (keyword.length < 2) {
       $('#addrResult').hide();
@@ -153,8 +162,8 @@ $(function() {
   $(document).on('click', '.addr-item', function() {
     var roadAddr = $(this).data('road');
     var zipNo = $(this).data('zip');
-    $('#user_address').val(roadAddr);
-    $('#user_zipCodeaddress').val(zipNo);
+    $('#u_address').val(roadAddr);
+    $('#u_zip_code').val(zipNo);
     $('#addrResult').hide();
   });
 
@@ -168,8 +177,8 @@ $(function() {
 
   // "주소검색" 버튼 클릭 시도 동일하게 처리
   $('#addrSearchBtn').on('click', function() {
-    $('#user_address').trigger('keyup');
-    $('#user_address').focus();
+    $('#u_address').trigger('keyup');
+    $('#u_address').focus();
   });
 });
 

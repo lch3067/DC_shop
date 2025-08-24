@@ -153,7 +153,7 @@
                   <td colspan="2" style="border-bottom:none">
                     <br>
                     <div align="right">
-                      <input type="hidden" name="user_id" value="admin">
+                      <input type="hidden" name="u_member_id">
                       
                       <button type="button" class="inputButton" id="addAnotherBtn">+ 추가 등록</button>
                       
@@ -277,7 +277,7 @@ function readCurrentPet() {
   const neutered = $('input[name="pet_neutered"]:checked').val(); // Y/N
   const kg = $('#pet_kg').val();
   const size = $('#pet_size').val();
-  const userId = $('input[name="user_id"]').val();
+  const umemberId = $('input[name="u_member_id"]').val();
 
   // 간단 검증
   if(!name || !birthday || !type || !gender || !kg){  // 필수 항목 중 하나라도 비어있으면 경고 띄우고 함수 중단
@@ -288,7 +288,7 @@ function readCurrentPet() {
     alert('상세품종을 직접 입력하세요.');
     return null;
   }
-  return { user_id:userId, pet_name:name, pet_birthday:birthday, pet_type:type,
+  return { u_member_id:umemberId, pet_name:name, pet_birthday:birthday, pet_type:type,
            pet_kind:kind || '', pet_gender:gender, pet_neutered:neutered,
            pet_kg:kg, pet_size:size };
 }

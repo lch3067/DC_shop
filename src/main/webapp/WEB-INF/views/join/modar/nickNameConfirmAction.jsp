@@ -31,7 +31,7 @@
 				<!-- 상단 중앙1 시작 -->
 				<div id="section1">
 					<h1 align="center">
-						ID 중복확인
+						NickName 중복확인
 						</h2>
 				</div>
 
@@ -40,18 +40,18 @@
 					<div id="s2_inner">
 						<!-- join 시작 -->
 						<div class="join">
-							<form name="confirmform" action="idConfirmAction.do"
+							<form name="confirmform" action="nickNameConfirmAction.do"
 								method="post">
 								<!-- id 중복일 떄, id를 입력받아 다시 중복체크 -->
 								<c:if test="${selectCnt == 1}">
 									<!-- id 중복일 때, id를 입력받아 다시 중복체크 -->
 									<table align="center" width="500px">
 										<tr>
-											<th colspan="2"><span> ${strId}는 사용할 수 없습니다. </span></th>
+											<th colspan="2"><span> ${strNickName}는 사용할 수 없습니다. </span></th>
 										</tr>
 										<tr>
-											<th><label for="user_id" />* 아이디</th>
-											<td><input type="text" id="user_id" name="user_id"
+											<th><label for="u_nickname">* 아이디</label></th>
+											<td><input type="text" id="u_nickname" name="u_nickname"
 												class="input" size="20" placeholder="공백없이 20자 이내로 작성"
 												required autofocus></td>
 										</tr>
@@ -67,13 +67,13 @@
 								<c:if test="${selectCnt != 1}">
 									<table align="center" width="500px">
 										<tr>
-											<th colspan="2"><span> ${strId}는 사용할 수 있습니다. </span></th>
+											<th colspan="2"><span> ${strNickName}는 사용할 수 있습니다. </span></th>
 										</tr>
 										<tr>
 											<td colspan="2" style="border-botton: none"><br>
 												<div align="right">
 													<input class="inputButton" type="button" value="확인"
-														onclick="setUserId('${strId}')">
+														onclick="setUserNickName('${strNickName}')">
 												</div>
 										</tr>
 									</table>
