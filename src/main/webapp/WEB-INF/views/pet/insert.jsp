@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ include file="/WEB-INF/views/common/setting.jsp" %>
+ <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,19 +86,19 @@
               <table>
                 <tr>
                   <th>* 펫 이름</th>
-                  <td><input type="text" name="pet_name" class="input" placeholder="이름 작성" required></td>
+                  <td><input type="text" name="pet_name" class="input" placeholder="이름 작성"></td>
                 </tr>
 
                 <tr>
                   <th>* 생일</th>
-                  <td><input type="date" name="pet_birthday" class="input" required></td>
+                  <td><input type="date" name="pet_birthday" class="input"></td>
                 </tr>
 
 				<tr>
 				  <th>* 반려동물 종류</th>
 				  <td colspan="2">
 				    <div class="radio-compact">
-				      <label><input type="radio" name="pet_type" value="강아지" onclick="get_dog()" required> 강아지</label>
+				      <label><input type="radio" name="pet_type" value="강아지" onclick="get_dog()"> 강아지</label>
 				      <label><input type="radio" name="pet_type" value="고양이" onclick="get_cat()"> 고양이</label>
 				    </div>
 				  </td>
@@ -118,7 +118,7 @@
                 <tr>
                   <th>* 성별</th>
                   <td>
-                    <select name="pet_gender" class="input" required>
+                    <select name="pet_gender" class="input">
                       <option value="">-- 선택하세요 --</option>
                       <option value="M">수컷</option>
                       <option value="F">암컷</option>
@@ -142,7 +142,7 @@
                   <td>
                     <div style="display:flex; gap:10px; align-items:center;">
                       <input type="number" id="pet_kg" name="pet_kg" class="input" step="0.1" min="0"
-                             placeholder="예) 7.5" required oninput="updateSize()">
+                             placeholder="예) 7.5" oninput="updateSize()">
                       <span id="sizeText" class="sizeText" style="min-width:80px;">체급: -</span>
                     </div>
                     <input type="hidden" id="pet_size" name="pet_size"><!-- 서버 전송용 -->
