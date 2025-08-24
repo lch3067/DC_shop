@@ -59,12 +59,11 @@ public class BoardServiceImpl implements BoardService {
 		List<UserDTO> list = dao.boardListAction(map);
 		System.out.println("list : " + list);
 		
-		// 댓글 개수 구하기
-		// dao.commentListTotal();
-		
 		//jsp로 처리결과 전달
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
+		
+		request.getSession().setAttribute("sessionID", "dog");
 	}
 
 	// 게시판 상세페이지
@@ -75,6 +74,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		String u_id = (String)request.getSession().getAttribute("sessionID");
+		
+		// 회원아이디에 맞는 회원번호 가져오기
+		int u_member_id = dao.selectU_member_id(u_id);
 		
 		// 조회수 증가 - 목록에서 클릭했을시에만 증가하도록
 		int listClick = Integer.parseInt(request.getParameter("listClick"));
@@ -82,48 +85,63 @@ public class BoardServiceImpl implements BoardService {
 			dao.viewsUpdateAction(b_num);
 		}
 		
+		// 게시판 상세페이지 가져오기
 		UserDTO user = dao.boardDetailAction(b_num);
 		
+		// 해당 게시글을 추천한 사용자인지 확인
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("u_member_id", u_member_id);
+		map.put("b_num", b_num);
+		
+		int isRecommended = dao.isRecommended(map);
+		
 		model.addAttribute("user", user);
+		model.addAttribute("isRecommended", isRecommended);
 	}
 	
-	// 게시판 추천 추가 클릭
-	public int recommendAddAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	// 게시판 추천 클릭
+	public Map<String, Object> recommendClickAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		System.out.println("BoardServiceImpl - recommendAddAction()");
+		System.out.println("BoardServiceImpl - recommendClickAction()");
 		
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
-		int u_member_id = Integer.parseInt(request.getParameter("u_member_id"));
+		int click = Integer.parseInt(request.getParameter("click"));
 		
-		//String b_num = request.getParameter("b_num");
-		//String u_member_id = request.getParameter("u_member_id");
+		String u_id = (String)request.getSession().getAttribute("sessionID");
 		
-		System.out.println(b_num);
-		System.out.println(u_member_id);
+		// 회원아이디에 맞는 회원번호 가져오기
+		int u_member_id = dao.selectU_member_id(u_id);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("b_num", b_num);
 		map.put("u_member_id", u_member_id);
 		
-		dao.recommendAddAction(map);
+		if(click == 1) {
+			dao.recommendAddAction(map);
+		} else {
+			dao.recommendRemoveAction(map);
+		}
 		
 		// board_tbl에 추천수 반영
 		int success = dao.recommendUpdateAction(b_num);
 		
-		return success;
-	}
-	
-	// 게시판 추천 삭제 클릭
-	public void recommendRemoveAction(HttpServletRequest request, HttpServletResponse response, Model model)
-			throws ServletException, IOException {
-		System.out.println("BoardServiceImpl - recommendRemoveAction()");
+		// 추천 성공 시 현재 추천 수 가져오기
+		Map<String, Object> result = new HashMap<String, Object>();
 		
+		if(success == 1) {
+			int b_recommend  = dao.selectB_recommend(b_num);
+			result.put("b_recommend", b_recommend);
+		}
+		
+		result.put("success", success);
+		
+		return result;
 	}
 
 	// 게시판 등록
 	@Override
-	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
+	public int boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		System.out.println("BoardServiceImpl - boardInsertAction()");
 
@@ -133,11 +151,17 @@ public class BoardServiceImpl implements BoardService {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		
+		int b_num = 0;
+		
 		try {
 			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
 			BoardDTO dto = new BoardDTO();
-			// dto.setU_id((String)request.getSession().getAttribute("sessionID"));
-			dto.setU_member_id(1);
+			String u_id = (String)request.getSession().getAttribute("sessionID");
+			
+			// 회원아이디에 맞는 회원번호 가져오기
+			int u_member_id = dao.selectU_member_id(u_id);
+			dto.setU_member_id(u_member_id);
+			
 			dto.setB_title(request.getParameter("b_title"));
 			dto.setB_contents(request.getParameter("b_contents"));
 			dto.setB_category(request.getParameter("b_category"));
@@ -175,6 +199,10 @@ public class BoardServiceImpl implements BoardService {
 			// jsp로 처리결과 전달
 			model.addAttribute("insertCnt", insertCnt);
 			
+			b_num = dao.selectB_num(u_member_id);
+			
+			return b_num;
+			
 		} catch(IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -182,9 +210,7 @@ public class BoardServiceImpl implements BoardService {
 			if(fos != null) fos.close();
 		}
 		
-		// int b_num = dao.selectB_num((String)request.getSession().getAttribute("sessionID"));
-		
-		// return b_num;
+		return b_num;
 	}
 
 	// 게시판 수정 정보

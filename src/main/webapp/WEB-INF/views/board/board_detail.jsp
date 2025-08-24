@@ -21,12 +21,13 @@
 		    if (!btn.hasClass("active")) {
 		        // 추천 추가
 		        $.ajax({
-		            url: "${path}/recommend/add",
+		            url: "${path}/recommend",
 		            type: "POST",
-		            data: { b_num: b_num, u_member_id: u_member_id },
+		            data: { b_num: b_num, click: 1 },
 		            success: function(result) {
-		                if (parseInt(result) === 1) {
+		                if (parseInt(result.success) === 1) {
 		                    btn.addClass("active"); // 이미지 교체
+			                $("#recommendTotal").text(result.b_recommend); 
 		                }
 		            },
 		            error: function() {
@@ -36,13 +37,13 @@
 		    } else {
 		        // 추천 취소
 		        $.ajax({
-		            url: "${path}/recommend/remove",
+		            url: "${path}/recommend",
 		            type: "POST",
-		            contentType: "application/json",
-		            data: JSON.stringify({ b_num: b_num, u_member_id: u_member_id }),
+		            data: { b_num: b_num, click: 0 },
 		            success: function(result) {
-		                if (result.success) {
+		                if (parseInt(result.success) === 1) {
 		                    btn.removeClass("active"); // 이미지 원복
+		                    $("#recommendTotal").text(result.b_recommend); 
 		                }
 		            },
 		            error: function() {
@@ -65,44 +66,54 @@
 				<div class="titleArea">
 					<h1 align="center"> 상세페이지 </h1>
 				</div>
+				
 				<c:set var="board" value="${user.boardDTO[0]}"/>
 				<div>
 					<div class="table_div">
 						<form name="insertForm" method="post" >
 							<table>
 								<tr>
-									<td colspan="2" align="left">
-										<p style="font-size: 25px">[${board.b_category}] ${board.b_title}</p> 
-										<p style="font-size: 15px" align="right">작성자 : ${user.u_nickname}</p>
+									<td align="left">
+										<div style="font-size: 25px">[${board.b_category}] ${board.b_title}</div> 
+										<div style="font-size: 15px" align="right">작성자 : ${user.u_nickname}</div>
 									</td>
 								</tr>
 								<tr>
-									<th colspan="2" align="left">
-										♥ ${board.b_recommend} 조회 ${board.b_views}
+									<th align="left">
+										<div class="inline">
+											<img src="/DCShop/resources/image/board/추천_total.png">
+										 	<span  id="recommendTotal"> ${board.b_recommend} </span> 
+										 </div> 
+										<div class="inline"> 조회 ${board.b_views} </div>
 									</th>
 								</tr>
 								<tr>
-									<td colspan="2" > 
-										<div style="height: 700px">
+									<td> 
+										<div style="min-height: 700px" align="left">
 											${board.b_contents} 
 											<img src="${board.b_image}">
 										</div>
 										<div align="right" style="height: 20px">
-											<p style="font-size: 15px"> 등록일 : ${board.b_dateposted} </p> 
+											<div style="font-size: 15px"> 등록일 : ${board.b_dateposted} </div> 
 											<c:if test="${board.b_updateDate != null}">
-												<p style="font-size: 15px"> 수정일 : ${board.b_updateDate} </p>
+												<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
 											</c:if>
 										</div>
 										<c:if test="${board.b_updateDate != null}">
 											<div align="right" style="height: 20px">
-											<p style="font-size: 15px"> 수정일 : ${board.b_updateDate} </p>
+											<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
 											</div>
 										</c:if>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<input type="button" class="recommendButton" id="recommendBtn" data-bnum="${board.b_num}" data-uid="${user.u_member_id}">
+										<c:if test="${isRecommended == 0}">
+											추천하기 <input type="button" class="recommendButton" id="recommendBtn" data-bnum="${board.b_num}">
+										</c:if>
+										<c:if test="${isRecommended == 1}">
+											추천하기 <input type="button" class="recommendButton active" id="recommendBtn" data-bnum="${board.b_num}">
+										</c:if>
 									</td>
 								</tr>
 							</table>
@@ -115,6 +126,10 @@
 						</form>
 					</div>
 				</div>
+				
+				<!-- 댓글 부분 -->
+				
+				
 			</div>
 		</div>
 		<!-- 컨텐츠 끝 -->

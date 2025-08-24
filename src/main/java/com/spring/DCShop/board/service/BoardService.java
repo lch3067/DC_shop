@@ -1,6 +1,7 @@
 package com.spring.DCShop.board.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +20,12 @@ public interface BoardService {
 	public void boardDetailAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 	
-	// 게시판 추천 추가 클릭
-	public int recommendAddAction(HttpServletRequest request, HttpServletResponse response, Model model)
-			throws ServletException, IOException;
-	
-	// 게시판 추천 삭제 클릭
-	public void recommendRemoveAction(HttpServletRequest request, HttpServletResponse response, Model model)
+	// 게시판 추천 클릭
+	public Map<String, Object> recommendClickAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
 	// 게시판 등록
-	public void boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
+	public int boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
 	// 게시판 수정 정보

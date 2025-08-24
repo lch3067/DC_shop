@@ -1,6 +1,7 @@
 package com.spring.DCShop.board.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,27 +48,16 @@ public class BoardController {
 		return "board/board_detail";
 	}
 	
-	// 게시판 추천 추가 클릭
-	@RequestMapping("recommend/add")
+	// 게시판 추천 클릭
+	@RequestMapping("recommend")
 	@ResponseBody
-	public int recommend_add(HttpServletRequest request, HttpServletResponse response, Model model)
+	public Map<String, Object> recommend_click(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		logger.info("<<< url => recommend/add >>>");
+		logger.info("<<< url => recommend >>>");
 		
-		int success = service.recommendAddAction(request, response, model);
+		Map<String, Object> result = service.recommendClickAction(request, response, model);
 		
-		return success;
-	}
-	
-	// 게시판 추천 삭제 클릭
-	@RequestMapping("recommend/remove")
-	public String recommend_remove(HttpServletRequest request, HttpServletResponse response, Model model)
-			throws ServletException, IOException {
-		logger.info("<<< url => recommend/remove >>>");
-		
-		
-		
-		return "";
+		return result;
 	}
 	
 	// 게시판 작성
@@ -85,9 +75,9 @@ public class BoardController {
 			throws ServletException, IOException {
 		logger.info("<<< url => board_insertAction >>>");
 		
-		service.boardInsertAction(request, response, model);
+		int b_num = service.boardInsertAction(request, response, model);
 		
-		String viewPage=request.getContextPath() + "/board_list";
+		String viewPage=request.getContextPath() + "/board_detail?b_num=" + b_num + "&listClick=0";
 		response.sendRedirect(viewPage);
 	}
 	
@@ -106,5 +96,5 @@ public class BoardController {
 	// 댓글 삭제
 	
 	// 검색
-	
+
 }

@@ -31,6 +31,7 @@
  		<result property="b_views" column="b_views"/>
  		<result property="b_recommend" column="b_recommend"/>
  		<result property="b_image" column="b_image"/>
+ 		<result property="b_comments" column="b_comments"/>
  	</resultMap>
  
  	<!-- 게시판 목록 -->
@@ -40,6 +41,9 @@
 					 , rownum AS rn 
 				  FROM (SELECT b.*
 							 , u.u_nickname
+							 ,(SELECT COUNT(*)
+					 	  		 FROM comment_tbl c
+					 	 		WHERE b.b_num = c.b_num) AS b_comments
 						FROM user_tbl u, board_tbl b
 						WHERE u.u_member_id = b.u_member_id
 						ORDER BY b_num DESC) A 
@@ -64,6 +68,20 @@
 			</if>)
  	</insert>
  	
+ 	<!-- 회원 번호  -->
+ 	<select id="selectU_member_id" parameterType="String" resultType="int">
+ 		SELECT u_member_id
+ 		  FROM user_tbl
+ 		 where u_id = #{u_id}
+ 	</select>
+ 	
+ 	<!-- 게시글 번호 -->
+ 	<select id="selectB_num" parameterType="int" resultType="int">
+ 		SELECT MAX(b_num)
+ 		  FROM board_tbl
+ 		 WHERE u_member_id = #{u_member_id}
+ 	</select>
+ 	
  	<!-- 게시판 상세페이지 -->
  	<select id="boardDetailAction" parameterType="int" resultMap="boardMap">
  		SELECT b.*
@@ -80,11 +98,26 @@
  		 WHERE b_num = #{b_num}
  	</update>
  	
+ 	<!-- 추천 여부 -->
+ 	<select id="isRecommended" parameterType="java.util.Map" resultType="int">
+ 		SELECT COUNT(*)
+ 		  FROM recommend_tbl
+ 		 WHERE u_member_id = #{u_member_id}
+ 		   AND b_num = #{b_num}
+ 	</select>
+ 	
  	<!-- 추천 추가 클릭 -->
  	<insert id="recommendAddAction" parameterType="java.util.Map">
  		INSERT INTO recommend_tbl(rec_num, u_member_id, b_num)
  		VALUES ((SELECT NVL(MAX(rec_num)+1, 1) FROM recommend_tbl), #{u_member_id}, #{b_num})
  	</insert>
+ 	
+ 	<!-- 추천 삭제 클릭 -->
+ 	<delete id="recommendRemoveAction" parameterType="java.util.Map">
+ 		DELETE FROM recommend_tbl
+ 		 WHERE b_num = #{b_num}
+ 		   AND u_member_id = #{u_member_id}
+ 	</delete>
  	
  	<!-- board_tbl 추천수 변경 -->
  	<update id="recommendUpdateAction" parameterType="java.util.Map" >
@@ -95,5 +128,12 @@
    							  )
  		 WHERE b_num = #{b_num}
  	</update>
+ 	
+ 	<!-- 게시글 추천수 -->
+ 	<select id="selectB_recommend" parameterType="int" resultType="int">
+ 		SELECT b_recommend
+ 		  FROM board_tbl
+ 		 WHERE b_num = #{b_num}
+ 	</select>
  
   </mapper>

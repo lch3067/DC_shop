@@ -9,11 +9,12 @@ public class BoardDTO {
 	private String b_title;			// 제목
 	private String b_contents;		// 내용
 	private String b_category;		// 카테고리
-	private Date b_dateposted;			// 작성일
-	private Date b_updateDate;
+	private Date b_dateposted;		// 작성일
+	private Date b_updateDate;		// 수정일
 	private int b_views;			// 조회수
 	private int b_recommend;		// 추천수
 	private String b_image;			// 이미지
+	private int b_comments;			// 댓글 개수
 	
 	public BoardDTO() {
 		super();
@@ -112,6 +113,14 @@ public class BoardDTO {
 
 	public void setB_image(String b_image) {
 		this.b_image = b_image;
+	}
+	
+	public int getB_comments() {
+		return b_comments;
+	}
+	
+	public void setB_comments(int b_comments) {
+		this.b_comments = b_comments;
 	}
 
 	@Override

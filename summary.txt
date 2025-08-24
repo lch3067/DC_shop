@@ -71,6 +71,16 @@
 </dependency>
 <!-- fileupload 끝 -->
 
+<!-- Map -> JSON 형태로 바꾸기 위해서 -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version> <!-- 프로젝트에 맞는 최신 버전 -->
+</dependency>
+
+
+
+
 <<<<<<<<<<< WEB-INF/spring/appServlet/servlet-context.xml >>>>>>>>>>>>>>
 <!-- MultipartResolver 설정 : 이미지 없로드시 사용 -->
 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

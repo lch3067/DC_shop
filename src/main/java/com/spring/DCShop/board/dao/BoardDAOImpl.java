@@ -36,12 +36,6 @@ public class BoardDAOImpl implements BoardDAO{
 		return total;
 	}
 
-	// 댓글 개수
-	@Override
-	public int commentListTotal() {
-		return 0;
-	}
-
 	// 게시판 상세페이지
 	@Override
 	public UserDTO boardDetailAction(int b_num) {
@@ -60,6 +54,15 @@ public class BoardDAOImpl implements BoardDAO{
 		sqlSession.update("com.spring.DCShop.board.dao.BoardDAO.viewsUpdateAction", b_num);
 	}
 	
+	// 추천 여부
+	public int isRecommended(Map<String, Object> map) {
+		System.out.println("BoardDAOImpl - isRecommended()");
+		
+		int count = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.isRecommended", map);
+		
+		return count;
+	}
+	
 	// 추천 추가 클릭
 	public void recommendAddAction(Map<String, Object> map) {
 		System.out.println("BoardDAOImpl - recommendAddAction()");
@@ -71,6 +74,7 @@ public class BoardDAOImpl implements BoardDAO{
 	public void recommendRemoveAction(Map<String, Object> map) {
 		System.out.println("BoardDAOImpl - recommendRemoveAction()");
 		
+		sqlSession.delete("com.spring.DCShop.board.dao.BoardDAO.recommendRemoveAction", map);
 	}
 	
 	// 추천수 변경
@@ -81,6 +85,15 @@ public class BoardDAOImpl implements BoardDAO{
 		
 		return success;
 	}
+	
+	// 추천수
+	public int selectB_recommend(int b_num) {
+		System.out.println("BoardDAOImpl - selectB_recommend()");
+		
+		int b_recommend = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectB_recommend", b_num);
+		
+		return b_recommend;
+	}
 
 	// 게시판 등록
 	@Override
@@ -90,6 +103,24 @@ public class BoardDAOImpl implements BoardDAO{
 		sqlSession.insert("com.spring.DCShop.board.dao.BoardDAO.boardInsertAction", dto);
 		
 		return 0;
+	}
+	
+	// 회원 번호 
+	public int selectU_member_id(String u_id) {
+		System.out.println("BoardDAOImpl - selectU_member_id()");
+		
+		int u_member_id = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectU_member_id",u_id);
+		
+		return u_member_id;
+	}
+	
+	// 게시글 번호
+	public int selectB_num(int u_member_id) {
+		System.out.println("BoardDAOImpl - selectB_num()");
+		
+		int b_num = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectB_num", u_member_id);
+		
+		return b_num;
 	}
 
 	// 게시판 수정 정보
