@@ -17,6 +17,7 @@ public interface CustomerService {
 			throws ServletException, IOException;
 
 	/**
+	 * @throws ParseException 
 	 * @purpose 회원가입 처리
 	 */
 	public void signInAction(HttpServletRequest request, HttpServletResponse response, Model model)
@@ -28,4 +29,11 @@ public interface CustomerService {
 	public void idConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 
+	/**
+	 * @purpose 닉네임 중복확인 처리
+	 */
+	public void nickNameConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+	
+	
 }

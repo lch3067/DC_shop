@@ -34,5 +34,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 		return selectCnt;
 	}
+	
+	@Override
+	public int userNickNameCheck(String strNickName) {
+		System.out.println("CustomerDAOImpl - userNickNameCheck()");
+
+		int selectCnt = sqlSession.selectOne("com.spring.DCShop.join.dao.CustomerDAO.userNickNameCheck", strNickName);
+
+		return selectCnt;
+	}
 
 }

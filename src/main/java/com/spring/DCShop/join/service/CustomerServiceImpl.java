@@ -68,6 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	/**
+	 * @throws ParseException 
 	 * @purpose 회원가입 처리
 	 */
 	@Override
@@ -75,55 +76,52 @@ public class CustomerServiceImpl implements CustomerService {
 			throws ServletException, IOException {
 		System.out.println("CustomerServiceImpl - signInAction");
 
-		// 3단계. 화면에서 입력받은 값을 가져와서 DTO의 setAttribute를 통해 전달
-		// DTO 생성 -> setter -> 맴버변수
-
-		// 1 - DTO 생성
+		// 객체 담기
 		CustomerDTO customerdto = new CustomerDTO();
 
-		// 2 - setter로 담는다.
+		// 유저 닉네임
+		customerdto.setU_nickname(request.getParameter("u_nickname"));
+		
 		// 유저 아이디
-		customerdto.setUser_id(request.getParameter("user_id"));
+		customerdto.setU_id(request.getParameter("u_id"));
+		
 		// 유저 비밀번호
-		customerdto.setUser_password(request.getParameter("user_password"));
+		customerdto.setU_password(request.getParameter("u_password"));
+		
 		// 유저 이름
-		customerdto.setUser_name(request.getParameter("user_name"));
+		customerdto.setU_name(request.getParameter("u_name"));
+		
 		// 유저 생일
-		customerdto.setUser_birthday(Date.valueOf(request.getParameter("user_birthday")));
-		// 유저 주소
-		// 주소 합치기
-		String address = request.getParameter("user_address") + " " + request.getParameter("user_deTailaddress") + " "
-				+ request.getParameter("user_zipCodeaddress");
-		customerdto.setUser_address(address);
+		customerdto.setU_birthday(Date.valueOf(request.getParameter("u_birthday")));
+		
+		// 유저 주소 : 주소 합치기
+		String address = request.getParameter("u_address") + " " + request.getParameter("u_deTailAddress") + " "
+				+ request.getParameter("u_zip_code");
+		customerdto.setU_address(address);
 
+		// 전화번호
 		// hp은 필수가 아니므로 null값이 들어올 수 있으므로 값이 존재할 때만 받아온다.(010-1234-4567);
 		String hp = "";
-		String hp1 = request.getParameter("user_hp1");
-		String hp2 = request.getParameter("user_hp2");
-		String hp3 = request.getParameter("user_hp3");
+		String hp1 = request.getParameter("u_phone1");
+		String hp2 = request.getParameter("u_phone2");
+		String hp3 = request.getParameter("u_phone3");
 
 		if (!hp1.equals("") && !hp2.equals("") && !hp3.equals("")) {
 			hp = hp1 + "-" + hp2 + "-" + hp3;
-			customerdto.setUser_hp(hp);
+			customerdto.setU_phone(hp3);
 		}
 
 		// 이메일 부분
 		String user_email = "";
-		String user_email1 = request.getParameter("user_email1");
-		String user_email2 = request.getParameter("user_email2");
+		String user_email1 = request.getParameter("u_email1");
+		String user_email2 = request.getParameter("u_email2");
 		user_email = user_email1 + "@" + user_email2;
-		customerdto.setUser_email(user_email);
+		customerdto.setU_email(user_email);
 
-		// 4단계. 싱글톤 방식으로 DAO 객체 생성, 다형성 적용
-		// CustomerDao getInstance = CustomerDaoImpl.getInstance();
-		// 등록일 아래 문장 생략시... DB쪽에 기본값으로 sysdate
-		// customerdto.setUser_regdate(new Timestamp(System.currentTimeMillis()));
-
-		// 5단계. 회원가입 처리
-		int insertCnt = dao.insertCustomer(customerdto);
-
-		// 6단계. jsp로 전달을 위한 처리하기
-		model.addAttribute("insertCnt", insertCnt);
+		customerdto.setU_piagree(request.getParameter("agreePrivacy"));
+		customerdto.setU_magree(request.getParameter("agreeMarketing"));
+		
+		request.getSession().setAttribute("customerdto", customerdto);
 	}
 
 	/**
@@ -135,7 +133,7 @@ public class CustomerServiceImpl implements CustomerService {
 		System.out.println("CustomerServiceImpl - idConfirmAction()");
 
 		// 3단계.화면에서 입력받은 값을 가져온다.
-		String strId = request.getParameter("user_id");
+		String strId = request.getParameter("u_id");
 
 		System.out.println(strId);
 
@@ -146,10 +144,27 @@ public class CustomerServiceImpl implements CustomerService {
 		int selectCnt = dao.useridCheck(strId);
 
 		System.out.println("selectCnt" + selectCnt);
-		
+
 		// 6단계. jsp로 처리결과 전달
 		model.addAttribute("selectCnt", selectCnt);
 		model.addAttribute("strId", strId);
 
+	}
+
+	@Override
+	public void nickNameConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("CustomerServiceImpl - nickNameConfirmAction()");
+
+		String strNickName = request.getParameter("u_nickname");
+
+		int selectCnt = dao.userNickNameCheck(strNickName);
+
+		System.out.println("selectCnt" + selectCnt);
+
+		// 6단계. jsp로 처리결과 전달
+		model.addAttribute("selectCnt", selectCnt);
+		model.addAttribute("strNickName", strNickName);
+		
 	}
 }

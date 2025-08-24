@@ -53,18 +53,6 @@ public class CustomerController {
 
 	// -> 개랑 고양이 join페이지?
 
-	/**
-	 * @purpose 회원가입 처리
-	 */
-	@RequestMapping("joinAction.do")
-	public String joinAction(HttpServletRequest request, HttpServletResponse response, Model model)
-			throws ServletException, IOException {
-		logger.info("CustomerController - joinAction.do");
-
-		service.signInAction(request, response, model);
-
-		return "join/joinAction";
-	}
 
 	/**
 	 * purpose 아이디 중복시 처리
@@ -76,17 +64,20 @@ public class CustomerController {
 
 		service.idConfirmAction(request, response, model);
 
-		return "join/idConfirmAction";
+		return "join/modar/idConfirmAction";
 	}
 	
 	/**
-	 * purpose 아이디 중복시 처리
+	 * purpose 닉네임 중복시 처리
 	 */
-	@RequestMapping("/choose.do")
-	public String choose(HttpServletRequest request, HttpServletResponse response, Model model)
+	@RequestMapping("/nickNameConfirmAction.do")
+	public String nickNameConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		logger.info("<<< url ==> /choose.do >>>");
+		logger.info("<<< url ==> /nickNameConfirmAction.do >>>");
 
-		return "join/choose";
+		service.nickNameConfirmAction(request, response, model);
+
+		return "join/modar/nickNameConfirmAction";
 	}
+	
 }
