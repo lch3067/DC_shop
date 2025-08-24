@@ -16,7 +16,6 @@
 		$("#recommendBtn").click(function() {
 		    var btn = $("#recommendBtn");
 		    var b_num = btn.data("bnum");
-		    var u_member_id = btn.data("uid");
 		    
 		    if (!btn.hasClass("active")) {
 		        // 추천 추가
