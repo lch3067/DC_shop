@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 pom.xml
 pom.properties
 =======
@@ -8,3 +9,18 @@ pom.properties
 
 
 >>>>>>> 28baff37244119859986a89dafcd5bea5c3e5bc6
+=======
+# Maven 설정 파일 무시
+.project
+.classpath
+.springBeans
+.settings/
+
+# Build / Packaging
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+>>>>>>> f0ce842999b23c7f4bb130891ded042a128b9270

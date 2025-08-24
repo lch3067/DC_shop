@@ -71,6 +71,9 @@
 </dependency>
 <!-- fileupload 끝 -->
 
+
+
+
 <<<<<<<<<<< WEB-INF/spring/appServlet/servlet-context.xml >>>>>>>>>>>>>>
 <!-- MultipartResolver 설정 : 이미지 없로드시 사용 -->
 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

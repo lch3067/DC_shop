@@ -136,7 +136,11 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
 			BoardDTO dto = new BoardDTO();
-			// dto.setU_id((String)request.getSession().getAttribute("sessionID"));
+			String u_id = (String)request.getSession().getAttribute("sessionID");
+			
+			// 회원아이디에 맞는 회원번호 가져오기
+			
+			
 			dto.setU_member_id(1);
 			dto.setB_title(request.getParameter("b_title"));
 			dto.setB_contents(request.getParameter("b_contents"));

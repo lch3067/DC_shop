@@ -106,5 +106,5 @@ public class BoardController {
 	// 댓글 삭제
 	
 	// 검색
-	
+
 }

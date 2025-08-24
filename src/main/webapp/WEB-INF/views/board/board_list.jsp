@@ -17,7 +17,7 @@
 			location.href="${path}/board_insert";
 			/* 로그인 들어오면 위에 삭제하고 주석 풀고 변수들 맞추기
 			if(${sessionScope.sessionID != null}) {
-				location.href="${path}/board_insert";
+				location.href="${path}/board_insert?sessionId=${sessionScope.sessionId}";
 			} else {
 				if(confirm("글 작성하려면 로그인 해주세요.")) {	// 확인 눌렀을 때
 					// 로그인 페이지로 이동	
@@ -91,7 +91,7 @@
 								<!-- 이전 버튼 활성화 -->
 								<c:if test="${paging.startPage > 10}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> < </a>
+										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> << </a>
 									</li>
 								</c:if>
 								
@@ -105,7 +105,7 @@
 								<!-- 다음 버튼 활성화 -->
 								<c:if test="${paging.endPage < paging.pageCount}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> > </a>
+										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> >> </a>
 									</li>
 								</c:if>
 							</ul>
