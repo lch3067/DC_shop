@@ -113,8 +113,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 		// 이메일 부분
 		String user_email = "";
-		String user_email1 = request.getParameter("u_email1");
-		String user_email2 = request.getParameter("u_email2");
+		String user_email1 = request.getParameter("u_mail1");
+		String user_email2 = request.getParameter("u_mail2");
 		user_email = user_email1 + "@" + user_email2;
 		customerdto.setU_email(user_email);
 
@@ -150,7 +150,10 @@ public class CustomerServiceImpl implements CustomerService {
 		model.addAttribute("strId", strId);
 
 	}
-
+	
+	/**
+	 * @purpose 닉네임 중복확인 처리
+	 */
 	@Override
 	public void nickNameConfirmAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
