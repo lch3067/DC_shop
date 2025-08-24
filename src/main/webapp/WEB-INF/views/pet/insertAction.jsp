@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/setting/setting.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,17 +32,15 @@
           var img = document.getElementById('successImg');
           if (img) img.style.display = 'block';
           // 3초 뒤 이동
-          setTimeout(function(){ window.location = "${path}/login.do"; }, 3000);
+          setTimeout(function(){ window.location = CTX + "/login.do"; }, 3000);
         })();
       </script>
-      <!-- 성공 이미지(경로는 프로젝트에 맞게 교체) -->
-      <img id="successImg" alt="성공" src="${path}/resources/img/success.png">
     </c:if>
 
     <c:if test="${!joinSuccess}">
       <script type="text/javascript">
         alert("반려동물 등록 실패!!");
-        setTimeout(function(){ window.location = "${path}/termsAgreement.do"; }, 3000);
+        setTimeout(function(){ window.location = CTX + "/termsAgreement.do" }, 3000);
       </script>
     </c:if>
     <!-- 컨텐츠 끝 -->
