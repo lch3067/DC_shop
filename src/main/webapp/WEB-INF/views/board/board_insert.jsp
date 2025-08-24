@@ -54,7 +54,7 @@
 							<table>
 								<tr>
 									<th style="width: 200px"> 작성자 </th>
-									<td style="width: 200px; text-align:left"> 회원닉네임 </td>
+									<td style="width: 200px; text-align:left"> ${sessionScope.sessionID} </td>
 								</tr>
 								<tr>
 									<th style="width: 200px"> 카테고리 </th>

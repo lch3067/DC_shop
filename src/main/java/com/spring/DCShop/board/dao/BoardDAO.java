@@ -15,14 +15,14 @@ public interface BoardDAO {
 	// 게시글 전체 개수
 	public int boardListTotal();
 	
-	// 댓글 개수
-	public int commentListTotal();
-	
 	// 게시판 상세페이지
 	public UserDTO boardDetailAction(int b_num);
 	
 	// 조회수 증가
 	public void viewsUpdateAction(int b_num);
+	
+	// 추천 여부
+	public int isRecommended(Map<String, Object> map);
 	
 	// 추천 추가 클릭
 	public void recommendAddAction(Map<String, Object> map);
@@ -33,8 +33,17 @@ public interface BoardDAO {
 	// 추천수 변경
 	public int recommendUpdateAction(int b_num);
 	
+	// 추천수
+	public int selectB_recommend(int b_num);
+	
 	// 게시판 등록
 	public int boardInsertAction(BoardDTO dto);
+	
+	// 회원 번호 
+	public int selectU_member_id(String u_id);
+	
+	// 게시글 번호
+	public int selectB_num(int u_member_id);
 	
 	// 게시판 수정 정보
 	public BoardDTO boardUpdateDTOAction(int b_num);

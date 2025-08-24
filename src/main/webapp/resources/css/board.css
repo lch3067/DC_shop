@@ -54,6 +54,16 @@
 	color: #6d6d6d;
 }
 
+.table_div table img {
+	width: 15px;
+	height: 15px;
+}
+
+.table_div table div.inline {
+	display: inline;
+	margin: 0 5px;
+}
+
 .inputButton {
 	background: #1a1a1a;
 	color: #fff;
@@ -112,6 +122,6 @@
 	border: 0px;
 }
 
-.table_div .recommendButton .active {
+.table_div .recommendButton.active {
 	background-image: url("/DCShop/resources/image/board/추천_활성화.png");
 }
