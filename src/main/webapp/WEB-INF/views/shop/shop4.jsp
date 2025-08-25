@@ -1,11 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/setting/setting.jsp" %>
-<!doctype html>
-<html lang="ko">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHOP-main</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dog Food - Pet Store</title>
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,21 +38,167 @@
         },
       };
     </script>
+<style>
+@media ( max-width : 768px) {
+	.filter-panel {
+		width: 100%;
+	}
+	.filter-toggle-btn.open {
+		transform: translateX(100%);
+	}
+}
+
+:where([class^="ri-"])::before {
+	content: "\f3c2";
+}
+
+.filter-panel {
+	transform: translateX(-100%);
+	transition: transform 0.3s ease-in-out;
+	z-index: 50;
+	width: 320px;
+}
+
+.filter-panel.open {
+	transform: translateX(0);
+}
+
+@media ( max-width : 768px) {
+	.filter-panel {
+		width: 280px;
+	}
+	.filter-toggle-btn.open {
+		transform: translate(280px, -50%);
+	}
+}
+
+.filter-overlay {
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.filter-overlay.open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.filter-toggle-btn {
+	position: fixed;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	background: white;
+	border: 1px solid #e5e7eb;
+	border-radius: 0 8px 8px 0;
+	padding: 12px;
+	height: 60px;
+	display: none;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	z-index: 51;
+	transition: transform 0.3s ease-in-out;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+@media ( min-width : 768px) {
+	.filter-toggle-btn {
+		display: flex;
+	}
+}
+
+.filter-toggle-btn.open {
+	transform: translate(320px, -50%);
+	background: #3b82f6;
+	border-color: #3b82f6;
+	color: white;
+}
+
+@media ( max-width : 1024px) {
+	.filter-toggle-btn {
+		height: 50px;
+		padding: 8px;
+	}
+}
+
+@media ( max-width : 768px) {
+	.filter-toggle-btn {
+		height: 40px;
+		padding: 6px;
+	}
+}
+
+.filter-toggle-btn.open i, .filter-toggle-btn.open span {
+	color: white;
+}
+
+.filter-toggle-btn i {
+	transition: transform 0.3s ease-in-out;
+}
+
+.filter-toggle-btn.open i {
+	transform: rotate(180deg);
+}
+
+.price-slider {
+	-webkit-appearance: none;
+	appearance: none;
+	background: #e5e7eb;
+	outline: none;
+	border-radius: 4px;
+}
+
+.price-slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	background: #3b82f6;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+.price-slider::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	background: #3b82f6;
+	cursor: pointer;
+	border-radius: 50%;
+	border: none;
+}
+
+.custom-checkbox {
+	position: relative;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: white;
+	border: 2px solid #d1d5db;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.custom-checkbox.checked {
+	background: #3b82f6;
+	border-color: #3b82f6;
+}
+
+.custom-checkbox.checked::after {
+	content: '✓';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+</style>
 </head>
-<link rel="stylesheet" href="${path}/resources/css/footer.css">
-<link rel="stylesheet" href="${path}/resources/css/header.css">
-<link rel="stylesheet" href="${path}/resources/css/main.css">
-<link rel="stylesheet" href="${path}/resources/css/shop_main.css">
-<body>
-	<!-- 헤더 시작 -->
-	<%@ include file="../setting/header.jsp" %>
-	<!-- 헤더 끝 -->
-	
-	<section class="hero-section1">
-	</section>
-	<section class="main-image-section" id="main-image-section" width="600px">
-		 
-		<!-- Navigation -->
+<body class="bg-gray-50 min-h-screen">
+	<!-- Navigation -->
 	<nav class="bg-white shadow-sm border-b border-gray-200">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 			<div class="flex items-center justify-between h-16">
@@ -778,9 +924,5 @@
         };
       });
     </script>
-	</section>
-	<!-- 푸터 시작 -->
-	<%@ include file="../setting/footer.jsp" %>
-	<!-- 푸터 끝 -->
 </body>
 </html>
