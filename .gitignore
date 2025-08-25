@@ -3,6 +3,7 @@
 .classpath
 .springBeans
 .settings/
+config/
 
 # Build / Packaging
 target/
