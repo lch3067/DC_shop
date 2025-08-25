@@ -31,7 +31,7 @@ public class CustomerController {
 			throws ServletException, IOException {
 		logger.info("CustomerController - join.do");
 
-		return "join/termsAgreement";
+		return "user/join/termsAgreement";
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class CustomerController {
 		logger.info("CustomerController - join.do");
 		service.totalAgreement(request, response, model);
 
-		return "join/join";
+		return "user/join/join";
 	}
 
 	// -> 개랑 고양이 join페이지?
@@ -59,7 +59,7 @@ public class CustomerController {
 
 		service.idConfirmAction(request, response, model);
 
-		return "join/modar/idConfirmAction";
+		return "user/join/modar/idConfirmAction";
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class CustomerController {
 
 		service.nickNameConfirmAction(request, response, model);
 
-		return "join/modar/nickNameConfirmAction";
+		return "user/join/modar/nickNameConfirmAction";
 	}
 	
 }
