@@ -7,9 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${path}/resources/css/footer.css">
-<link rel="stylesheet" href="${path}/resources/css/header.css">
-<link rel="stylesheet" href="${path}/resources/css/main.css">
+<link rel="stylesheet" href="${path}/resources/css/customer/login_main.css">
+
 <style type="text/css">
 	body {
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -36,6 +35,17 @@
 	background: white;
 	padding: 5rem 0;
 	padding-top: 8rem;
+}
+.inputButton {
+	background: black;
+	color: white;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: .3rem;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.2s;
 }
 </style>
 
@@ -101,8 +111,10 @@
 				<!-- 상단 중앙2 끝 -->
 				
 			</div>
+		<br><br><br><br>
+		<br><br><br><br>
+		<br><br><br>   
 		</div>
-		
 		</section>
 		<!-- 컨텐츠 끝 -->
 	

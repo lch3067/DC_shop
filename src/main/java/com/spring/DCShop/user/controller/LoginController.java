@@ -62,5 +62,17 @@ public class LoginController {
 		return "main";
 	}
 	
+	@RequestMapping("comm_main.do")
+	public String comm_main() {
+		logger.info("=== url -> comm_main ===");
+		
+		return "comm/comm_main";
+	}
 	
+		@RequestMapping("shopMain3.do")
+	public String shopMain3() {
+		logger.info("=== url -> comm_main ===");
+		
+		return "shop/shopMain3";
+	}
 }
