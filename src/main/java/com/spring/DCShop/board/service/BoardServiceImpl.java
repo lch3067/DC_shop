@@ -56,14 +56,12 @@ public class BoardServiceImpl implements BoardService {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<UserDTO> list = dao.boardListAction(map);
+		List<BoardDTO> list = dao.boardListAction(map);
 		System.out.println("list : " + list);
 		
 		//jsp로 처리결과 전달
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
-		
-		request.getSession().setAttribute("sessionID", "dog");
 	}
 
 	// 게시판 상세페이지
@@ -74,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
-		String u_id = (String)request.getSession().getAttribute("sessionID");
+		String u_id = (String)request.getSession().getAttribute("sessionid");
 		
 		// 회원아이디에 맞는 회원번호 가져오기
 		int u_member_id = dao.selectU_member_id(u_id);
@@ -86,7 +84,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		// 게시판 상세페이지 가져오기
-		UserDTO user = dao.boardDetailAction(b_num);
+		BoardDTO board = dao.boardDetailAction(b_num);
 		
 		// 해당 게시글을 추천한 사용자인지 확인
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -95,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		int isRecommended = dao.isRecommended(map);
 		
-		model.addAttribute("user", user);
+		model.addAttribute("board", board);
 		model.addAttribute("isRecommended", isRecommended);
 	}
 	
@@ -108,7 +106,7 @@ public class BoardServiceImpl implements BoardService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		int click = Integer.parseInt(request.getParameter("click"));
 		
-		String u_id = (String)request.getSession().getAttribute("sessionID");
+		String u_id = (String)request.getSession().getAttribute("sessionid");
 		
 		// 회원아이디에 맞는 회원번호 가져오기
 		int u_member_id = dao.selectU_member_id(u_id);
@@ -138,6 +136,18 @@ public class BoardServiceImpl implements BoardService {
 		
 		return result;
 	}
+	
+	// 작성자
+	public void selectU_nicknameAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - selectU_nicknameAction()");
+		
+		String u_id = (String)request.getSession().getAttribute("sessionid");
+		
+		String u_nickname = dao.selectU_nicknameAction(u_id);
+		
+		model.addAttribute("u_nickname", u_nickname);
+	}
 
 	// 게시판 등록
 	@Override
@@ -156,7 +166,7 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
 			BoardDTO dto = new BoardDTO();
-			String u_id = (String)request.getSession().getAttribute("sessionID");
+			String u_id = (String)request.getSession().getAttribute("sessionid");
 			
 			// 회원아이디에 맞는 회원번호 가져오기
 			int u_member_id = dao.selectU_member_id(u_id);

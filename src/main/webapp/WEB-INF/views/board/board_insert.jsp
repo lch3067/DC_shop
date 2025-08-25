@@ -41,6 +41,18 @@
 
 	<div class="wrap">
 		<!-- 헤더 부분 -->
+		<%@ include file="/WEB-INF/views/setting/header.jsp" %>
+		
+		<section class="hero-section1">
+		<!-- <div class="hero-container">
+			<div class="hero-content">
+				<h1 class="hero-title">랜딩 페이지 제목</h1>
+				<p class="hero-description">실용성 있는 디자인과 직관적이며 대담한 추상적 조합으로, 사용하기
+					자연스럽고 유용한 소프트웨어를 초점에 맞춘다.</p>
+				<button class="hero-btn">더보기</button>
+			</div>
+		</div> -->
+		</section>
 		
 		<!-- 컨텐츠 부분 -->
 		<div id="container">
@@ -53,12 +65,12 @@
 						<form name="insertForm" method="post" enctype="multipart/form-data">
 							<table>
 								<tr>
-									<th style="width: 200px"> 작성자 </th>
-									<td style="width: 200px; text-align:left"> ${sessionScope.sessionID} </td>
+									<th style="width: 150px"> 작성자 </th>
+									<td style="width: 150px; text-align:left"> ${u_nickname} </td>
 								</tr>
 								<tr>
-									<th style="width: 200px"> 카테고리 </th>
-									<td style="width: 200px; text-align:left"> 
+									<th style="width: 150px"> 카테고리 </th>
+									<td style="width: 150px; text-align:left"> 
 										<select class="input" name="b_category" id="b_category">
 											<option value=""> 카테고리 선택 </option>
 											<option value="자유"> 자유 </option>
@@ -69,21 +81,21 @@
 									</td>
 								</tr>
 								<tr>
-									<th style="width: 200px"> 글제목 </th>
+									<th style="width: 150px"> 글제목 </th>
 									<td style="text-align:center">
-										<input style="width: 680px" type="text" class="input" name="b_title" 
+										<input style="width: 1000px" type="text" class="input" name="b_title" 
 										id="b_title" size="50" placeholder="글제목 입력"> 
 									</td>
 								</tr>
 								<tr>
-									<th style="width: 200px"> 글내용 </th>
-									<td style="width: 200px; text-align:center">
-										<textarea rows="5" cols="93" name="b_contents" id="b_contents"> </textarea>
+									<th style="width: 150px"> 글내용 </th>
+									<td style="width: 150px; text-align:center">
+										<textarea rows="5" cols="133" name="b_contents" id="b_contents"> </textarea>
 									</td>
 								</tr>
 								<tr>
-									<th style="width: 200px"> 이미지 </th>
-									<td style="width: 200px; text-align:left">
+									<th style="width: 150px"> 이미지 </th>
+									<td style="width: 150px; text-align:left">
 										<input type="file" class="input" name="b_image" 
 											id="b_image" accept="fimage/*">
 									</td>
@@ -93,7 +105,7 @@
 								<br>
 								<input type="button" class="inputButton" value="등록" id="btnSave">
 								<input type="reset" class="inputButton" value="초기화">
-								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/board_list'">
+								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
 							</div>
 						</form>
 					</div>
@@ -103,6 +115,7 @@
 		<!-- 컨텐츠 끝 -->
 		
 		<!-- footer 부분 -->
+		<%@ include file="/WEB-INF/views/setting/footer.jsp" %>
 	</div>
 	
 </body>

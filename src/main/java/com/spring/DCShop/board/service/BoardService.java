@@ -24,6 +24,10 @@ public interface BoardService {
 	public Map<String, Object> recommendClickAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
+	// 작성자
+	public void selectU_nicknameAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+	
 	// 게시판 등록
 	public int boardInsertAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;

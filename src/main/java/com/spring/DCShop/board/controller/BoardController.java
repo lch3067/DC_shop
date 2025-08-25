@@ -27,7 +27,7 @@ public class BoardController {
 	BoardServiceImpl service;
 	
 	// 게시판 목록
-	@RequestMapping("board_list")
+	@RequestMapping("comm_main.do")
 	public String board_list(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		logger.info("<<< url => board_list >>>");
@@ -65,6 +65,8 @@ public class BoardController {
 	public String board_insert(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		logger.info("<<< url => board_insert >>>");
+		
+		service.selectU_nicknameAction(request, response, model);
 		
 		return "board/board_insert";
 	}
