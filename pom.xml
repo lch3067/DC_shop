@@ -9,8 +9,8 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
-		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+		<java-version>11</java-version>
+		<org.springframework-version>5.1.8.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
@@ -110,7 +110,6 @@
 			<version>1.2</version>
 		</dependency>
 
-
 		<!-- Mybatis 설정 시작 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -131,7 +130,48 @@
 		</dependency>
 		<!-- Mybatis 설정 끝 -->
 
+		<!-- 메일 지원: Spring JavaMailSender -->
+		<!-- 스프링이 메일 보내는 버튼을 만들어 줘요. (JavaMailSender 쓰게 해주는 어댑터) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 
+		<!-- JavaMail (javax.mail) - JDK11 호환 -->
+		<!-- 진짜로 메일을 SMTP로 “보내는 엔진”이에요. 우체국 트럭 같은 역할. -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<!-- Java Activation (JDK 11에서 필요) -->
+		<!-- 메일에 첨부파일 -->
+		<dependency>
+			<groupId>com.sun.activation</groupId>
+			<artifactId>javax.activation</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+		<!-- Jackson 시작 : 서버에서 JSON ↔ 자바 객체로 바꿔주는 번역기예요. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.13.5</version>
+		</dependency>
+
+		<!-- jdbc 오류 나신분들만 pom.xml에 추가 -->
 		<!-- fileupload 시작 : 상품등록, 수정시 필요 -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
@@ -147,7 +187,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
-
 		<!-- Cannot load JDBC driver class 'oracle.jdbc.driver.OracleDriver' -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
@@ -162,6 +201,21 @@
 		</dependency>
 		<!-- jdbc -->
 
+		<!-- 지민님 의존성 : 시작 -->
+		<!-- Spring TX (트랜잭션) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>5.3.39</version>
+		</dependency>
+
+		<!-- Commons Pool -->
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- 지민님 의존성 : 끝-->
 
 		<!-- Test -->
 		<dependency>
