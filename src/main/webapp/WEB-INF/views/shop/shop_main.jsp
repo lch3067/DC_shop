@@ -116,7 +116,7 @@
 							class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
 							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
 						</div>
-						<span class="font-medium text-gray-900">Brand</span>
+						<span class="font-medium text-gray-900">용품</span>
 					</div>
 					<div class="w-5 h-5 flex items-center justify-center">
 						<i
@@ -126,12 +126,12 @@
 				<div class="brand-content ml-9 space-y-3">
 					<div class="flex items-center">
 						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">Blue Buffalo</span> <span
+						<span class="text-sm text-gray-700">목줄</span> <span
 							class="text-xs text-gray-500 ml-auto">(24)</span>
 					</div>
 					<div class="flex items-center">
 						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">Rachael Ray</span> <span
+						<span class="text-sm text-gray-700">하네스</span> <span
 							class="text-xs text-gray-500 ml-auto">(18)</span>
 					</div>
 					<div class="flex items-center">
@@ -153,34 +153,6 @@
 						<div class="custom-checkbox mr-3" data-filter="hills"></div>
 						<span class="text-sm text-gray-700">Hill's Science Diet</span> <span
 							class="text-xs text-gray-500 ml-auto">(16)</span>
-					</div>
-				</div>
-			</div>
-			<!-- Price Filter -->
-			<div class="mb-6">
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer price-toggle">
-					<div class="flex items-center">
-						<div
-							class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
-							<i class="ri-money-dollar-circle-line text-green-600 text-sm"></i>
-						</div>
-						<span class="font-medium text-gray-900">Price</span>
-					</div>
-					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
-					</div>
-				</div>
-				<div class="price-content ml-9">
-					<div class="flex items-center justify-between mb-3">
-						<span class="text-sm text-gray-600">$<span
-							id="min-price">0</span></span> <span class="text-sm text-gray-600">$<span
-							id="max-price">100</span></span>
-					</div>
-					<div class="relative">
-						<input type="range" min="0" max="100" value="0"
-							class="price-slider w-full h-2" id="price-range" />
 					</div>
 				</div>
 			</div>
@@ -250,6 +222,34 @@
 					</div>
 				</div>
 			</div>
+			<!-- Price Filter -->
+			<div class="mb-6">
+				<div
+					class="flex items-center justify-between mb-3 cursor-pointer price-toggle">
+					<div class="flex items-center">
+						<div
+							class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
+							<i class="ri-money-dollar-circle-line text-green-600 text-sm"></i>
+						</div>
+						<span class="font-medium text-gray-900">Price</span>
+					</div>
+					<div class="w-5 h-5 flex items-center justify-center">
+						<i
+							class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
+					</div>
+				</div>
+				<div class="price-content ml-9">
+					<div class="flex items-center justify-between mb-3">
+						<span class="text-sm text-gray-600">$<span
+							id="min-price">0</span></span> <span class="text-sm text-gray-600">$<span
+							id="max-price">100</span></span>
+					</div>
+					<div class="relative">
+						<input type="range" min="0" max="100" value="0"
+							class="price-slider w-full h-2" id="price-range" />
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- Main Content -->
@@ -266,11 +266,11 @@
 				<div class="relative">
 					<select
 						class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-						<option>Sort by: Featured</option>
-						<option>Price: Low to High</option>
-						<option>Price: High to Low</option>
-						<option>Customer Rating</option>
-						<option>Best Sellers</option>
+						<option>신상품순</option>
+						<option>낮은 가격순</option>
+						<option>높은 가격순</option>
+						<option>별점순</option>
+						<option>인기순</option>
 					</select>
 					<div
 						class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -279,11 +279,13 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<!-- Product Grid -->
 		<div
 			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
 			<!-- Product 1 -->
-			<div
+			<!-- <div
 				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer product-card"
 				onclick="openProductModal(this)" data-product-id="1">
 				<div class="aspect-square bg-gray-100 relative overflow-hidden">
@@ -308,8 +310,9 @@
 						<span class="text-sm text-gray-600">3,542</span>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- Product 2 -->
+			<c:forEach var="dto" items="${list}">
 			<div
 				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
 				<div class="aspect-square bg-gray-100 relative overflow-hidden">
@@ -319,10 +322,9 @@
 						class="w-full h-full object-cover object-top" />
 				</div>
 				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Rachael Ray</div>
-					<h3 class="font-medium text-gray-900 mb-2">Nutrish Natural Dry
-						Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$34.99</div>
+					<div class="text-sm text-gray-600 mb-1"></div>
+					<h3 class="font-medium text-gray-900 mb-2">${dto.pd_name}</h3>
+					<div class="text-lg font-bold text-gray-900 mb-2">${dto.pd_price}</div>
 					<div class="flex items-center">
 						<div class="flex items-center text-yellow-400 mr-2">
 							<i class="ri-star-fill text-sm"></i> <i
@@ -335,166 +337,34 @@
 					</div>
 				</div>
 			</div>
-			<!-- Product 3 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Pedigree%20complete%20nutrition%20dry%20dog%20food%20bag%20with%20balanced%20formula%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20trusted%20pet%20food%20brand&width=300&height=300&seq=3&orientation=squarish"
-						alt="Pedigree" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Pedigree</div>
-					<h3 class="font-medium text-gray-900 mb-2">Complete Nutrition
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">Start
-						$19.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,653</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 4 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Purina%20ONE%20SmartBlend%20dry%20dog%20food%20bag%20with%20real%20meat%20first%20ingredient%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20nutrition&width=300&height=300&seq=4&orientation=squarish"
-						alt="Purina ONE" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Purina ONE</div>
-					<h3 class="font-medium text-gray-900 mb-2">SmartBlend Natural
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$44.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">2,421</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 5 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Iams%20ProActive%20Health%20dry%20dog%20food%20bag%20with%20wholesome%20grains%20and%20real%20chicken%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20balanced%20nutrition&width=300&height=300&seq=5&orientation=squarish"
-						alt="Iams" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Iams</div>
-					<h3 class="font-medium text-gray-900 mb-2">ProActive Health
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$29.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,892</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 6 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Hills%20Science%20Diet%20dry%20dog%20food%20bag%20with%20clinically%20proven%20nutrition%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20veterinarian%20recommended&width=300&height=300&seq=6&orientation=squarish"
-						alt="Hill's Science Diet"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Hill's Science</div>
-					<h3 class="font-medium text-gray-900 mb-2">Diet Adult Perfect
-						Weight Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$25.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,234</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 7 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Blue%20Buffalo%20Wilderness%20high%20protein%20dry%20dog%20food%20bag%20with%20real%20meat%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20grain%20free%20formula&width=300&height=300&seq=7&orientation=squarish"
-						alt="Blue Buffalo Wilderness"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Blue Buffalo</div>
-					<h3 class="font-medium text-gray-900 mb-2">Wilderness High
-						Protein Grain Free</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$44.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">2,876</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 8 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Purina%20Pro%20Plan%20premium%20dry%20dog%20food%20bag%20with%20real%20salmon%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20advanced%20nutrition%20formula&width=300&height=300&seq=8&orientation=squarish"
-						alt="Purina Pro Plan"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Purina Pro Plan</div>
-					<h3 class="font-medium text-gray-900 mb-2">Focus Adult
-						Sensitive Skin & Stomach</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$39.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,945</span>
-					</div>
-				</div>
-			</div>
+			</c:forEach>
+			
+
 		</div>
-		<!-- Load More -->
-		<div class="text-center mt-12">
-			<button
-				class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">
-				Load More Products</button>
+		
+		<!-- 페이징 처리 부분 -->
+		<div class="paging">
+			<div class="flex items-center justify-center gap-2 mt-8">
+				<ul class="flex items-center justify-center gap-2">
+					<!-- 이전 버튼 처리 -->
+					<c:if test="${paging.startPage > 10}">
+						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}" calss="page-btn"
+						aria-label="Previous">이전</a></li>
+					</c:if>
+					
+					<!-- 페이지 번호 처리 -->
+					<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
+						<li><a href="${path}/shop_main.do?pageNum=${num}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
+					</c:forEach>
+					
+					<c:if test="${paging.endPage < paging.pageCount}">
+						<li>
+							<a href="${path}/board_list?pageNum=${paging.next}" calss="page-btn"
+							aria-label="Previous"> 다음 </a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<script id="mobile-menu">
@@ -744,6 +614,7 @@
 			</div>
 		</div>
 	</div>
+	
 
 	<script id="product-modal-handlers">
       document.addEventListener("DOMContentLoaded", function () {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  
+<mapper namespace="com.spring.DCShop.shop.dao.ShopDAO">
+	
+	<resultMap id="shopMap" type="com.spring.DCShop.shop.dto.ShopDTO">
+		<id property="pd_id" column="pd_id"/>
+		<result property="pd_name" column="pd_name"/>
+		<result property="pd_description" column="pd_description"/>
+		<result property="pd_price" column="pd_price"/>
+		<result property="pd_stock" column="pd_stock"/>
+		<result property="pd_category" column="pd_category"/>
+		<result property="pd_created" column="pd_created"/>
+		<result property="pd_updated" column="pd_updated"/>
+		<result property="pd_brand" column="pd_brand"/> 
+		<result property="pd_image_url" column="pd_image_url"/>
+		<result property="pd_shipping_fee" column="pd_shipping_fee"/>
+		<result property="pd_discount_rate" column="pd_discount_rate"/>
+		<result property="pd_status" column="pd_status"/>
+		<result property="pd_option" column="pd_option"/>
+	</resultMap>
+	
+	<!-- 목록조회  -->
+	<select id="productListAction" parameterType="java.util.Map" resultMap="shopMap">
+		select * 
+		  from (
+		  	Select A.*, rownum as rn
+		      from (
+			      	select pd.pd_id,
+					   pd.pd_name,
+					   pd.pd_price,
+					   nvl(R.review_score, 0) as review_score,
+					   nvl(R.review_cnt, 0) as review_cnt
+			  		from product_tbl pd
+					left join (
+							select pd_id, 
+								count(*) as review_cnt,
+								round(avg(r_score)) as review_score
+							from review_tbl
+							group by pd_id) R
+			     	ON pd.pd_id = R.pd_id
+			     	Order by pd.pd_id DESC) A
+		     	)
+		   WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="productCnt" resultType="int">
+		SELECT count(*) AS cnt FROM product_tbl
+	</select>
+	<!-- WHERE pd_status IN ('판매중','품절','재입고대기') -->
+	
+</mapper>
