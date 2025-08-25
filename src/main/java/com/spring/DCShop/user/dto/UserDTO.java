@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.spring.DCShop.board.dto.BoardDTO;
 
+import java.sql.Date;
+
 public class UserDTO {
 
    // 맴버 변수

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.DCShop.join.dao.CustomerDAO">
+
+	<!-- 회원가입 처리 --> 
+	<insert id="insertCustomer" parameterType="com.spring.DCShop.join.dto.CustomerDTO"> 
+		<!-- PK 선점 --> 
+		<selectKey keyProperty="u_member_id" resultType="int" order="BEFORE"> 
+			SELECT USER_TBL_SEQ.NEXTVAL FROM DUAL 
+		</selectKey> 
+		
+		INSERT INTO USER_TBL ( 
+			U_MEMBER_ID, U_ID, U_PASSWORD, U_NAME, U_NICKNAME, U_ADDRESS, 
+			U_ZIP_CODE, U_PHONE, U_EMAIL, U_BIRTHDAY, U_REGDATE, U_PIAGREE, U_MAGREE ) 
+		VALUES ( 
+			#{u_member_id}, 
+			#{u_id}, 
+			#{u_password}, 
+			#{u_name}, 
+			#{u_nickname}, 
+			#{u_address}, 
+			#{u_zip_code}, 
+			#{u_phone}, 
+			#{u_email}, 
+			#{u_birthday}, 
+			SYSDATE, 
+			#{u_piagree}, #{u_magree} 
+		) 
+	</insert>
+	
+	<!-- ID 중복확인 처리 -->
+	<select id="useridCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM USER_TBL WHERE U_ID = #{strId}
+	</select>
+	
+	<!-- ID 중복닉네임 처리 -->
+	<select id="userNickNameCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM USER_TBL WHERE U_NICkNAME = #{strNickName}
+	</select>
+</mapper>
