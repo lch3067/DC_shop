@@ -20,7 +20,7 @@ public class ShopDAOImpl implements ShopDAO{
 	public List<ShopDTO> productListAction(Map<String, Object> map) {
 		
 		List<ShopDTO> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.productListAction", map);
-		System.out.println("dao list : "+ list);
+//		System.out.println("dao list : "+ list);
 		return list;
 	}
 

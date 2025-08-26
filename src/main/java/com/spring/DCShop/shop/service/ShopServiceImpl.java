@@ -26,6 +26,7 @@ public class ShopServiceImpl implements ShopService{
 		
 		// 페이지 처리를 위해 화면에서 입력받은 pageNum 가져오기
 		String pageNum = request.getParameter("pageNum");
+		String sortOrder = request.getParameter("sortOrder");
 		
 		// 게시글 갯수 
 		Map<String, Object> map = new HashMap<>();
@@ -40,15 +41,17 @@ public class ShopServiceImpl implements ShopService{
 		int end = paging.getEndRow();
 		map.put("start", start);
 		map.put("end", end);
+		map.put("sortOrder", sortOrder);
 		
 		
 		List<ShopDTO> list = dao.productListAction(map);
 		
-		System.out.println("service list :"+list);
+//		System.out.println("service list :"+list);
 		System.out.println("service map :"+map);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("paging",paging);
+		model.addAttribute("sortOrder", sortOrder);
 	}
 
 }

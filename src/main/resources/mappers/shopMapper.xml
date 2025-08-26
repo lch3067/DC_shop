@@ -21,6 +21,8 @@
 		<result property="pd_discount_rate" column="pd_discount_rate"/>
 		<result property="pd_status" column="pd_status"/>
 		<result property="pd_option" column="pd_option"/>
+		<result property="review_count" column="review_cnt"/>
+		<result property="review_score" column="review_score"/>
 	</resultMap>
 	
 	<!-- 목록조회  -->
@@ -42,7 +44,24 @@
 							from review_tbl
 							group by pd_id) R
 			     	ON pd.pd_id = R.pd_id
-			     	Order by pd.pd_id DESC) A
+			     	<choose>
+			     		<when test="sortOrder == 'review_cnt'">
+			     			order by review_cnt DESC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'high_price'">
+			     			order by pd_price DESC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'low_price'">
+			     			order by pd_price ASC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'review_score'">
+			     			order by review_score DESC, pd.pd_id DESC
+			     		</when>
+			     		<otherwise>
+			     			order by pd_id DESC
+			     		</otherwise>
+			     	</choose>
+			     	) A
 		     	)
 		   WHERE rn BETWEEN #{start} AND #{end}
 	</select>
