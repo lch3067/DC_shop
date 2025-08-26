@@ -60,7 +60,7 @@
 					<div class="font-['Pacifico'] text-2xl text-primary">logo</div>
 					<div class="hidden lg:flex items-center space-x-8">
 						<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Pet
+							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/shopMain3.do'">Pet
 							Food</a> <a
 							href="https://readdy.ai/home/b6511771-df02-440a-969d-e1281a6d8c0e/99208426-98f0-4462-846b-ef4957bd049b"
 							data-readdy="true"
@@ -85,14 +85,23 @@
 								class="bg-transparent border-none outline-none flex-1 text-sm" />
 						</div>
 					</div>
-					<button
-						class="lg:hidden mobile-menu-button w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
-						<i class="ri-menu-line text-gray-700 text-xl"></i>
+					<button id="mobile-menu-button"
+					  class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
+					  <i class="ri-menu-line text-gray-700 text-xl"></i>
 					</button>
 				</div>
 			</div>
 		</div>
 	</nav>
+
+	<div id="mobile-menu" class="hidden flex flex-col bg-white border-t border-gray-200 px-4 py-2 space-y-2 sm:hidden">
+	  <a href="#" class="text-gray-700 hover:text-black">Pet Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Cat Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Dog Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Toys</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Supplies</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Recommendations</a>
+	</div>
 
 	<!-- Filter Overlay -->
 	<div class="filter-overlay fixed inset-0 bg-black bg-opacity-50 z-40"></div>
@@ -498,6 +507,14 @@
 		</div>
 	</div>
 	<script id="mobile-menu">
+	
+	const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+	
       document.addEventListener("DOMContentLoaded", function () {
         const mobileMenuButton = document.querySelector(".mobile-menu-button");
         const closeMobileMenuButton = document.querySelector(".close-mobile-menu");
