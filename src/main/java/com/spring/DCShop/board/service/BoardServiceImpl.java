@@ -85,6 +85,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 게시판 상세페이지 가져오기
 		BoardDTO board = dao.boardDetailAction(b_num);
+		System.out.println(board);
 		
 		// 해당 게시글을 추천한 사용자인지 확인
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -106,13 +106,10 @@
 										</div>
 										<div align="right" style="height: 20px">
 											<div style="font-size: 15px"> 등록일 : ${board.b_dateposted} </div> 
-											<c:if test="${board.b_updateDate != null}">
-												<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
-											</c:if>
 										</div>
 										<c:if test="${board.b_updateDate != null}">
 											<div align="right" style="height: 20px">
-											<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
+												<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
 											</div>
 										</c:if>
 									</td>
@@ -132,7 +129,7 @@
 								<br>
 								<input type="button" class="inputButton" value="수정" id="">
 								<input type="reset" class="inputButton" value="삭제" id="">
-								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
+								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/board_list'">
 							</div>
 						</form>
 					</div>

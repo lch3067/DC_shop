@@ -101,21 +101,21 @@
 								<!-- 이전 버튼 활성화 -->
 								<c:if test="${paging.startPage > 10}">
 									<li>
-										<a href="${path}/comm_main.do?pageNum=${paging.prev}" class="prevPage"> << </a>
+										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> << </a>
 									</li>
 								</c:if>
 								
 								<!-- 페이지 번호 처리 -->
 								<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
 									<li>
-										<a href="${path}/comm_main.do?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'> active </c:if>"> ${num} </a>
+										<a href="${path}/board_list?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'> active </c:if>"> ${num} </a>
 									</li>
 								</c:forEach>
 								
 								<!-- 다음 버튼 활성화 -->
 								<c:if test="${paging.endPage < paging.pageCount}">
 									<li>
-										<a href="${path}/comm_main.do?pageNum=${paging.next}" class="nextPage"> >> </a>
+										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> >> </a>
 									</li>
 								</c:if>
 							</ul>
