@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.board.dto.BoardDTO;
+import com.spring.DCShop.board.dto.CommentDTO;
 import com.spring.DCShop.board.page.Paging;
 import com.spring.DCShop.user.dto.UserDTO;
 
@@ -63,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		
-		request.getSession().setAttribute("sessionID", "dog");
+		request.getSession().setAttribute("sessionID", "lch001");
 	}
 
 	// 게시판 상세페이지
@@ -238,28 +239,56 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void commentListAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		System.out.println("BoardServiceImpl - commentListAction()");
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		List<CommentDTO> list = dao.commentListAction(b_num);
+		model.addAttribute("list", list);
 	}
 
 	// 댓글 등록
 	@Override
 	public void commentInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		System.out.println("BoardServiceImpl - commentInsertAction()");
+		 // 1) 세션에서 로그인 아이디 꺼내기
+		String u_id = (String)request.getSession().getAttribute("sessionID");
+		int u_member_id = dao.selectU_member_id(u_id);
+		System.out.println("sessionID=" + u_id + ", resolved u_member_id=" + u_member_id); // ← 여기 1001 찍히는지
+
+	    // 3) DTO 채우기
+	    CommentDTO dto = new CommentDTO();
+	    int b_num = Integer.parseInt(request.getParameter("b_num"));
+	    dto.setB_num(b_num);
+	    dto.setU_member_id(u_member_id);       // FK 세팅 필수
+	    dto.setC_writer(request.getParameter("c_writer"));
+	    dto.setC_content(request.getParameter("c_content"));
+	    
+		dao.commentInsertAction(dto);
 	}
 
 	// 댓글 수정
 	@Override
 	public void commentUpdateAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		System.out.println("BoardServiceImpl - commentUpdateAction()");
+		int c_num = Integer.parseInt(request.getParameter("c_num"));
+	    String c_content = request.getParameter("c_content");
+
+	    CommentDTO dto = new CommentDTO();
+	    dto.setC_num(c_num);
+	    dto.setC_content(c_content);
+
+	    dao.commentUpdateAction(dto);
 	}
 
 	// 댓글 삭제
 	@Override
 	public void commentDeleteAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - commentDeleteAction()");
 		
+		int c_num = Integer.parseInt(request.getParameter("c_num"));
+		dao.commentDeleteAction(c_num); // DELETE
 	}
 
 	// 검색

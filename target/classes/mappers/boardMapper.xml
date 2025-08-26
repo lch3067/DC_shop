@@ -135,5 +135,45 @@
  		  FROM board_tbl
  		 WHERE b_num = #{b_num}
  	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<!-- 댓글 목록 -->
+ 	<select id="commentListAction" parameterType="int" resultType="com.spring.DCShop.board.dto.CommentDTO">
+ 		SELECT
+	      c.c_num,
+	      c.b_num,
+	      c.u_member_id,
+	      c.c_content,
+	      c.c_regDate,
+	      c.c_num2,
+	      c.c_deleted,
+	      c.c_writer
+	  FROM comment_tbl c
+	  WHERE c.b_num = #{b_num}
+	  ORDER BY c.c_num asc
+ 	</select>
+ 	<!-- 댓글 등록 -->
+ 	<insert id="commentInsertAction" parameterType="com.spring.DCShop.board.dto.CommentDTO">
+ 		INSERT INTO comment_tbl(c_num, b_num, u_member_id, c_content, c_regDate, c_num2, c_deleted, c_writer)
+		VALUES ((SELECT NVL(MAX(c_num)+1, 1) FROM comment_tbl), #{b_num}, #{u_member_id}, #{c_content}, sysdate, NVL(#{c_num2, jdbcType=INTEGER}, 0), NVL(#{c_deleted, jdbcType=CHAR}, 'N'), #{c_writer})
+ 	</insert>
+ 	
+ 	
+ 	<!-- 댓글 수정 -->
+ 	<update id="commentUpdateAction" parameterType="com.spring.DCShop.board.dto.CommentDTO">
+	  UPDATE comment_tbl
+	     SET c_content = #{c_content}
+	   WHERE c_num = #{c_num}
+	</update>
+ 	
+ 	
+ 	<!-- 댓글 삭제 -->
+	<delete id="commentDeleteAction" parameterType="int">
+		DELETE FROM comment_tbl
+	  	WHERE c_num = #{c_num}
+	</delete>
  
   </mapper>

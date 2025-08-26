@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,13 +89,41 @@ public class BoardController {
 	// 게시판 삭제
 	
 	// 댓글 목록
-	
+	@RequestMapping("comment_list")
+	public String comment_list(HttpServletRequest request, HttpServletResponse response, Model model)
+		throws ServletException, IOException{
+		logger.info("<<<url ==> /comment_list>>>");
+		
+		service.commentListAction(request, response, model);
+		return "board/comment_list";
+	}
 	// 댓글 등록
-	
+	@RequestMapping("comment_insert")
+	public void comment_insert(HttpServletRequest request, HttpServletResponse response, Model model)
+		throws ServletException, IOException{
+		logger.info("<<<url ==> /comment_insert>>>");
+		
+		service.commentInsertAction(request, response, model);
+	}
 	// 댓글 수정
+	@RequestMapping("comment_update")
+	public ResponseEntity<Void> comment_update(HttpServletRequest request, HttpServletResponse response, Model model)
+		throws ServletException, IOException{
+		logger.info("<<<url ==> /comment_update>>>");
+		
+		service.commentUpdateAction(request, response, model);
+		return ResponseEntity.noContent().build();
+	}
 	
 	// 댓글 삭제
-	
+	@RequestMapping("comment_delete")
+	public ResponseEntity<Void> comment_delete(HttpServletRequest request, HttpServletResponse response, Model model)
+		throws ServletException, IOException{
+		logger.info("<<<url ==> /comment_delete>>>");
+		
+		service.commentDeleteAction(request, response, model);
+		return ResponseEntity.noContent().build();
+	}
 	// 검색
 
 }

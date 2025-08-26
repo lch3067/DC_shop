@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
+<c:set var="board" value="${user.boardDTO[0]}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +53,132 @@
 		    }
 		});
 	});
+	
+	// 댓글 등록
+	$(function(){
+		comment_list();
+		
+		$('#btnCommentSave').click(function(){
+			comment_add();
+		});
+	});
+	
+	function comment_add(){
+		
+		let param = {
+			"b_num" : ${board.b_num},
+			"c_writer" : $('#c_writer').val(),
+			"c_content" : $('#c_content').val()
+		};
+		
+		$.ajax({
+			url: '${path}/comment_insert',
+			type:'POST',
+			data: param,
+			success:function(){
+				$('#c_writer').val("");
+				$('#c_content').val("");
+				comment_list();
+			},
+			error : function(){
+				alert('comment_add() 오류');
+			}
+		});
+	}	
+	function comment_list(){
+		$.ajax({
+			url: '${path}/comment_list',
+			type:'POST',
+			data: 'b_num=${board.b_num}',
+			success:function(result){
+				$('#comment_list').html(result);
+			},
+			error : function(){
+				alert('comment_list() 오류');
+			}
+		});
+	}
+	
+	// 댓글 수정
+	function getBnumFromQuery(){
+	  return new URLSearchParams(location.search).get('b_num');
+	}
+	// 댓글 수정 시작 (동적 목록: 위임 바인딩)
+	$(document).on('click', '.btnCommentEdit', function(){
+	  const cnum = $(this).val();
+	  const trDate = $(this).closest('tr');     // 날짜/버튼 행
+	  const trContent = trDate.prev();          // 바로 위가 내용 행
+	  const tdContent = trContent.find('td:first');
+
+	  // 이미 편집중이면 무시
+	  if (tdContent.data('editing')) return;
+
+	  const oldText = $.trim(tdContent.text());
+	  tdContent.data('editing', true).data('old', oldText);
+
+	  // textarea + 저장/취소 버튼 UI
+	  const editor =
+	    '<div class="edit-area">'+
+	      '<textarea class="edit-text" style="width:95%;height:80px;">'+$('<div>').text(oldText).html()+'</textarea>'+
+	      '<div style="margin-top:8px;text-align:right;">' +
+	        '<button type="button" class="inputButton btnEditSave" value="'+cnum+'">저장</button> ' +
+	        '<button type="button" class="inputButton btnEditCancel">취소</button>' +
+	      '</div>' +
+	    '</div>';
+
+	  tdContent.data('origHtml', tdContent.html()); // 원래 HTML 백업
+	  tdContent.html(editor);
+	});
+	
+	$(document).on('click', '.btnEditCancel', function(){
+		  const tdContent = $(this).closest('td');
+		  tdContent.html(tdContent.data('origHtml'));
+		  tdContent.removeData('editing').removeData('old').removeData('origHtml');
+		});
+	
+	$(document).on('click', '.btnEditSave', function(){
+		  const cnum = $(this).val();
+		  const tdContent = $(this).closest('td');
+		  const newText = tdContent.find('.edit-text').val();
+		  const bnum = getBnumFromQuery();
+
+		  $.ajax({
+		    url: '${path}/comment_update',
+		    type: 'POST',
+		    data: { c_num: cnum, c_content: newText, b_num: bnum }, // b_num은 성공 후 재조회용
+		    success: function(){
+		      comment_list(); // 목록 즉시 갱신
+		    },
+		    error: function(xhr){
+		      console.error('comment_update error', xhr.status, xhr.responseText);
+		      alert('comment_update() 오류');
+		    }
+		  });
+		});
+	
+	
+	
+	// 댓글 삭제
+	$(document).on('click', '.btnCommentDelete', function () {
+	  var cnum = $(this).val();          // data-* 안 쓰고 value로 받음
+	  var bnum = new URLSearchParams(location.search).get('b_num'); // URL에서 b_num
+	
+	  if (!confirm('이 댓글을 삭제할까요?')) return;
+	
+	  $.ajax({
+	    url: '${path}/comment_delete',
+	    type: 'POST',
+	    data: { c_num: cnum, b_num: bnum }, // b_num은 댓글 수 갱신용(선택)
+	    success: function () {
+	      comment_list(); // 삭제 후 즉시 새로고침
+	    },
+	    error: function (xhr) {
+	      console.error('comment_delete error', xhr.status, xhr.responseText);
+	      alert('comment_delete() 오류');
+	    }
+	  });
+	});
+	
 </script>
 </head>
 <body>
@@ -66,7 +193,7 @@
 					<h1 align="center"> 상세페이지 </h1>
 				</div>
 				
-				<c:set var="board" value="${user.boardDTO[0]}"/>
+				
 				<div>
 					<div class="table_div">
 						<form name="insertForm" method="post" >
@@ -127,8 +254,30 @@
 				</div>
 				
 				<!-- 댓글 부분 -->
-				
-				
+				<div>
+					<!-- 댓글 목록 코드 -->
+					<div id="comment_list" align="center">
+						<!-- 댓글목록 -->
+					</div>
+					<!-- 댓글 입력 코드 -->
+					<table>
+						<tr>
+							<th style="width:150px">댓글작성자</th>
+							<td style="width:200px; text-align:left">
+								<input style="width:250px" type="text" class="input" name="c_writer" id="c_writer" size="30" placeholder="작성자 입력">
+							</td>
+							<th style="width:40px" rowspan="2" align="right">
+								<center><input type="button" class="inputButton" value="작성" id="btnCommentSave"></center>
+							</th>
+						</tr>
+						<tr>
+							<th style="width:150px">글내용</th>
+							<td style="width:270px; text-align:left">
+								<textarea style="width:600px" rows="5" cols="93" name="c_content" id="c_content" placeholder="댓글입력"></textarea>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- 컨텐츠 끝 -->
