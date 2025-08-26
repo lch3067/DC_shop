@@ -2,40 +2,50 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<!-- Appenders -->
-	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
-		</layout>
-	</appender>
-	
-	<!-- Application Loggers -->
-	<logger name="com.spring.DCShop">
-		<level value="info" />
-	</logger>
-	
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.beans">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.context">
-		<level value="info" />
-	</logger>
+	<!-- 
+		각 포맷 의미
+		%d{yyyy-MM-dd HH:mm:ss} → 날짜/시간 (형식 지정)
+		%-5p → 로그 레벨 (INFO, WARN, ERROR)
+		%c{1} → 클래스명 (풀네임 대신 마지막 패키지 단위)
+		:%L → 로그가 찍힌 소스 코드 라인 번호
+		%m → 실제 메시지
+		%n → 줄바꿈 
+	-->
 
-	<logger name="org.springframework.web">
-		<level value="info" />
-	</logger>
+   <!-- Appenders -->
+   <appender name="console" class="org.apache.log4j.ConsoleAppender">
+      <param name="Target" value="System.out" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}:%L] - %m%n" />
+      </layout>
+   </appender>
+   
+   <!-- Application Loggers -->
+   <logger name="com.spring.DCShop">
+      <level value="info" />
+   </logger>
+   
+   <!-- 3rdparty Loggers -->
+   <logger name="org.springframework.core">
+      <level value="info" />
+   </logger>
+   
+   <logger name="org.springframework.beans">
+      <level value="info" />
+   </logger>
+   
+   <logger name="org.springframework.context">
+      <level value="info" />
+   </logger>
 
-	<!-- Root Logger -->
-	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
-	</root>
-	
+   <logger name="org.springframework.web">
+      <level value="info" />
+   </logger>
+
+   <!-- Root Logger -->
+   <root>
+      <priority value="warn" />
+      <appender-ref ref="console" />
+   </root>
+   
 </log4j:configuration>
