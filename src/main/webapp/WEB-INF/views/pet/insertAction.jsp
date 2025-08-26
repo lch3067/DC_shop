@@ -26,13 +26,13 @@
   <div class="wrap">
     <c:if test="${joinSuccess}">
       <script type="text/javascript">
-        alert("반려동물 등록 성공!!");
+        //alert("반려동물 등록 성공!!");
         // 이미지 보여주기
         (function(){
           var img = document.getElementById('successImg');
           if (img) img.style.display = 'block';
           // 3초 뒤 이동
-          setTimeout(function(){ window.location = CTX + "/login.do"; }, 3000);
+          setTimeout(function(){ window.location = CTX + "/joinFin.do"; }, 3000);
         })();
       </script>
     </c:if>

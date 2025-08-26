@@ -11,9 +11,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet" />
 <style>
-body {
-	background-color: #f8f9fa;
-}
 
 .step {
 	height: 4px;
@@ -88,7 +85,73 @@ body {
 a, a:hover {
 	text-decoration: none;
 }
+/* -------------------------------------------------------------------- */
+.hero-section1 {
+	width: 100%;
+	background: white;
+	padding: .5rem 0;
+	padding-top: 5rem;
+}
 
+
+.test2 {
+    background-color: black !important;
+    color: #fff !important;
+    margin-left: .25rem !important;
+    --bs-badge-padding-x: 0.65em;
+    --bs-badge-padding-y: 0.35em;
+    --bs-badge-font-size: 0.75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: #fff;
+    --bs-badge-border-radius: var(--bs-border-radius);
+    display: inline-block;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1;
+    color: var(--bs-badge-color);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
+}
+
+.test {
+    background-color: gray !important;
+    color: #fff !important;
+    margin-left: .25rem !important;
+    --bs-badge-padding-x: 0.65em;
+    --bs-badge-padding-y: 0.35em;
+    --bs-badge-font-size: 0.75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: #fff;
+    --bs-badge-border-radius: var(--bs-border-radius);
+    display: inline-block;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1;
+    color: var(--bs-badge-color);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
+}
+
+.form-check-input:checked {
+    background-color: black;
+    border-color: black;
+}
+
+.form-text {
+	align-self: flex-start;
+}
+
+.custom-main {
+  max-width: 900px; /* 원하는 너비 */
+}
+
+/* -------------------------------------------------------------------- */
 .btn {
 	background-color: #000; /* 버튼 검정 */
 	color: #fff; /* 버튼 텍스트 흰색 */
@@ -233,8 +296,10 @@ footer a:hover {
 </head>
 <body>
 	
+	
 	<!-- 헤더부분 -->
-	<header class="border-bottom bg-white">
+	<%@ include file="../../setting/header.jsp" %>
+	<!-- <header class="border-bottom bg-white">
 		<div
 			class="container py-3 d-flex align-items-center justify-content-between">
 			<a class="navbar-brand fw-bold text-decoration-none"
@@ -244,10 +309,13 @@ footer a:hover {
 				<span>→ 2. 정보입력</span>
 				<span>→ 3. 완료</span>
 			</nav>
-		</div>
-	</header>
+		</div> -->
+	
 
-	<main class="container my-4 my-md-5">
+	<section class="hero-section1">
+	</section>
+	
+	<main class="container-fluid my-4 my-md-5" style="max-width: 900px;">
 		<div class="mb-3">
 			<ol class="breadcrumb mb-2">
 				<li class="breadcrumb-item"><a style="color: black;"
@@ -265,12 +333,13 @@ footer a:hover {
 		<form id="termsForm" method="post" action="join.do">	
 
 			<!-- 전체 동의 -->
-			<div
-				class="form-check form-switch bg-white border rounded-3 p-3 mb-3">
-				<input class="form-check-input" type="checkbox" role="switch"
-					id="agreeAll"> <label class="form-check-label fw-semibold"
-					for="agreeAll">전체 동의</label>
-				<div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다. </div><!-- 마이페이지에서 선택항목 수정가능? -->
+         <div class="form-check form-switch bg-white border rounded-3 p-3 mb-3 d-flex align-items-center justify-content-between">
+           <label class="form-check-label fw-semibold" for="agreeAll">전체 동의</label>
+         <div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다.</div><!-- 마이페이지에서 선택항목 수정가능? -->
+           <input class="form-check-input" type="checkbox" role="switch" id="agreeAll">
+         </div>
+				
+				
 			</div>
 
 			<!-- (필수1. 반드시 체크!) 서비스 이용약관 -->
@@ -283,7 +352,7 @@ footer a:hover {
 							<label class="form-check-label" for="agreeTerms"> 
 								(필수) 서비스 이용약관 동의 
 							</label> 
-							<span class="badge text-bg-primary required-badge ms-1">필수</span>
+							<span class="test2">필수</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTerms"
@@ -318,7 +387,7 @@ footer a:hover {
 							value="Y" id="agreePrivacy" name="agreePrivacy" required>
 						<label class="form-check-label" for="agreePrivacy">(필수)
 							개인정보 수집 및 이용 동의</label> <span
-							class="badge text-bg-primary required-badge ms-1">필수</span>
+							class="test2">필수</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapsePrivacy"
@@ -351,7 +420,7 @@ footer a:hover {
 						<input class="form-check-input optional-check" type="checkbox"
 							value="Y" id="agreeThird" name="agreeThird"> <label
 							class="form-check-label" for="agreeThird">(선택) 개인정보 제3자
-							제공 동의</label> <span class="badge text-bg-secondary required-badge ms-1">선택</span>
+							제공 동의</label> <span class="test">선택</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseThird"
@@ -376,7 +445,7 @@ footer a:hover {
 							value="Y" id="agreeMarketing" name="agreeMarketing"> <label
 							class="form-check-label" for="agreeMarketing">(선택) 광고성 정보
 							수신 동의</label> 
-							<span class="badge text-bg-secondary required-badge ms-1">선택</span>
+							<span class="test">선택</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseMarketing"
@@ -428,8 +497,8 @@ footer a:hover {
 	</main>
 
 <!-- footer부분 -->
-	<footer class="border-top py-4 small bg-white">
-		<div
+	
+		<!-- <div
 			class="container d-flex flex-column flex-md-row gap-2 justify-content-between text-muted">
 			<div>
 				©
@@ -445,8 +514,9 @@ footer a:hover {
 					class="text-muted text-decoration-none"
 					href="#" target="_blank">고객센터</a>
 			</div>
-		</div>
-	</footer>
+		</div> -->
+		<%@ include file="../../setting/footer.jsp" %>
+	
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

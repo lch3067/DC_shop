@@ -10,10 +10,51 @@
 <title>반려동물 등록</title>
 
 <!-- css -->
-<link rel="stylesheet" href="${path}/resources/css/common/header.css">
-<link rel="stylesheet" href="${path}/resources/css/common/footer.css">
 <link rel="stylesheet" href="${path}/resources/css/pet/pet.css"><!-- pet 전용 -->
+<link rel="stylesheet" href="${path}/resources/css/customer/join.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet" />
+<style type="text/css">
+.hero-section1 {
+	width: 100%;
+	background: white;
+	padding: .5rem 0;
+	padding-top: 5rem;
+}
 
+.stepper {
+	margin: 0 0 .75rem 0
+}
+
+.stepper .segments {
+	display: flex;
+	gap: 6px
+}
+
+.stepper .seg {
+	flex: 1;
+	height: 4px;
+	background: #e9ecef;
+	border-radius: 999px
+}
+
+.stepper.is-2 .seg:nth-child(3) {
+    background: #000;
+}
+
+.inputButton {
+	background: black;
+	color: white;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: .3rem;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.2s;
+}
+</style>
 <!-- js -->
 <script src="https://kit.fontawesome.com/11defe47b4.js" crossorigin="anonymous"></script>
 <script src="${path}/resources/js/common/main.js" defer></script>
@@ -69,7 +110,33 @@
 <body>
 
 <div class="wrap">
+	
+	<!-- 헤더 시작 -->
+	<%@ include file="../setting/header.jsp" %>
+	<!-- 헤더 끝 -->
+	
+	<section class="hero-section1">
+	</section>
+	
+	<main class="container my-4 my-md-5">
+		<div id="contents">
+			<div class="mb-3">
+				<ol class="breadcrumb mb-2">
+					<li class="breadcrumb-item"><a
+						style="color: black; list-style-type: none"
+						href="${pageContext.request.contextPath}/">홈</a></li>
+					<li class="breadcrumb-item active">펫 등록</li>
+				</ol>
 
+				<div class="stepper is-2">
+					<div class="segments">
+						<div class="seg"></div>
+						<div class="seg"></div>
+						<div class="seg"></div>
+					</div>
+				</div>
+			</div>
+		</div>
   <!-- 컨텐츠 시작 -->
   <div id="container">
     <div id="contents">
@@ -77,6 +144,7 @@
       <div id="section1">
         <h1 align="center">반려동물 등록</h1>
       </div>
+      <hr style="border: 3px solid">
 
       <!-- 상단 중앙2 시작 -->
       <div id="section2">
@@ -157,6 +225,7 @@
                       
                       <button type="button" class="inputButton" id="addAnotherBtn">+ 추가 등록</button>
                       
+                      <input class="inputButton" type="submit" value="건너뛰기" >
                       <input class="inputButton" type="submit" value="등록" id="submitBtn">
                       <input class="inputButton" type="reset" value="초기화">
                       <input class="inputButton" type="button" value="취소" onclick="history.back()">
@@ -177,9 +246,14 @@
       </div>
       <!-- 상단 중앙2 끝 -->
     </div>
+	</main>
   </div>
   <!-- 컨텐츠 끝 -->
 </div>
+
+<!-- 푸터 시작 -->
+	<%@ include file="../setting/footer.jsp" %>
+	<!-- 푸터 끝 -->
 
 <script>
   const size = {

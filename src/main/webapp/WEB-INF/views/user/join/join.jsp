@@ -54,6 +54,13 @@
 	color: #6b7280;
 	text-align: right
 }
+
+.hero-section1 {
+	width: 100%;
+	background: white;
+	padding: .5rem 0;
+	padding-top: 5rem;
+}
 </style>
 </head>
 <body>
@@ -62,10 +69,12 @@
 
 	<div class="wrap">
 		<!-- Header 시작 -->
+		<%@ include file="../../setting/header.jsp" %>
 		<!-- Header 끝 -->
 
 
-
+		<section class="hero-section1">
+	</section>
 
 		<!-- 컨텐츠 시작 -->
 		<main class="container my-4 my-md-5">
@@ -91,7 +100,7 @@
 				<div id="section1">
 					<h1 align="center">회원가입창</h1>
 				</div>
-				<hr style="border: 5px solid">
+				<hr style="border: 3px solid">
 				<!-- 상단 중앙2 시작 -->
 				<div id=section2">
 					<div id="s2_inner">
@@ -248,6 +257,7 @@
 	<!-- 컨텐츠 끝 -->
 
 	<!-- Footer 시작 -->
+	<%@ include file="../../setting/footer.jsp" %>
 	<!-- Footer 시작 -->
 	</div>
 </body>

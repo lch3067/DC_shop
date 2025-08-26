@@ -16,6 +16,7 @@
 	href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
 	rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="${path}/resources/css/header.css">
 <style>
 </style>
 </head>
@@ -37,10 +38,10 @@
 				</c:if>
 				
 				<c:if test="${empty sessionScope.sessionid}">
-				<button class="b_test" onclick="window.location='${path}/login'">로그인</button>
+				<button class="b_test" onclick="window.location='${path}/login_main.do'">로그인</button>
 				</c:if>
 				<c:if test="${!(empty sessionScope.sessionid)}">
-				<button class="b_test" onclick="window.location='${path}/logout'">로그아웃</button>
+				<button class="b_test" onclick="window.location='${path}/logout.do'">로그아웃</button>
 				</c:if>
 			</nav>
 			<!-- <button class="mobile-menu-btn1" onclick="toggleMobileMenu()">
