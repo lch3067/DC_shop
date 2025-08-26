@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/setting/setting.jsp"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="${path}/resources/css/board.css">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
+    
+    
+
+    <script type="text/javascript">
+        function confirmUpdateCheck() {
+            return confirm("게시글을 수정하시겠습니까?");
+        }
+    </script>
+</head>
+<body class="board-update">
+
+<div class="container">
+    <h1>게시글 수정</h1>
+
+    <form action="${path}/board_updateAction" method="post" enctype="multipart/form-data" onsubmit="return confirmUpdateCheck();">
+        <input type="hidden" name="b_num" value="${board.b_num}">
+
+        <div class="form-group">
+            <label for="b_title">제목</label>
+            <input type="text" name="b_title" id="b_title" value="${board.b_title}">
+        </div>
+
+        <div class="form-group">
+            <label for="b_contents">내용</label>
+            <textarea name="b_contents" id="b_contents">${board.b_contents}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="b_category">카테고리</label>
+            <input type="text" name="b_category" id="b_category" value="${board.b_category}">
+        </div>
+
+        <button type="submit" class="btn">
+            <i class="fas fa-paw"></i> 수정완료
+        </button>
+    </form>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

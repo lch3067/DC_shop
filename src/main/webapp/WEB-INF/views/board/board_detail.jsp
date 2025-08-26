@@ -53,6 +53,32 @@
 		});
 	});
 </script>
+	<script>
+		//삭제확인
+		function confirmDelete(b_num) {
+		    if (confirm("해당 게시물을 삭제하시겠습니까?")) {
+		        location.href = "${path}/board_delete?b_num=" + b_num;
+		    }
+		}
+		
+		// 수정 페이지 이동
+		function goUpdate(b_num) {
+		    location.href = "${path}/board_update?b_num=" + b_num;
+		}
+
+	</script>
+	
+	<script>
+	function goUpdate(b_num) {
+	    if (!b_num || b_num === "undefined" || isNaN(b_num)) {
+	        alert("게시글 번호가 유효하지 않습니다.");
+	        return;
+	    }
+	    location.href = "${path}/board_update?b_num=" + b_num;
+	}
+</script>
+
+
 </head>
 <body>
 
@@ -81,7 +107,7 @@
 				<c:set var="user" value="${board.userDTO[0]}"/>
 				<div>
 					<div class="table_div">
-						<form name="insertForm" method="post" >
+						<form name="insertForm" method="post" ><!--수정 updateJSP 필드명 불일치 관련 추가    -->
 							<table>
 								<tr>
 									<td align="left">
@@ -130,8 +156,13 @@
 							</table>
 							<div align="right">
 								<br>
-								<input type="button" class="inputButton" value="수정" id="">
-								<input type="reset" class="inputButton" value="삭제" id="">
+								<!-- 작성자 본인일 때만 수정/삭제 버튼 노출 -->
+								<c:if test="${sessionScope.sessionID == user.u_id}">
+									<input type="button" class="inputButton" value="수정" 
+										   onclick="goUpdate('${board.b_num}')">
+									<input type="button" class="inputButton" value="삭제" 
+										   onclick="confirmDelete('${board.b_num}')">
+								</c:if>
 								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
 							</div>
 						</form>
@@ -147,7 +178,6 @@
 		
 		<!-- footer 부분 -->
 		<%@ include file="/WEB-INF/views/setting/footer.jsp" %>
-		
 	</div>
 </body>
 </html>
