@@ -25,8 +25,8 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public int productCnt(Map<String, Object> params) {
-		int total = sqlSession.selectOne("com.spring.DCShop.shop.dao.ShopDAO.productCnt");
+	public int productCnt(Map<String, Object> countP) {
+		int total = sqlSession.selectOne("com.spring.DCShop.shop.dao.ShopDAO.productCnt", countP);
 		return total;
 	}
 

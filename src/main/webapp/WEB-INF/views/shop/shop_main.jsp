@@ -40,7 +40,7 @@
     </script>
     
 <!-- 정렬 AJAX -->
-<script>
+<!--<script>
 	$(document).ready(function(){
 		let currentPage = 1;
 		const pageItems = 12;		// 페이지당 가져올 상품 갯수
@@ -134,8 +134,9 @@
 	        fetchProducts(true);
 	    });
 	});
-		
-</script>
+</script> -->
+
+
 </head>
 <link rel="stylesheet" href="${path}/resources/css/footer.css">
 <link rel="stylesheet" href="${path}/resources/css/header.css">
@@ -172,6 +173,7 @@
 							class="text-gray-700 hover:text-primary transition-colors">Recommendations</a>
 					</div>
 				</div>
+				<!-- 검색 -->
 				<div class="flex items-center space-x-4">
 					<div class="relative hidden md:block">
 						<div
@@ -179,8 +181,11 @@
 							<div class="w-5 h-5 flex items-center justify-center mr-3">
 								<i class="ri-search-line text-gray-500"></i>
 							</div>
-							<input type="text" placeholder="Search"
-								class="bg-transparent border-none outline-none flex-1 text-sm" />
+							<form method="get" action="${pageContext.request.contextPath}/shop_main.do?keyword=${keyword}&sortOrder=${sortOrder}">
+								<input type="text" value="${keyword}" placeholder="Search" name="searchKeyword" id="searchKeyword"
+									class="bg-transparent border-none outline-none flex-1 text-sm"
+									 />
+							</form>
 						</div>
 					</div>
 					<button
@@ -371,15 +376,16 @@
 			</div>
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<form method="get" action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}" >
-							<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
-								class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-								<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
-								<option value="low_price" ${sortOrder=="low_price"?"selected":""}>낮은가격순</option>
-								<option value="high_price" ${sortOrder=="high_price"?"selected":""}>높은가격순</option>
-								<option value="review_score" ${sortOrder=="review_score"?"selected":""}>별점순</option>
-								<option value="review_cnt" ${sortOrder=="review_cnt"?"selected":""}>리뷰순</option>
-							</select>
+					<form id="sortform" method="get" action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&h_searchKeyword=${keyword}" >
+						<input type="hidden" name="h_searchKeyword" id="h_searchKeyword" value="${keyword}">
+						<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
+							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
+							<option value="low_price" ${sortOrder=="low_price"?"selected":""}>낮은가격순</option>
+							<option value="high_price" ${sortOrder=="high_price"?"selected":""}>높은가격순</option>
+							<option value="review_score" ${sortOrder=="review_score"?"selected":""}>별점순</option>
+							<option value="review_cnt" ${sortOrder=="review_cnt"?"selected":""}>리뷰순</option>
+						</select>
 					</form>
 					<div
 						class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -429,18 +435,18 @@
 				<ul class="flex items-center justify-center gap-2">
 					<!-- 이전 버튼 처리 -->
 					<c:if test="${paging.startPage > 10}">
-						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}&sortOrder=${sortOrder}" class="page-btn"
+						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn"
 						aria-label="Previous">이전</a></li>
 					</c:if>
 					
 					<!-- 페이지 번호 처리 -->
 					<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
-						<li><a href="${path}/shop_main.do?pageNum=${num}&sortOrder=${sortOrder}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
+						<li><a href="${path}/shop_main.do?pageNum=${num}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
 					</c:forEach>
 					
 					<c:if test="${paging.endPage < paging.pageCount}">
 						<li>
-							<a href="${path}/shop_main.do?pageNum=${paging.next}&sortOrder=${sortOrder}" class="page-btn"
+							<a href="${path}/shop_main.do?pageNum=${paging.next}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn"
 							aria-label="Previous"> 다음 </a>
 						</li>
 					</c:if>
@@ -631,6 +637,7 @@
         };
       });
     </script>
+    
 	</section>
 	<!-- 푸터 시작 -->
 	<%@ include file="../setting/footer.jsp" %>

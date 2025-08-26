@@ -11,5 +11,5 @@ public interface ShopDAO {
 	public List<ShopDTO> productListAction(Map<String, Object> map);
 	
 	// 상품 갯수
-	public int productCnt(Map<String, Object> params);
+	public int productCnt(Map<String, Object> countP);
 }
