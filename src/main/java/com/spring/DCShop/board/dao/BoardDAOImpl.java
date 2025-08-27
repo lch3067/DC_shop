@@ -161,6 +161,12 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.delete("com.spring.DCShop.board.dao.BoardDAO.deleteCommentsByBoard", b_num);
 	}
 
+	// 게시글 작성자 아이디 조회
+	@Override
+	public String selectBoardAuthorId(int b_num) {
+		return sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectBoardAuthorId", b_num);
+	}
+
 	// 댓글 목록
 	@Override
 	public List<CommentDTO> commentListAction() {

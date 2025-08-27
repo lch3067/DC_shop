@@ -122,11 +122,10 @@ public class BoardController {
 		// 서비스에서 삭제 실행
 		service.boardDeleteAction(request, response, model);
 		// 삭제 완료 여부를 표시하기 위해 쿼리 파라미터 붙여서 redirect
-		String viewPage = request.getContextPath() + "/board_list?delete=success";
+		String viewPage = request.getContextPath() + "/comm_main.do?delete=success";
 		response.sendRedirect(viewPage);
 	}
 
-	// 게시판 삭제
 	
 	// 댓글 목록
 	

@@ -270,9 +270,19 @@ public class BoardServiceImpl implements BoardService {
 			throws ServletException, IOException {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 
-//		// 자식 레코드 선삭제 (댓글, 추천)
-//		dao.deleteCommentsByBoard(b_num);
-//		dao.deleteRecommendsByBoard(b_num);
+		// 본인 작성글인지 확인
+		String loginId = (String) request.getSession().getAttribute("sessionID");
+		if (loginId == null) {
+			loginId = (String) request.getSession().getAttribute("sessionid");
+		}
+		String authorId = dao.selectBoardAuthorId(b_num);
+		if (loginId == null || authorId == null || !loginId.equals(authorId)) {
+			throw new ServletException("권한이 없습니다.");
+		}
+
+		// 자식 레코드 선삭제 (댓글, 추천)
+		dao.deleteCommentsByBoard(b_num);
+		dao.deleteRecommendsByBoard(b_num);
 
 		int deleteCnt = dao.boardDeleteAction(b_num);
 		model.addAttribute("deleteCnt", deleteCnt);

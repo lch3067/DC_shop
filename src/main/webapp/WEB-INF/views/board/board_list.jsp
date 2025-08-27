@@ -13,8 +13,9 @@
 
 <script type="text/javascript">
 	$(function() {
+		var isLoggedIn = '${not empty sessionScope.sessionid}' === 'true';
 		$('#btnInsert').click(function() {
-			if(${sessionScope.sessionID != null}) {
+			if(isLoggedIn) {
 				location.href="${path}/board_insert";
 			} else {
 				if(confirm("글 작성하려면 로그인 해주세요.")) {	// 확인 눌렀을 때

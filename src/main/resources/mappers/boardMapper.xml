@@ -26,6 +26,7 @@
 		type="com.spring.DCShop.user.dto.UserDTO">
 		<id property="u_member_id" column="u_member_id" />
 		<result property="u_nickname" column="u_nickname" />
+		<result property="u_id" column="u_id" />
 	</resultMap>
 
 	<!-- 게시판 목록 -->
@@ -95,6 +96,7 @@
 		resultMap="boardMap">
 		SELECT b.*
 		, u.u_nickname
+		, u.u_id
 		FROM user_tbl u, board_tbl b
 		WHERE u.u_member_id = b.u_member_id
 		AND b.b_num = #{b_num}
@@ -146,6 +148,13 @@
 		SELECT b_recommend
 		FROM board_tbl
 		WHERE b_num = #{b_num}
+	</select>
+
+	<!-- 게시글 작성자 아이디 조회 -->
+	<select id="selectBoardAuthorId" parameterType="int" resultType="string">
+		SELECT u.u_id
+		FROM user_tbl u JOIN board_tbl b ON u.u_member_id = b.u_member_id
+		WHERE b.b_num = #{value}
 	</select>
 	<!-- 게시판 수정 정보 -->
 	<select id="boardUpdateDTOAction" parameterType="int" resultMap="boardMap"> 

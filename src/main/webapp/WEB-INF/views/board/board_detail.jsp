@@ -157,11 +157,11 @@
 							<div align="right">
 								<br>
 								<!-- 작성자 본인일 때만 수정/삭제 버튼 노출 -->
-								<c:if test="${sessionScope.sessionID == user.u_id}">
+								<c:if test="${sessionScope.sessionID == user.u_id || sessionScope.sessionid == user.u_id}">
 									<input type="button" class="inputButton" value="수정" 
-										   onclick="goUpdate('${board.b_num}')">
+									   onclick="goUpdate('${board.b_num}')">
 									<input type="button" class="inputButton" value="삭제" 
-										   onclick="confirmDelete('${board.b_num}')">
+									   onclick="confirmDelete('${board.b_num}')">
 								</c:if>
 								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
 							</div>

@@ -37,7 +37,14 @@
 
         <div class="form-group">
             <label for="b_category">카테고리</label>
-            <input type="text" name="b_category" id="b_category" value="${board.b_category}">
+            <select name="b_category" id="b_category" size="5" class="category-select">
+              <option value="자유" ${board.b_category == '자유' ? 'selected' : ''}>자유</option>
+                <option value="꿀팁" ${board.b_category == '꿀팁' ? 'selected' : ''}>꿀팁</option>
+                <option value="리뷰" ${board.b_category == '리뷰' ? 'selected' : ''}>리뷰</option>
+                <option value="질문" ${board.b_category == '질문' ? 'selected' : ''}>질문</option>
+                
+											
+            </select>
         </div>
 
         <button type="submit" class="btn">
