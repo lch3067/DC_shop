@@ -376,8 +376,8 @@
 			</div>
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<form id="sortform" method="get" action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&h_searchKeyword=${keyword}" >
-						<input type="hidden" name="h_searchKeyword" id="h_searchKeyword" value="${keyword}">
+					<form id="sortform" method="get" action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&searchKeyword=${keyword}" >
+						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
 						<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
 							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
 							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
