@@ -28,8 +28,11 @@ public class ShopServiceImpl implements ShopService{
 		String pageNum = request.getParameter("pageNum");
 		String sortOrder = request.getParameter("sortOrder");		// 정렬타입
 		String keyword = request.getParameter("searchKeyword");
+		String petType = request.getParameter("petType");   
+		String category = request.getParameter("category");
 		System.out.println("키워드 : "+keyword);
 		System.out.println("정렬 : "+sortOrder);
+		System.out.println("동물종류 : "+petType + "   카테고리 :" + category);
 		
 		// 게시글 갯수 
 		Map<String, Object> map = new HashMap<>();
@@ -38,8 +41,10 @@ public class ShopServiceImpl implements ShopService{
 		
 		Map<String, Object> countP = new HashMap<>();
 		countP.put("keyword", keyword);
+		countP.put("petType", petType);
 		// 전체 상품 수 조회 (+키워드에 맞게)
 		int total = dao.productCnt(countP);
+		
 		// 페이징 객체에 전체 상품수 전달하깅!
 		paging.setTotalCount(total);
 		
@@ -49,6 +54,7 @@ public class ShopServiceImpl implements ShopService{
 		map.put("end", end);
 		map.put("sortOrder", sortOrder);
 		map.put("keyword", keyword);
+		map.put("petType", petType);
 		
 		
 		
@@ -61,6 +67,8 @@ public class ShopServiceImpl implements ShopService{
 		model.addAttribute("paging",paging);
 		model.addAttribute("sortOrder", sortOrder);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("petType", petType);
+		model.addAttribute("total", total);
 	}
 
 }

@@ -39,103 +39,6 @@
       };
     </script>
     
-<!-- 정렬 AJAX -->
-<!--<script>
-	$(document).ready(function(){
-		let currentPage = 1;
-		const pageItems = 12;		// 페이지당 가져올 상품 갯수
-		
-		// 상품 목록 가져오기
-		function getProducts(isNewSearch = true) {
-			if (isNewSearch) {
-	            currentPage = 1; // 새로운 정렬/필터링 시 페이지 초기화
-	            $('#productListContainer').empty(); // 기존 상품 목록 비우기
-	        }
-			
-			const sortOrder = $('#sortOrder').val();
-			
-			
-			// 선택된 카테고리 값 가져오기
-	        // 용품, 장난감, 위생/미용, 의류 4개의 그룹을 모두 처리
-	        const selectedCategories = [];
-	        $('.custom-checkbox.checked').each(function() {
-	            selectedCategories.push($(this).data('filter'));
-	        });
-	        
-	     	// 카테고리가 여러 개일 경우, 배열을 콤마로 구분된 문자열로 변환
-	        const categoryString = selectedCategories.join(',');
-
-	        const startRow = (currentPage - 1) * itemsPerPage + 1;
-	        const endRow = startRow + itemsPerPage - 1;
-	     // AJAX 호출
-	        $.ajax({
-	            url: '${path}/api/products', // JSP에서 경로 변수를 사용
-	            type: 'GET',
-	            data: {
-	                sortOrder: sortOrder,
-	                category: categoryString, // 카테고리 필터 파라미터
-	                start: startRow,
-	                end: endRow
-	            },
-	            dataType: 'json',
-	            success: function(products) {
-	                let productHtml = '';
-	                if (products && products.length > 0) {
-	                    products.forEach(function(product) {
-	                        // 상품 카드 HTML 생성
-	                        productHtml += `
-	                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-	                                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-	                                    <img src="${product.pd_image_url}" alt="${product.pd_name}" class="w-full h-full object-cover object-top" />
-	                                </div>
-	                                <div class="p-4">
-	                                    <div class="text-sm text-gray-600 mb-1">${product.pd_brand}</div>
-	                                    <h3 class="font-medium text-gray-900 mb-2">${product.pd_name}</h3>
-	                                    <div class="text-lg font-bold text-gray-900 mb-2">${product.pd_price}원</div>
-	                                    <div class="flex items-center">
-	                                        <div class="flex items-center text-yellow-400 mr-2">
-	                                            <i class="ri-star-fill text-sm"></i>
-	                                            <i class="ri-star-fill text-sm"></i>
-	                                            <i class="ri-star-fill text-sm"></i>
-	                                        </div>
-	                                        <span class="text-sm text-gray-600">(${product.review_cnt})</span>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        `;
-	                    });
-	                } else {
-	                    productHtml = '<p class="col-span-4 text-center text-gray-500">해당하는 상품이 없습니다.</p>';
-	                }
-	                
-	                // 기존 내용을 지우고 새로운 내용으로 채우기
-	                $('#productListContainer').html(productHtml);
-	                
-	                // 페이지네이션 버튼 숨기기 (AJAX 페이징을 구현할 경우)
-	                $('.paging').hide();
-	            },
-	            error: function(xhr, status, error) {
-	                console.error("상품 목록 로딩 실패:", error);
-	                $('#productListContainer').html('<p class="col-span-4 text-center text-red-500">상품 로딩 중 오류가 발생했습니다.</p>');
-	            }
-	        });
-		}
-		// 초기 페이지 로딩 시 상품 불러오기
-	    fetchProducts();
-
-	    // 정렬 드롭다운 변경 이벤트
-	    $('#sortOrder').on('change', function() {
-	        fetchProducts(true);
-	    });
-
-	    // 카테고리 체크박스 클릭 이벤트
-	    $(document).on('click', '.custom-checkbox', function() {
-	        $(this).toggleClass('checked');
-	        fetchProducts(true);
-	    });
-	});
-</script> -->
-
 
 </head>
 <link rel="stylesheet" href="${path}/resources/css/footer.css">
@@ -158,19 +61,12 @@
 				<div class="flex items-center space-x-8">
 					<div class="font-['Pacifico'] text-2xl text-primary">logo</div>
 					<div class="hidden lg:flex items-center space-x-8">
-						<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Pet Food</a> 
-							<a
-							href="https://readdy.ai/home/b6511771-df02-440a-969d-e1281a6d8c0e/99208426-98f0-4462-846b-ef4957bd049b"
-							data-readdy="true"
-							class="text-gray-700 hover:text-primary transition-colors">Cat Food</a> 
-							<a href="#" class="text-primary font-medium">Dog Food</a> 
-							<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Toys</a>
-						<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Supplies</a>
-						<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Recommendations</a>
+							<a href="${path}/shop_main.do?" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">전체</a> 
+							<a href="${path}/shop_main.do?petType=1"
+							data-readdy="true" class="text-gray-700 hover:text-primary no-underline transition-colors">강아지</a> 
+							<a href="${path}/shop_main.do?petType=2" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">고양이</a> 
 					</div>
 				</div>
 				<!-- 검색 -->
@@ -181,7 +77,7 @@
 							<div class="w-5 h-5 flex items-center justify-center mr-3">
 								<i class="ri-search-line text-gray-500"></i>
 							</div>
-							<form method="get" action="${pageContext.request.contextPath}/shop_main.do?keyword=${keyword}&sortOrder=${sortOrder}">
+							<form method="get" action="${pageContext.request.contextPath}/shop_main.do?keyword=${keyword}&sortOrder=${sortOrder}&petType=${petType}">
 								<input type="text" value="${keyword}" placeholder="Search" name="searchKeyword" id="searchKeyword"
 									class="bg-transparent border-none outline-none flex-1 text-sm"
 									 />
@@ -227,19 +123,19 @@
 				</div>
 				<div class="brand-content ml-9 space-y-3">
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">목줄</span> <span
-							class="text-xs text-gray-500 ml-auto">(24)</span>
+						<a href="${path}/shop_main.do?" class="no-underline"> 
+							<span class="text-sm text-gray-700">목줄</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">하네스</span> <span
-							class="text-xs text-gray-500 ml-auto">(18)</span>
+						<a href="${path}/shop_main.do?pet_type=2" class="no-underline"> 
+							<span class="text-sm text-gray-700">하네스</span></a>
+							<span class="text-xs text-gray-500 ml-auto">(16)</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="hills"></div>
-						<span class="text-sm text-gray-700">배변패드</span> <span
-							class="text-xs text-gray-500 ml-auto">(16)</span>
+						<a href="${path}/shop_main.do?pet_type=2" class="no-underline"> 
+							<span class="text-sm text-gray-700">배변패드</span></a>
+						<span class="text-xs text-gray-500 ml-auto">(16)</span>
 					</div>
 				</div>
 				<div
@@ -372,7 +268,7 @@
 			class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
 			<div>
 				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Food</h1>
-				<p class="text-gray-600 mt-1">129,382 results</p>
+				<p class="text-gray-600 mt-1">${total} results</p>
 			</div>
 			<div class="flex items-center space-x-4">
 				<div class="relative">
@@ -435,18 +331,18 @@
 				<ul class="flex items-center justify-center gap-2">
 					<!-- 이전 버튼 처리 -->
 					<c:if test="${paging.startPage > 10}">
-						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn"
+						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn"
 						aria-label="Previous">이전</a></li>
 					</c:if>
 					
 					<!-- 페이지 번호 처리 -->
 					<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
-						<li><a href="${path}/shop_main.do?pageNum=${num}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
+						<li><a href="${path}/shop_main.do?pageNum=${num}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
 					</c:forEach>
 					
 					<c:if test="${paging.endPage < paging.pageCount}">
 						<li>
-							<a href="${path}/shop_main.do?pageNum=${paging.next}&sortOrder=${sortOrder}&searchKeyword=${keyword}" class="page-btn"
+							<a href="${path}/shop_main.do?pageNum=${paging.next}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn"
 							aria-label="Previous"> 다음 </a>
 						</li>
 					</c:if>
@@ -637,6 +533,7 @@
         };
       });
     </script>
+    
     
 	</section>
 	<!-- 푸터 시작 -->

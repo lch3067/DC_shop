@@ -44,10 +44,25 @@
 							from review_tbl
 							group by pd_id) R
 			     	ON pd.pd_id = R.pd_id
-					     <if test="keyword != null and keyword != ''">
-							where (pd.pd_name like #{keyword} || '%'
-								or pd.pd_brand like '%' || #{keyword} || '%')
+			     	<where>
+					    <if test="keyword != null and keyword != ''">
+							(pd.pd_name like '%'||#{keyword} || '%'
+									or pd.pd_brand like '%' || #{keyword} || '%')
 						</if>
+						 <if test="petType != null and petType != ''">
+							<choose>
+								<when test= "petType == 1">
+									pd.pd_pet_category = '1'
+								</when>
+								<when test= "petType == 2">
+									pd.pd_pet_category = '2'
+								</when>
+								<otherwise>
+									pd.pd_pet_category in (1,2)
+								</otherwise>
+							</choose>
+						</if>
+					</where>
 			     	<choose>
 			     		<when test="sortOrder == 'review_cnt'">
 			     			order by review_cnt DESC, pd.pd_id DESC
@@ -74,11 +89,27 @@
 	<select id="productCnt" parameterType="java.util.Map" resultType="int">
 		SELECT count(*) AS cnt 
 		FROM product_tbl
-		<if test="keyword != null and keyword != ''">
-			where (pd_name like '%' || #{keyword} || '%'
-			or pd_brand like '%' || #{keyword} || '%')
-		</if>
+		<where>
+			<if test="keyword != null and keyword != ''">
+				(pd_name like '%' || #{keyword} || '%'
+				or pd_brand like '%' || #{keyword} || '%')
+			</if>
+			<if test="petType != null and petType != ''">
+				<choose>
+					<when test= "petType == 1">
+						and pd_pet_category = 1
+					</when>
+					<when test= "petType == 2">
+						and pd_pet_category = 2
+					</when>
+					<otherwise>
+						and pd_pet_category in (1,2)
+					</otherwise>
+				</choose>
+			</if>
+		</where>
 	</select>
 	<!-- WHERE pd_status IN ('판매중','품절','재입고대기') -->
+	
 	
 </mapper>
