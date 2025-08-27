@@ -37,6 +37,7 @@
 					 	 		WHERE b.b_num = c.b_num) AS b_comments
 						FROM user_tbl u, board_tbl b
 						WHERE u.u_member_id = b.u_member_id
+						  AND b.b_category IN ('자유', '꿀팁', '리뷰', '질문')
 						ORDER BY b.b_num DESC) A 
 				) 
 		 WHERE rn BETWEEN #{start} AND #{end}
