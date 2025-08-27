@@ -5,24 +5,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="com.spring.DCShop.board.dao.BoardDAO">
- 
-	 <!-- 1:다 매핑 -->
- 	<resultMap id="boardsMap" type="com.spring.DCShop.user.dto.UserDTO">
- 		<id property="u_member_id" column="u_member_id"/>
- 		<result property="u_nickname" column="u_nickname"/>
- 		<collection property="boardDTO" column="u_member_id" resultMap="getBoard"/>
- 	</resultMap>
  	
- 	<!-- 1:1 매핑 -->
- 	<resultMap id="boardMap" type="com.spring.DCShop.user.dto.UserDTO">
- 		<id property="u_member_id" column="u_member_id"/>
- 		<result property="u_nickname" column="u_nickname"/>
- 		<association property="boardDTO" column="u_member_id" resultMap="getBoard"/>
- 	</resultMap>
- 	
- 	<resultMap id="getBoard" type="com.spring.DCShop.board.dto.BoardDTO">
+ 	<resultMap id="boardMap" type="com.spring.DCShop.board.dto.BoardDTO">
  		<id property="b_num" column="b_num"/>
- 		<result property="u_member_id" column="u_member_id"/>
  		<result property="b_title" column="b_title"/>
  		<result property="b_contents" column="b_contents"/>
  		<result property="b_category" column="b_category"/>
@@ -32,10 +17,16 @@
  		<result property="b_recommend" column="b_recommend"/>
  		<result property="b_image" column="b_image"/>
  		<result property="b_comments" column="b_comments"/>
+ 		<collection property="userDTO" column="u_member_id" resultMap="getUser"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="getUser" type="com.spring.DCShop.user.dto.UserDTO">
+ 		<id property="u_member_id" column="u_member_id"/>
+ 		<result property="u_nickname" column="u_nickname"/>
  	</resultMap>
  
  	<!-- 게시판 목록 -->
- 	<select id="boardListAction" parameterType="java.util.Map" resultMap="boardsMap">
+ 	<select id="boardListAction" parameterType="java.util.Map" resultMap="boardMap">
  		SELECT *
 		  FROM (SELECT A.*
 					 , rownum AS rn 
@@ -46,7 +37,7 @@
 					 	 		WHERE b.b_num = c.b_num) AS b_comments
 						FROM user_tbl u, board_tbl b
 						WHERE u.u_member_id = b.u_member_id
-						ORDER BY b_num DESC) A 
+						ORDER BY b.b_num DESC) A 
 				) 
 		 WHERE rn BETWEEN #{start} AND #{end}
  	</select>
@@ -54,6 +45,13 @@
  	<!-- 게시글 전체 개수 -->
  	<select id="boardListTotal" resultType="int">
  		SELECT COUNT(*) FROM board_tbl
+ 	</select>
+ 	
+ 	<!-- 작성자 -->
+ 	<select id="selectU_nicknameAction" parameterType="String" resultType="String">
+ 		SELECT u_nickname
+ 		  FROM user_tbl
+ 		 WHERE u_id = #{u_id}
  	</select>
  	
  	<!-- 게시판 등록 -->
@@ -70,9 +68,9 @@
  	
  	<!-- 회원 번호  -->
  	<select id="selectU_member_id" parameterType="String" resultType="int">
- 		SELECT u_member_id
- 		  FROM user_tbl
- 		 where u_id = #{u_id}
+ 		SELECT NVL(MAX(u_member_id), 0)
+    FROM user_tbl
+   WHERE u_id = #{u_id, jdbcType=VARCHAR}
  	</select>
  	
  	<!-- 게시글 번호 -->
@@ -136,10 +134,6 @@
  		 WHERE b_num = #{b_num}
  	</select>
  	
- 	
- 	
- 	
- 	
  	<!-- 댓글 목록 -->
  	<select id="commentListAction" parameterType="int" resultType="com.spring.DCShop.board.dto.CommentDTO">
  		SELECT
@@ -155,12 +149,12 @@
 	  WHERE c.b_num = #{b_num}
 	  ORDER BY c.c_num asc
  	</select>
+ 	
  	<!-- 댓글 등록 -->
  	<insert id="commentInsertAction" parameterType="com.spring.DCShop.board.dto.CommentDTO">
  		INSERT INTO comment_tbl(c_num, b_num, u_member_id, c_content, c_regDate, c_num2, c_deleted, c_writer)
-		VALUES ((SELECT NVL(MAX(c_num)+1, 1) FROM comment_tbl), #{b_num}, #{u_member_id}, #{c_content}, sysdate, NVL(#{c_num2, jdbcType=INTEGER}, 0), NVL(#{c_deleted, jdbcType=CHAR}, 'N'), #{c_writer})
+		VALUES ((SELECT NVL(MAX(c_num)+1, 1) FROM comment_tbl), #{b_num}, #{u_member_id}, #{c_content}, sysdate, NVL(#{c_num2, jdbcType=INTEGER}, 0), NVL(#{c_deleted, jdbcType=CHAR}, 'N'), (SELECT u_nickname FROM user_tbl WHERE u_member_id = #{u_member_id}))
  	</insert>
- 	
  	
  	<!-- 댓글 수정 -->
  	<update id="commentUpdateAction" parameterType="com.spring.DCShop.board.dto.CommentDTO">
@@ -168,7 +162,6 @@
 	     SET c_content = #{c_content}
 	   WHERE c_num = #{c_num}
 	</update>
- 	
  	
  	<!-- 댓글 삭제 -->
 	<delete id="commentDeleteAction" parameterType="int">

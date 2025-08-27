@@ -57,14 +57,13 @@ public class BoardServiceImpl implements BoardService {
 		map.put("start", start);
 		map.put("end", end);
 		
-		List<UserDTO> list = dao.boardListAction(map);
+		List<BoardDTO> list = dao.boardListAction(map);
 		System.out.println("list : " + list);
 		
 		//jsp로 처리결과 전달
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		
-		request.getSession().setAttribute("sessionID", "lch001");
 	}
 
 	// 게시판 상세페이지
@@ -75,11 +74,15 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
-		String u_id = (String)request.getSession().getAttribute("sessionID");
+		String u_id = (String)request.getSession().getAttribute("sessionid");
+
 		
 		// 회원아이디에 맞는 회원번호 가져오기
 		int u_member_id = dao.selectU_member_id(u_id);
 		
+		System.out.println("b_num = "+ b_num);
+		System.out.println("u_id = "+ u_id);
+		System.out.println("u_member_id = "+ u_member_id);
 		// 조회수 증가 - 목록에서 클릭했을시에만 증가하도록
 		int listClick = Integer.parseInt(request.getParameter("listClick"));
 		if(listClick == 1) {
@@ -87,8 +90,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		// 게시판 상세페이지 가져오기
-		UserDTO user = dao.boardDetailAction(b_num);
+		BoardDTO board = dao.boardDetailAction(b_num);
 		
+		System.out.println("board =>" + board);
 		// 해당 게시글을 추천한 사용자인지 확인
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("u_member_id", u_member_id);
@@ -96,7 +100,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		int isRecommended = dao.isRecommended(map);
 		
-		model.addAttribute("user", user);
+
+		model.addAttribute("board", board);
 		model.addAttribute("isRecommended", isRecommended);
 	}
 	
@@ -109,7 +114,7 @@ public class BoardServiceImpl implements BoardService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		int click = Integer.parseInt(request.getParameter("click"));
 		
-		String u_id = (String)request.getSession().getAttribute("sessionID");
+		String u_id = (String)request.getSession().getAttribute("sessionid");
 		
 		// 회원아이디에 맞는 회원번호 가져오기
 		int u_member_id = dao.selectU_member_id(u_id);
@@ -139,6 +144,18 @@ public class BoardServiceImpl implements BoardService {
 		
 		return result;
 	}
+	
+	// 작성자
+	public void selectU_nicknameAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - selectU_nicknameAction()");
+		
+		String u_id = (String)request.getSession().getAttribute("sessionid");
+		
+		String u_nickname = dao.selectU_nicknameAction(u_id);
+		
+		model.addAttribute("u_nickname", u_nickname);
+	}
 
 	// 게시판 등록
 	@Override
@@ -157,7 +174,7 @@ public class BoardServiceImpl implements BoardService {
 		try {
 			//화면에서 입력받은 값 가져와서 dto에 setter로 담는다
 			BoardDTO dto = new BoardDTO();
-			String u_id = (String)request.getSession().getAttribute("sessionID");
+			String u_id = (String)request.getSession().getAttribute("sessionid");
 			
 			// 회원아이디에 맞는 회원번호 가져오기
 			int u_member_id = dao.selectU_member_id(u_id);
@@ -250,19 +267,21 @@ public class BoardServiceImpl implements BoardService {
 	public void commentInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		System.out.println("BoardServiceImpl - commentInsertAction()");
-		 // 1) 세션에서 로그인 아이디 꺼내기
-		String u_id = (String)request.getSession().getAttribute("sessionID");
-		int u_member_id = dao.selectU_member_id(u_id);
-		System.out.println("sessionID=" + u_id + ", resolved u_member_id=" + u_member_id); // ← 여기 1001 찍히는지
+		Integer me = (Integer) request.getSession().getAttribute("u_member_id");
+		if (me == null || me == 0) { response.setStatus(401); return; } // 로그인 필요
 
-	    // 3) DTO 채우기
-	    CommentDTO dto = new CommentDTO();
-	    int b_num = Integer.parseInt(request.getParameter("b_num"));
-	    dto.setB_num(b_num);
-	    dto.setU_member_id(u_member_id);       // FK 세팅 필수
-	    dto.setC_writer(request.getParameter("c_writer"));
-	    dto.setC_content(request.getParameter("c_content"));
-	    
+		String b = request.getParameter("b_num");
+		String content = request.getParameter("c_content");
+		if (b == null || b.isBlank()) { response.sendError(400, "b_num required"); return; }
+		int bnum; try { bnum = Integer.parseInt(b.trim()); } catch (NumberFormatException e) { response.sendError(400, "b_num invalid"); return; }
+		if (content == null || content.trim().isEmpty()) { response.sendError(400, "content required"); return; }
+
+		CommentDTO dto = new CommentDTO();
+		dto.setB_num(bnum);
+		dto.setU_member_id(me); // ★ 클라이언트 값 신뢰 X, 세션만 사용
+		dto.setC_content(content.trim());
+		String nick = (String) request.getSession().getAttribute("u_nickname");
+		if (nick != null) dto.setC_writer(nick);
 		dao.commentInsertAction(dto);
 	}
 

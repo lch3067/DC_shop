@@ -25,7 +25,7 @@ public class UserDTO {
    private String u_piagree;
    private String u_magree;
    
-   private List<BoardDTO> boardDTO;
+
    
    public UserDTO() {}
    
@@ -178,13 +178,7 @@ public class UserDTO {
       this.u_magree = u_magree;
    }
    
-   public List<BoardDTO> getBoardDTO() {
-		return boardDTO;
-	}
 
-	public void setBoardDTO(List<BoardDTO> boardDTO) {
-		this.boardDTO = boardDTO;
-	}
 
    @Override
    public String toString() {

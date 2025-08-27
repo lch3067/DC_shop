@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
-<c:set var="board" value="${user.boardDTO[0]}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,14 +60,29 @@
 		$('#btnCommentSave').click(function(){
 			comment_add();
 		});
+		
+		$('#btnCommentLogin').click(function(){
+			comment_login();
+		});
 	});
+	function comment_login(){
+		if(confirm('로그인이 필요합니다.')){
+			location.href="${path}/login_main.do";
+		}
+	}
 	
 	function comment_add(){
 		
+		const content = ($('#c_content').val() || '').trim();
+		if(content.length === 0){
+			alert('내용을 입력해주세요.')
+			$('#c_content').focus();
+			return;
+		}
+		
 		let param = {
-			"b_num" : ${board.b_num},
-			"c_writer" : $('#c_writer').val(),
-			"c_content" : $('#c_content').val()
+			b_num : "${board.b_num}",
+			"c_content" : content
 		};
 		
 		$.ajax({
@@ -76,7 +90,6 @@
 			type:'POST',
 			data: param,
 			success:function(){
-				$('#c_writer').val("");
 				$('#c_content').val("");
 				comment_list();
 			},
@@ -89,7 +102,7 @@
 		$.ajax({
 			url: '${path}/comment_list',
 			type:'POST',
-			data: 'b_num=${board.b_num}',
+			data: {b_num : ${board.b_num}},
 			success:function(result){
 				$('#comment_list').html(result);
 			},
@@ -185,7 +198,18 @@
 
 	<div class="wrap">
 		<!-- 헤더 부분 -->
+		<%@ include file="/WEB-INF/views/setting/header.jsp" %>
 		
+		<section class="hero-section1">
+		<!-- <div class="hero-container">
+			<div class="hero-content">
+				<h1 class="hero-title">랜딩 페이지 제목</h1>
+				<p class="hero-description">실용성 있는 디자인과 직관적이며 대담한 추상적 조합으로, 사용하기
+					자연스럽고 유용한 소프트웨어를 초점에 맞춘다.</p>
+				<button class="hero-btn">더보기</button>
+			</div>
+		</div> -->
+		</section>
 		<!-- 컨텐츠 부분 -->
 		<div id="container">
 			<div id="contents">
@@ -193,10 +217,10 @@
 					<h1 align="center"> 상세페이지 </h1>
 				</div>
 				
-				
+				<c:set var="user" value="${board.userDTO[0]}"/>
 				<div>
 					<div class="table_div">
-						<form name="insertForm" method="post" >
+						<form name="insertForm" method="post">
 							<table>
 								<tr>
 									<td align="left">
@@ -247,42 +271,51 @@
 								<br>
 								<input type="button" class="inputButton" value="수정" id="">
 								<input type="reset" class="inputButton" value="삭제" id="">
-								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/board_list'">
+								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
 							</div>
 						</form>
 					</div>
 				</div>
-				
 				<!-- 댓글 부분 -->
-				<div>
-					<!-- 댓글 목록 코드 -->
+				<div class="table_div">
+					<!-- 댓글목록 -->
 					<div id="comment_list" align="center">
-						<!-- 댓글목록 -->
 					</div>
 					<!-- 댓글 입력 코드 -->
-					<table>
-						<tr>
-							<th style="width:150px">댓글작성자</th>
-							<td style="width:200px; text-align:left">
-								<input style="width:250px" type="text" class="input" name="c_writer" id="c_writer" size="30" placeholder="작성자 입력">
-							</td>
-							<th style="width:40px" rowspan="2" align="right">
-								<center><input type="button" class="inputButton" value="작성" id="btnCommentSave"></center>
-							</th>
-						</tr>
-						<tr>
-							<th style="width:150px">글내용</th>
-							<td style="width:270px; text-align:left">
-								<textarea style="width:600px" rows="5" cols="93" name="c_content" id="c_content" placeholder="댓글입력"></textarea>
-							</td>
-						</tr>
-					</table>
+					<c:choose>
+						<c:when test="${not empty sessionScope.sessionid}">
+							<table>
+								<tr>
+									<th style="width:150px">댓글작성</th>
+									<td style="width:270px; text-align:left">
+										<textarea style="width:600px" rows="5" cols="93" name="c_content" id="c_content" placeholder="댓글입력"></textarea>
+									</td>
+									<th style="width:40px" rowspan="2" align="right">
+										<center><input type="button" class="inputButton" value="작성" id="btnCommentSave"></center>
+									</th>
+								</tr>
+							</table>
+						</c:when>
+						<c:otherwise>
+							<table>
+								<tr>
+									<th style="width:150px">댓글작성<br>(로그인후 작성가능)</th>
+									<td style="width:270px; text-align:left">
+										<textarea style="width:600px" rows="5" cols="93" name="c_content" id="c_content" placeholder="댓글입력"></textarea>
+									</td>
+									<th style="width:40px" rowspan="2" align="right">
+										<center><input type="button" class="inputButton" value="작성" id="btnCommentLogin"></center>
+									</th>
+								</tr>
+							</table>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>
 		<!-- 컨텐츠 끝 -->
-		
 		<!-- footer 부분 -->
+		<%@ include file="/WEB-INF/views/setting/footer.jsp" %>
 	</div>
 </body>
 </html>

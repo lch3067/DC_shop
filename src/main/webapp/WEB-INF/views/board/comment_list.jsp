@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
+<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -22,9 +23,11 @@
 					<tr>
 						<td align="left">${dto.c_writer}</td>
 						<td align="right" style="width:120px;" rowspan="3">
+							<c:if test="${sessionScope.u_member_id == dto.u_member_id}">
 							<button type="button" class="inputButton btnCommentEdit" value="${dto.c_num}">수정</button>
 							<br><br>
 							<button type="button" class="inputButton btnCommentDelete" value="${dto.c_num}">삭제</button>
+							</c:if>
 						</td>
 					</tr>
 					<tr>

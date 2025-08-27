@@ -19,9 +19,9 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 게시판 목록
 	@Override
-	public List<UserDTO> boardListAction(Map<String, Object> map) {
+	public List<BoardDTO> boardListAction(Map<String, Object> map) {
 		
-		List<UserDTO> list = sqlSession.selectList("com.spring.DCShop.board.dao.BoardDAO.boardListAction", map);
+		List<BoardDTO> list = sqlSession.selectList("com.spring.DCShop.board.dao.BoardDAO.boardListAction", map);
 		
 		return list;
 	}
@@ -38,10 +38,10 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 게시판 상세페이지
 	@Override
-	public UserDTO boardDetailAction(int b_num) {
+	public BoardDTO boardDetailAction(int b_num) {
 		System.out.println("BoardDAOImpl - boardInsertAction()");
 		
-		UserDTO dto = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.boardDetailAction", b_num);
+		BoardDTO dto = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.boardDetailAction", b_num);
 		
 		return dto;
 	}
@@ -93,6 +93,14 @@ public class BoardDAOImpl implements BoardDAO{
 		int b_recommend = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectB_recommend", b_num);
 		
 		return b_recommend;
+	}
+	// 작성자
+	public String selectU_nicknameAction(String u_id) {
+		System.out.println("BoardDAOImpl - selectU_nicknameAction()");
+		
+		String u_nickname = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectU_nicknameAction", u_id);
+		
+		return u_nickname;
 	}
 
 	// 게시판 등록

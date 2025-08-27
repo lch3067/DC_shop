@@ -1,6 +1,9 @@
 package com.spring.DCShop.board.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.spring.DCShop.user.dto.UserDTO;
 
 public class BoardDTO {
 	
@@ -15,6 +18,7 @@ public class BoardDTO {
 	private int b_recommend;		// 추천수
 	private String b_image;			// 이미지
 	private int b_comments;			// 댓글 개수
+	private List<UserDTO> userDTO;
 	
 	public BoardDTO() {
 		super();
@@ -122,12 +126,20 @@ public class BoardDTO {
 	public void setB_comments(int b_comments) {
 		this.b_comments = b_comments;
 	}
+	
+	public List<UserDTO> getUserDTO() {
+		return userDTO;
+	}
+	
+	public void setUserDTO(List<UserDTO> userDTO) {
+		this.userDTO = userDTO;
+	}
 
 	@Override
 	public String toString() {
-		return "BoardDTO [b_num=" + b_num + "u_member_id=" + u_member_id + ", b_title=" + b_title + ", b_contents="
+		return "BoardDTO [b_num=" + b_num + ", u_member_id=" + u_member_id + ", b_title=" + b_title + ", b_contents="
 				+ b_contents + ", b_category=" + b_category + ", b_dateposted=" + b_dateposted + ", b_updateDate="
-				+ b_updateDate + ", b_views=" + b_views + ", b_recommend=" + b_recommend + ", b_image=" + b_image + "]";
+				+ b_updateDate + ", b_views=" + b_views + ", b_recommend=" + b_recommend + ", b_image=" + b_image + "userDTO" + userDTO +  "]";
 	}
 
 }

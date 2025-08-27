@@ -14,12 +14,12 @@
 <script type="text/javascript">
 	$(function() {
 		$('#btnInsert').click(function() {
-			if(${sessionScope.sessionID != null}) {
+			if(${sessionScope.sessionid != null}) {
 				location.href="${path}/board_insert";
 			} else {
 				if(confirm("글 작성하려면 로그인 해주세요.")) {	// 확인 눌렀을 때
 					// 로그인 페이지로 이동	
-					// location.href="${path}/";
+					location.href="${path}/login_main.do";
 				}
 				// 취소 누르면 목록페이지 그대로
 			}
@@ -30,6 +30,18 @@
 <body>
 	<div class="wrap">
 		<!-- 헤더부분 -->
+		<%@ include file="/WEB-INF/views/setting/header.jsp" %>
+		
+		<section class="hero-section1">
+		<!-- <div class="hero-container">
+			<div class="hero-content">
+				<h1 class="hero-title">랜딩 페이지 제목</h1>
+				<p class="hero-description">실용성 있는 디자인과 직관적이며 대담한 추상적 조합으로, 사용하기
+					자연스럽고 유용한 소프트웨어를 초점에 맞춘다.</p>
+				<button class="hero-btn">더보기</button>
+			</div>
+		</div> -->
+		</section>
 		
 		<!-- 컨텐츠부분 -->
 		<div id="container">
@@ -46,18 +58,18 @@
 					<form name="boardList">
 						<table>
 							<tr>
-								<th style="width: 30px"> 번호 </th>
-								<th style="width: 30px"> 구분 </th>
+								<th style="width: 70px"> 번호 </th>
+								<th style="width: 70px"> 구분 </th>
 								<th style="width: auto"> 제목 </th>
-								<th style="width: 50px"> 작성자 </th>
-								<th style="width: 30px"> <img src="/DCShop/resources/image/board/추천_total.png"> </th>
-								<th style="width: 30px"> 조회 </th>
-								<th style="width: 100px"> 작성일 </th>
+								<th style="width: 100px"> 작성자 </th>
+								<th style="width: 70px"> <img src="/DCShop/resources/image/board/추천_total.png"> </th>
+								<th style="width: 70px"> 조회 </th>
+								<th style="width: 150px"> 작성일 </th>
 							</tr>
 							
 							<!-- 게시글이 있으면 -->
-							<c:forEach var="user" items="${list}">
-								<c:forEach var="board" items="${user.boardDTO}">
+							<c:forEach var="board" items="${list}">
+								<c:forEach var="user" items="${board.userDTO}">
 								<tr>
 									<td class="num">${board.b_num}</td>
 									<td>${board.b_category}</td>
@@ -89,21 +101,21 @@
 								<!-- 이전 버튼 활성화 -->
 								<c:if test="${paging.startPage > 10}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.prev}" class="prevPage"> << </a>
+										<a href="${path}/comm_main.do?pageNum=${paging.prev}" class="prevPage"> << </a>
 									</li>
 								</c:if>
 								
 								<!-- 페이지 번호 처리 -->
 								<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
 									<li>
-										<a href="${path}/board_list?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'> active </c:if>"> ${num} </a>
+										<a href="${path}/comm_main.do?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'> active </c:if>"> ${num} </a>
 									</li>
 								</c:forEach>
 								
 								<!-- 다음 버튼 활성화 -->
 								<c:if test="${paging.endPage < paging.pageCount}">
 									<li>
-										<a href="${path}/board_list?pageNum=${paging.next}" class="nextPage"> >> </a>
+										<a href="${path}/comm_main.do?pageNum=${paging.next}" class="nextPage"> >> </a>
 									</li>
 								</c:if>
 							</ul>
@@ -114,6 +126,7 @@
 		</div>
 		
 		<!-- footer부분 -->
+		<%@ include file="/WEB-INF/views/setting/footer.jsp" %>
 	</div>
 </body>
 </html>
