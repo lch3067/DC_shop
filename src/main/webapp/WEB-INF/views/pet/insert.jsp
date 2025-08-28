@@ -220,10 +220,18 @@
 										</tr>
 
 										<tr>
-											<td colspan="2" style="border-bottom: none"><br>
+											<td colspan="2" style="border-bottom: none">
+												<!-- <br> -->
+												<div class="br-toggle">
+													<br>
+												</div>
+
+
 												<div align="right">
 													<input type="hidden" name="u_member_id">
-
+													<div class="test" style="display: none;">
+														<a style="color: red">※ 추가등록시 밑에 추가되어있는 항목만 등록됩니다!</a>
+													</div>
 													<button type="button" class="inputButton"
 														id="addAnotherBtn">+ 추가 등록</button>
 
@@ -233,7 +241,8 @@
 														type="reset" value="초기화"> <input
 														class="inputButton" type="button" value="취소"
 														onclick="history.back()">
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</table>
 
@@ -433,6 +442,13 @@
 			// 한 마리 이상이면 보이게
 			$wrap.show();
 			$('#petCountLabel').text('추가된 반려동물 ' + count + '마리');
+
+			if (pets.length >= 1) {
+				$(".test").show();
+			}
+			if (pets.length >= 1) {
+				$(".br-toggle").hide();
+			}
 
 			for (var i = 0; i < pets.length; i++) {
 				var p = pets[i];
