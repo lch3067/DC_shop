@@ -11,16 +11,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet" />
 <style>
-body {
-	background-color: #f8f9fa;
-}
-
-.hero-section1 {
-	width: 100%;
-	background: white;
-	padding: .5rem 0;
-	padding-top: 5rem;
-}
 
 .step {
 	height: 4px;
@@ -96,6 +86,14 @@ a, a:hover {
 	text-decoration: none;
 }
 /* -------------------------------------------------------------------- */
+.hero-section1 {
+	width: 100%;
+	background: white;
+	padding: .5rem 0;
+	padding-top: 5rem;
+}
+
+
 .test2 {
     background-color: black !important;
     color: #fff !important;
@@ -144,6 +142,15 @@ a, a:hover {
     background-color: black;
     border-color: black;
 }
+
+.form-text {
+	align-self: flex-start;
+}
+
+.custom-main {
+  max-width: 900px; /* 원하는 너비 */
+}
+
 /* -------------------------------------------------------------------- */
 .btn {
 	background-color: #000; /* 버튼 검정 */
@@ -303,12 +310,12 @@ footer a:hover {
 				<span>→ 3. 완료</span>
 			</nav>
 		</div> -->
-	</header>
+	
 
 	<section class="hero-section1">
 	</section>
 	
-	<main class="container my-4 my-md-5">
+	<main class="container-fluid my-4 my-md-5" style="max-width: 900px;">
 		<div class="mb-3">
 			<ol class="breadcrumb mb-2">
 				<li class="breadcrumb-item"><a style="color: black;"
@@ -326,12 +333,13 @@ footer a:hover {
 		<form id="termsForm" method="post" action="join.do">	
 
 			<!-- 전체 동의 -->
-			<div
-				class="form-check form-switch bg-white border rounded-3 p-3 mb-3">
-				<input class="form-check-input" type="checkbox" role="switch"
-					id="agreeAll"> <label class="form-check-label fw-semibold"
-					for="agreeAll">전체 동의</label>
-				<div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다. </div><!-- 마이페이지에서 선택항목 수정가능? -->
+         <div class="form-check form-switch bg-white border rounded-3 p-3 mb-3 d-flex align-items-center justify-content-between">
+           <label class="form-check-label fw-semibold" for="agreeAll">전체 동의</label>
+         <div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다.</div><!-- 마이페이지에서 선택항목 수정가능? -->
+           <input class="form-check-input" type="checkbox" role="switch" id="agreeAll">
+         </div>
+				
+				
 			</div>
 
 			<!-- (필수1. 반드시 체크!) 서비스 이용약관 -->
@@ -489,7 +497,7 @@ footer a:hover {
 	</main>
 
 <!-- footer부분 -->
-	<footer class="border-top py-4 small bg-white">
+	
 		<!-- <div
 			class="container d-flex flex-column flex-md-row gap-2 justify-content-between text-muted">
 			<div>
@@ -508,7 +516,7 @@ footer a:hover {
 			</div>
 		</div> -->
 		<%@ include file="../../setting/footer.jsp" %>
-	</footer>
+	
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

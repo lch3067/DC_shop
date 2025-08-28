@@ -18,12 +18,11 @@ public class ShopDAOImpl implements ShopDAO{
 	// 상품 목록 조회
 	@Override
 	public List<ShopDTO> productListAction(Map<String, Object> map) {
-		
 		List<ShopDTO> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.productListAction", map);
-//		System.out.println("dao list : "+ list);
 		return list;
 	}
 
+	// 상품목록 갯수 조회
 	@Override
 	public int productCnt(Map<String, Object> countP) {
 		int total = sqlSession.selectOne("com.spring.DCShop.shop.dao.ShopDAO.productCnt", countP);
@@ -31,4 +30,12 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 
+	// 동물 종류 별 세부 카테고리 가져오기
+	public List<Integer> getsemiCategory(String cate){
+		System.out.println("DAOImpl - getsemiCategory()");
+		List<Integer> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.getsemiCategory", cate);
+		System.out.println("세부카테 list : "+list);
+		
+		return list;
+	}
 }

@@ -67,6 +67,8 @@
 							data-readdy="true" class="text-gray-700 hover:text-primary no-underline transition-colors">강아지</a> 
 							<a href="${path}/shop_main.do?petType=2" 
 							class="text-gray-700 hover:text-primary no-underline transition-colors ">고양이</a> 
+							<a href="#" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">이벤트</a> 
 					</div>
 				</div>
 				<!-- 검색 -->
@@ -77,21 +79,31 @@
 							<div class="w-5 h-5 flex items-center justify-center mr-3">
 								<i class="ri-search-line text-gray-500"></i>
 							</div>
-							<form method="get" action="${pageContext.request.contextPath}/shop_main.do?keyword=${keyword}&sortOrder=${sortOrder}&petType=${petType}">
+							<form method="get" action="${pageContext.request.contextPath}/shop_main.do">
+								<input type="hidden" name="petType" value="${petType}">
+								<input type="hidden" name="sortOrder" value="${sortOrder}">
 								<input type="text" value="${keyword}" placeholder="Search" name="searchKeyword" id="searchKeyword"
-									class="bg-transparent border-none outline-none flex-1 text-sm"
-									 />
+									class="bg-transparent border-none outline-none flex-1 text-sm"/>
 							</form>
 						</div>
 					</div>
-					<button
-						class="lg:hidden mobile-menu-button w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
-						<i class="ri-menu-line text-gray-700 text-xl"></i>
+					<button id="mobile-menu-button"
+					  class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
+					  <i class="ri-menu-line text-gray-700 text-xl"></i>
 					</button>
 				</div>
 			</div>
 		</div>
 	</nav>
+
+	<div id="mobile-menu" class="hidden flex flex-col bg-white border-t border-gray-200 px-4 py-2 space-y-2 sm:hidden">
+	  <a href="#" class="text-gray-700 hover:text-black">Pet Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Cat Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Dog Food</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Toys</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Supplies</a>
+	  <a href="#" class="text-gray-700 hover:text-black">Recommendations</a>
+	</div>
 
 	<!-- Filter Overlay -->
 	<div class="filter-overlay fixed inset-0 bg-black bg-opacity-50 z-40"></div>
@@ -106,130 +118,92 @@
 					<i class="ri-close-line text-gray-500"></i>
 				</button>
 			</div>
-			<!-- Brand Filter -->
+			
+			<!-- Filter -->
+			<!-- 강아지카테고리 -->
 			<div class="mb-6">
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
+				<div class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
 					<div class="flex items-center">
 						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
 							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
 						</div>
-						<span class="font-medium text-gray-900">용품</span>
+						<span class="font-medium text-gray-900">강아지</span>
 					</div>
 					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
+						<i class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
 					</div>
 				</div>
 				<div class="brand-content ml-9 space-y-3">
 					<div class="flex items-center">
-						<a href="${path}/shop_main.do?" class="no-underline"> 
-							<span class="text-sm text-gray-700">목줄</span></a>
+						<a href="${path}/shop_main.do?petType=1&category=1100" class="no-underline"> 
+							<span class="text-sm text-gray-700">의류</span></a>
 							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<a href="${path}/shop_main.do?pet_type=2" class="no-underline"> 
-							<span class="text-sm text-gray-700">하네스</span></a>
-							<span class="text-xs text-gray-500 ml-auto">(16)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1200" class="no-underline"> 
+							<span class="text-sm text-gray-700">미용/위생</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<a href="${path}/shop_main.do?pet_type=2" class="no-underline"> 
-							<span class="text-sm text-gray-700">배변패드</span></a>
-						<span class="text-xs text-gray-500 ml-auto">(16)</span>
-					</div>
-				</div>
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
-					<div class="flex items-center">
-						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
-							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
-						</div>
-						<span class="font-medium text-gray-900">장난감</span>
-					</div>
-					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
-					</div>
-				</div>
-				<div class="brand-content ml-9 space-y-3">
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">공</span> <span
-							class="text-xs text-gray-500 ml-auto">(24)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1300" class="no-underline"> 
+							<span class="text-sm text-gray-700">화장실</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">인형</span> <span
-							class="text-xs text-gray-500 ml-auto">(18)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1400" class="no-underline"> 
+							<span class="text-sm text-gray-700">장난감</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="pedigree"></div>
-						<span class="text-sm text-gray-700">터그</span> <span
-							class="text-xs text-gray-500 ml-auto">(32)</span>
-					</div>
-				</div>
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
-					<div class="flex items-center">
-						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
-							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
-						</div>
-						<span class="font-medium text-gray-900">위생/미용</span>
-					</div>
-					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
-					</div>
-				</div>
-				<div class="brand-content ml-9 space-y-3">
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">샴푸</span> <span
-							class="text-xs text-gray-500 ml-auto">(24)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">브러쉬</span> <span
-							class="text-xs text-gray-500 ml-auto">(18)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="pedigree"></div>
-						<span class="text-sm text-gray-700">발 세정제</span> <span
-							class="text-xs text-gray-500 ml-auto">(32)</span>
-					</div>
-				</div>
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
-					<div class="flex items-center">
-						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
-							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
-						</div>
-						<span class="font-medium text-gray-900">의류</span>
-					</div>
-					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
-					</div>
-				</div>
-				<div class="brand-content ml-9 space-y-3">
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">대형동물</span> <span
-							class="text-xs text-gray-500 ml-auto">(24)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">중형동물</span> <span
-							class="text-xs text-gray-500 ml-auto">(18)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="pedigree"></div>
-						<span class="text-sm text-gray-700">소형동물</span> <span
-							class="text-xs text-gray-500 ml-auto">(32)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1500" class="no-underline"> 
+							<span class="text-sm text-gray-700">목줄/리드줄</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 				</div>
 			</div>
+			
 
+			<!-- 고양이 카테고리 -->
+			<div class="mb-6">
+				<div class="flex items-center justify-between mb-3 cursor-pointer brand-toggle2">
+					<div class="flex items-center">
+						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
+							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
+						</div>
+						<span class="font-medium text-gray-900">고양이</span>
+					</div>
+					<div class="w-5 h-5 flex items-center justify-center">
+						<i class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
+					</div>
+				</div>
+				<div class="brand-content2 ml-9 space-y-3">
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2100" class="no-underline"> 
+							<span class="text-sm text-gray-700">의류</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2200" class="no-underline"> 
+							<span class="text-sm text-gray-700">미용/위생</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2300" class="no-underline"> 
+							<span class="text-sm text-gray-700">모래</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2400" class="no-underline"> 
+							<span class="text-sm text-gray-700">장난감</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2500" class="no-underline"> 
+							<span class="text-sm text-gray-700">스크래쳐</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+				</div>
+			</div>
 			
 			<!-- Price Filter -->
 			<div class="mb-6">
@@ -267,12 +241,46 @@
 		<div
 			class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
 			<div>
-				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Food</h1>
+				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Shop 
+				</h1>
 				<p class="text-gray-600 mt-1">${total} results</p>
 			</div>
+			<!-- 세부 카테고리 -->
+			<c:if test="${petType != null && petType !='' }">
+			<nav class="max-w-4xl bg-white shadow-sm border-b border-gray-200 rounded-lg">
+				<div class="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 ">
+					<div class="flex items-center justify-between-center h-16">
+						<div class="flex flex-wrap gap-2 ">
+							<div class="hidden lg:flex flex-wrap items-center gap-x-6 gap-y-3">
+								<c:if test="${petType == '1'}">
+									<c:forEach var="item" items="${cates}">
+									<c:if test="${ item >= 1100 and item < 1600 }">
+										<a href="${path}/shop_main.do?petType=1&category=${item}" 
+										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors whitespace-nowrap px-1">
+											${dogcategoryNames[item]}</a> 
+									</c:if>
+									</c:forEach>
+								</c:if>
+								<c:if test="${petType == '2'}">
+									<c:forEach var="item" items="${cates}">
+									<c:if test="${ item >= 2100 and item < 2600 }">
+										<a href="${path}/shop_main.do?petType=2&category=${item}" 
+										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors  whitespace-nowrap px-1">
+											${catcategoryNames[item]}</a> 
+									</c:if>
+									</c:forEach>
+								</c:if>
+							</div>
+						</div>
+						</div>
+				</div>
+			</nav>
+			</c:if>
+			<!-- 정렬부분!! -->
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<form id="sortform" method="get" action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&searchKeyword=${keyword}" >
+					<form id="sortform" method="get" 
+					action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" >
 						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
 						<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
 							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
@@ -351,6 +359,13 @@
 		</div>
 	</div>
 	<script id="mobile-menu">
+	const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+	
       document.addEventListener("DOMContentLoaded", function () {
         const mobileMenuButton = document.querySelector(".mobile-menu-button");
         const closeMobileMenuButton = document.querySelector(".close-mobile-menu");
@@ -400,8 +415,10 @@
     </script>
 	<script id="filter-interactions">
       document.addEventListener("DOMContentLoaded", function () {
-        const brandToggle = document.querySelector(".brand-toggle");
+        const brandToggle = document.querySelector(".brand-toggle");   
+        const brandToggle2 = document.querySelector(".brand-toggle2");
         const brandContent = document.querySelector(".brand-content");
+        const brandContent2 = document.querySelector(".brand-content2");
         const brandArrow = document.querySelector(".brand-arrow");
         const priceToggle = document.querySelector(".price-toggle");
         const priceContent = document.querySelector(".price-content");
@@ -412,6 +429,12 @@
           brandArrow.style.transform =
             brandContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
         });
+        brandToggle2.addEventListener("click", function () {
+            brandContent2.style.display =
+              brandContent2.style.display === "none" ? "block" : "none";
+            brandArrow.style.transform =
+              brandContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
+          });
         priceToggle.addEventListener("click", function () {
           priceContent.style.display =
             priceContent.style.display === "none" ? "block" : "none";
@@ -429,6 +452,18 @@
             this.classList.toggle("checked");
           });
         });
+        
+        /* 펫타입 설정시, 패널자동닫힘 */
+        const getURL = new URLSearchParams(window.location.search);
+        const petTypeP = getURL.get('petType');
+        if(petTypeP === '1'){
+        	brandContent.style.display = 'block';  // 강아지 열어
+        	brandContent2.style.display = 'none';  // 고양이 닫아
+        };
+        if(petTypeP === '2'){
+        	brandContent2.style.display = 'block';  // 고양이 열어
+        	brandContent.style.display = 'none';  // 강아지 닫아
+        }
       });
     </script>
 	<!-- Product Detail Modal -->

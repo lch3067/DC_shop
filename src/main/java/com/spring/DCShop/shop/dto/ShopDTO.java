@@ -20,8 +20,8 @@ public class ShopDTO {
 	private int pd_pet_category;	// 동물타입(강아지1/고양이2)
 	
 	private int review_count;		// 리뷰갯수
-	private String sortOrder;
-	private double review_score;
+	private double review_score;	// 리뷰점수
+	private String sortOrder;		// 정렬방법
 	
 	
 	public ShopDTO() {
