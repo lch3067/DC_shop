@@ -42,6 +42,19 @@
 .stepper.is-2 .seg:nth-child(3) {
     background: #000;
 }
+
+.inputButton {
+	background: black;
+	color: white;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: .3rem;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.2s;
+}
+
 </style>
 <!-- js -->
 <script src="https://kit.fontawesome.com/11defe47b4.js" crossorigin="anonymous"></script>
@@ -124,7 +137,7 @@
 					</div>
 				</div>
 			</div>
-	</div></main>
+		</div>
   <!-- 컨텐츠 시작 -->
   <div id="container">
     <div id="contents">
@@ -132,6 +145,7 @@
       <div id="section1">
         <h1 align="center">반려동물 등록</h1>
       </div>
+      <hr style="border: 3px solid">
 
       <!-- 상단 중앙2 시작 -->
       <div id="section2">
@@ -206,12 +220,18 @@
 
                 <tr>
                   <td colspan="2" style="border-bottom:none">
-                    <br>
+                    <!-- <br> -->
+                    <div class="br-toggle"><br></div>
+
+					
                     <div align="right">
                       <input type="hidden" name="u_member_id">
-                      
+                      <div class="test" style="display: none;">
+	                      <a style="color: red">※ 추가등록시 밑에 추가되어있는 항목만 등록됩니다!</a>
+                      </div>
                       <button type="button" class="inputButton" id="addAnotherBtn">+ 추가 등록</button>
                       
+                      <input class="inputButton" type="submit" value="건너뛰기" >
                       <input class="inputButton" type="submit" value="등록" id="submitBtn">
                       <input class="inputButton" type="reset" value="초기화">
                       <input class="inputButton" type="button" value="취소" onclick="history.back()">
@@ -232,6 +252,7 @@
       </div>
       <!-- 상단 중앙2 끝 -->
     </div>
+	</main>
   </div>
   <!-- 컨텐츠 끝 -->
 </div>
@@ -373,6 +394,13 @@ function renderPets(){
   // 한 마리 이상이면 보이게
   $wrap.show();
   $('#petCountLabel').text('추가된 반려동물 ' + count + '마리');
+  
+  if(pets.length >= 1) {
+	  $(".test").show();
+  } 
+  if(pets.length >= 1) {
+	  $(".br-toggle").hide();
+  } 
 
   for(var i=0;i<pets.length;i++){
     var p = pets[i];

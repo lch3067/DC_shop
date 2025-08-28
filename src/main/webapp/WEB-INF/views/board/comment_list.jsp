@@ -23,15 +23,15 @@
 					<tr>
 						<td align="left">${dto.c_writer}</td>
 						<td align="right" style="width:120px;" rowspan="3">
-							<c:if test="${sessionScope.u_member_id == dto.u_member_id}">
-							<button type="button" class="inputButton btnCommentEdit" value="${dto.c_num}">수정</button>
+							<c:if test="${sessionScope.session_u_member_id == dto.u_member_id}">
+							<button type="button" class="inputButton btnCommentEdit" data-cnum="${dto.c_num}" id="btnCommentEdit">수정</button>
 							<br><br>
-							<button type="button" class="inputButton btnCommentDelete" value="${dto.c_num}">삭제</button>
+							<button type="button" class="inputButton btnCommentDelete" data-cnum="${dto.c_num}" id="btnCommentDelete">삭제</button>
 							</c:if>
 						</td>
 					</tr>
 					<tr>
-						<td align="left">${dto.c_content}</td>
+						<td align="left" class="c-content" data-cnum="${dto.c_num}">${dto.c_content}</td>
 					</tr>
 					<tr>
 						<td align="left">${dto.c_regDate}</td>

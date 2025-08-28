@@ -100,7 +100,7 @@
 				<div id="section1">
 					<h1 align="center">회원가입창</h1>
 				</div>
-				<hr style="border: 5px solid">
+				<hr style="border: 3px solid">
 				<!-- 상단 중앙2 시작 -->
 				<div id=section2">
 					<div id="s2_inner">

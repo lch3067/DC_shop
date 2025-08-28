@@ -101,11 +101,12 @@ public class BoardController {
 	}
 	// 댓글 등록
 	@RequestMapping("comment_insert")
-	public void comment_insert(HttpServletRequest request, HttpServletResponse response, Model model)
+	public ResponseEntity<Void> comment_insert(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException{
 		logger.info("<<<url ==> /comment_insert>>>");
 		
 		service.commentInsertAction(request, response, model);
+		return ResponseEntity.noContent().build();
 	}
 	// 댓글 수정
 	@RequestMapping("comment_update")

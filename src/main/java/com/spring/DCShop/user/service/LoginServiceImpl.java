@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 
 import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.user.dao.LoginDAO;
+import com.spring.DCShop.user.dto.UserDTO;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -36,52 +37,26 @@ public class LoginServiceImpl implements LoginService {
 		map.put("id", id);
 		map.put("pw", pw);
 		
-		int selcnt = dao.idpasswordchk(map);
+		int test = 0;
+		String test1 = "";
+		String test2 = "";
+		String test3 = "";
+		UserDTO dto = dao.idpasswordchk(map);
 		//6. 로그인 성공시 세션 id를 설정
-		if(selcnt == 1) {
-			HttpSession session = request.getSession();
-			session.setAttribute("sessionid", id);
-			//위 아래 두가지 동일한 방식
+		if(dto != null) {
+			request.getSession().setAttribute("sessionid", id);
 			request.getSession().setAttribute("sessionpw", pw);
-			// 4-3) sessionid(=u_id)로부터 회원번호(u_member_id)를 조회
-	        //      - null일 수 있으므로 Integer로 받는 것을 권장
-	        Integer uMemberId = null;
-	        try {
-	            uMemberId = boardDao.selectU_member_id(id);
-	        } catch (Exception e) {
-	            uMemberId = null; // 조회 실패 시 널로 처리
-	        }
-
-	        // 4-4) 회원 닉네임도 조회(댓글 표시/작성자 저장용)
-	        String uNickname = null;
-	        try {
-	            uNickname = boardDao.selectU_nicknameAction(id);
-	        } catch (Exception e) {
-	            uNickname = null;
-	        }
-
-	        // 4-5) 조회 결과를 세션에 저장(없으면 기본값 처리)
-	        //      - 컨트롤러/서비스/뷰에서 일관되게 사용할 세션 키를 표준화
-	        if (uMemberId != null) {
-	            session.setAttribute("u_member_id", uMemberId); // 숫자 회원번호
-	        } else {
-	            session.setAttribute("u_member_id", 0);         // 조회 실패 시 0으로 둠
-	        }
-	        session.setAttribute("u_nickname", uNickname);       // 닉네임 (null 가능)
-
-	        // 4-6) 세션 타임아웃(선택): 30분
-	        session.setMaxInactiveInterval(60 * 30);
-
-	        // 4-7) 로그인 성공 후 이동 처리(필요 시)
-	        // response.sendRedirect(request.getContextPath() + "/comm_main.do");
-	        // return;
-
-	    } else {
-	        // 5) 로그인 실패 시: 에러 메시지를 모델에 담거나 리다이렉트
-	        model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
-	        // response.sendRedirect(request.getContextPath() + "/login_main.do");
-	        // return;
-	    }
+			request.getSession().setAttribute("session_u_member_id", dto.getU_member_id());
+			request.getSession().setAttribute("session_u_nickname", dto.getU_nickname());
+			request.getSession().setAttribute("session_u_email", dto.getU_email());
+			request.getSession().setAttribute("session_u_phone", dto.getU_phone());
+//			test = (Integer)request.getSession().getAttribute("session_u_member_id");
+//			test1 = (String)request.getSession().getAttribute("session_u_nickname");
+//			test2 = (String)request.getSession().getAttribute("session_u_email");
+//			test3 = (String)request.getSession().getAttribute("session_u_phone");
+			
+		}
+//		System.out.println("test : " + test + ", " + test1 + ", " + test2 + ", " + test3);
 	}
 
 }

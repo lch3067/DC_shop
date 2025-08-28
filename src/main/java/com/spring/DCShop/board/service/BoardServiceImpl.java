@@ -267,7 +267,8 @@ public class BoardServiceImpl implements BoardService {
 	public void commentInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		System.out.println("BoardServiceImpl - commentInsertAction()");
-		Integer me = (Integer) request.getSession().getAttribute("u_member_id");
+		Integer me = (Integer) request.getSession().getAttribute("session_u_member_id");
+		System.out.println("me"+me);
 		if (me == null || me == 0) { response.setStatus(401); return; } // 로그인 필요
 
 		String b = request.getParameter("b_num");
@@ -275,14 +276,15 @@ public class BoardServiceImpl implements BoardService {
 		if (b == null || b.isBlank()) { response.sendError(400, "b_num required"); return; }
 		int bnum; try { bnum = Integer.parseInt(b.trim()); } catch (NumberFormatException e) { response.sendError(400, "b_num invalid"); return; }
 		if (content == null || content.trim().isEmpty()) { response.sendError(400, "content required"); return; }
-
 		CommentDTO dto = new CommentDTO();
 		dto.setB_num(bnum);
 		dto.setU_member_id(me); // ★ 클라이언트 값 신뢰 X, 세션만 사용
 		dto.setC_content(content.trim());
-		String nick = (String) request.getSession().getAttribute("u_nickname");
+		String nick = (String) request.getSession().getAttribute("session_u_nickname");
 		if (nick != null) dto.setC_writer(nick);
+		System.out.println("dto"+ dto);
 		dao.commentInsertAction(dto);
+		
 	}
 
 	// 댓글 수정

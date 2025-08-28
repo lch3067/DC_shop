@@ -161,6 +161,7 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public void commentInsertAction(CommentDTO dto) {
 		System.out.println("BoardDAOImpl - commentInsertAction()");
+		System.out.println("dto"+ dto);
 		sqlSession.insert("com.spring.DCShop.board.dao.BoardDAO.commentInsertAction", dto);
 	}
 
