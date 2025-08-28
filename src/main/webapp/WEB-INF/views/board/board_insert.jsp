@@ -105,7 +105,7 @@
 								<br>
 								<input type="button" class="inputButton" value="등록" id="btnSave">
 								<input type="reset" class="inputButton" value="초기화">
-								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/comm_main.do'">
+								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/board_list'">
 							</div>
 						</form>
 					</div>

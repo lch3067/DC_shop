@@ -27,7 +27,7 @@ public class BoardController {
 	BoardServiceImpl service;
 	
 	// 게시판 목록
-	@RequestMapping("comm_main.do")
+	@RequestMapping("board_list")
 	public String board_list(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
 		logger.info("<<< url => board_list >>>");

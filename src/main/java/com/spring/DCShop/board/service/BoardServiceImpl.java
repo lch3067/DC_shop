@@ -74,9 +74,7 @@ public class BoardServiceImpl implements BoardService {
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		String u_id = (String)request.getSession().getAttribute("sessionid");
-		
-		// 회원아이디에 맞는 회원번호 가져오기
-		int u_member_id = dao.selectU_member_id(u_id);
+		System.out.println(u_id);
 		
 		// 조회수 증가 - 목록에서 클릭했을시에만 증가하도록
 		int listClick = Integer.parseInt(request.getParameter("listClick"));
@@ -88,15 +86,24 @@ public class BoardServiceImpl implements BoardService {
 		BoardDTO board = dao.boardDetailAction(b_num);
 		System.out.println(board);
 		
-		// 해당 게시글을 추천한 사용자인지 확인
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("u_member_id", u_member_id);
-		map.put("b_num", b_num);
-		
-		int isRecommended = dao.isRecommended(map);
-		
 		model.addAttribute("board", board);
-		model.addAttribute("isRecommended", isRecommended);
+		
+		// 로그인한 사용자라면 해당 게시글을 추천한 사용자인지 확인
+		if (u_id != null) {
+			// 회원아이디에 맞는 회원번호 가져오기
+			int u_member_id = dao.selectU_member_id(u_id);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("u_member_id", u_member_id);
+			map.put("b_num", b_num);
+			
+			int isRecommended = dao.isRecommended(map);
+			
+			model.addAttribute("isRecommended", isRecommended);
+		} else {
+			model.addAttribute("isRecommended", 0);
+		}
+			
 	}
 	
 	// 게시판 추천 클릭

@@ -17,38 +17,46 @@
 		    var btn = $("#recommendBtn");
 		    var b_num = btn.data("bnum");
 		    
-		    if (!btn.hasClass("active")) {
-		        // 추천 추가
-		        $.ajax({
-		            url: "${path}/recommend",
-		            type: "POST",
-		            data: { b_num: b_num, click: 1 },
-		            success: function(result) {
-		                if (parseInt(result.success) === 1) {
-		                    btn.addClass("active"); // 이미지 교체
-			                $("#recommendTotal").text(result.b_recommend); 
-		                }
-		            },
-		            error: function() {
-		                alert("추천 처리 중 오류가 발생했습니다.");
-		            }
-		        });
+		    if(${sessionScope.sessionid != null}) {
+			    if (!btn.hasClass("active")) {
+			        // 추천 추가
+			        $.ajax({
+			            url: "${path}/recommend",
+			            type: "POST",
+			            data: { b_num: b_num, click: 1 },
+			            success: function(result) {
+			                if (parseInt(result.success) === 1) {
+			                    btn.addClass("active"); // 이미지 교체
+				                $("#recommendTotal").text(result.b_recommend); 
+			                }
+			            },
+			            error: function() {
+			                alert("추천 처리 중 오류가 발생했습니다.");
+			            }
+			        });
+			    } else {
+			        // 추천 취소
+			        $.ajax({
+			            url: "${path}/recommend",
+			            type: "POST",
+			            data: { b_num: b_num, click: 0 },
+			            success: function(result) {
+			                if (parseInt(result.success) === 1) {
+			                    btn.removeClass("active"); // 이미지 원복
+			                    $("#recommendTotal").text(result.b_recommend); 
+			                }
+			            },
+			            error: function() {
+			                alert("추천 취소 중 오류가 발생했습니다.");
+			            }
+			        });
+			    }
 		    } else {
-		        // 추천 취소
-		        $.ajax({
-		            url: "${path}/recommend",
-		            type: "POST",
-		            data: { b_num: b_num, click: 0 },
-		            success: function(result) {
-		                if (parseInt(result.success) === 1) {
-		                    btn.removeClass("active"); // 이미지 원복
-		                    $("#recommendTotal").text(result.b_recommend); 
-		                }
-		            },
-		            error: function() {
-		                alert("추천 취소 중 오류가 발생했습니다.");
-		            }
-		        });
+		    	if(confirm("로그인이 필요합니다.")) {	// 확인 눌렀을 때
+					// 로그인 페이지로 이동	
+					location.href="${path}/login_main.do";
+				}
+				// 취소 누르면 목록페이지 그대로
 		    }
 		});
 	});
@@ -132,13 +140,10 @@
 										</div>
 										<div align="right" style="height: 20px">
 											<div style="font-size: 15px"> 등록일 : ${board.b_dateposted} </div> 
-											<c:if test="${board.b_updateDate != null}">
-												<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
-											</c:if>
 										</div>
 										<c:if test="${board.b_updateDate != null}">
 											<div align="right" style="height: 20px">
-											<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
+												<div style="font-size: 15px"> 수정일 : ${board.b_updateDate} </div>
 											</div>
 										</c:if>
 									</td>

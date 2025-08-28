@@ -75,4 +75,11 @@ public class CustomerController {
 		return "user/join/modar/nickNameConfirmAction";
 	}
 	
+	@RequestMapping("joinFin.do")
+	public String joinFin(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("CustomerController - joinFin.do");
+
+		return "user/join/joinFin";
+	}
 }

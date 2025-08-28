@@ -42,6 +42,7 @@
 		WHERE b.b_num = c.b_num) AS b_comments
 		FROM user_tbl u, board_tbl b
 		WHERE u.u_member_id = b.u_member_id
+		AND b.b_category IN ('자유', '꿀팁', '리뷰', '질문')
 		ORDER BY b.b_num DESC) A
 		)
 		WHERE rn BETWEEN #{start} AND #{end}
@@ -50,6 +51,7 @@
 	<!-- 게시글 전체 개수 -->
 	<select id="boardListTotal" resultType="int">
 		SELECT COUNT(*) FROM board_tbl
+		WHERE b_category IN ('자유', '꿀팁', '리뷰', '질문')
 	</select>
 
 	<!-- 작성자 -->
@@ -156,9 +158,12 @@
 		FROM user_tbl u JOIN board_tbl b ON u.u_member_id = b.u_member_id
 		WHERE b.b_num = #{value}
 	</select>
+	
 	<!-- 게시판 수정 정보 -->
 	<select id="boardUpdateDTOAction" parameterType="int" resultMap="boardMap"> 
-		SELECT * FROM board_tbl WHERE b_num = #{b_num} </select>
+		SELECT * FROM board_tbl WHERE b_num = #{b_num} 
+	</select>
+	
 	<!-- 게시판 수정 등록 -->
 	<update id="boardUpdateAction" parameterType="com.spring.DCShop.board.dto.BoardDTO"> 
 		UPDATE board_tbl 
@@ -166,11 +171,13 @@
 			b_contents = #{b_contents},
 			b_category = #{b_category},
 			b_updateDate = SYSDATE
-		WHERE b_num = #{b_num} </update>
+		WHERE b_num = #{b_num} 
+	</update>
+	
 	<!-- 게시판 삭제 -->
 	<delete id="boardDeleteAction" parameterType="int"> 
-		DELETE FROM
-		board_tbl WHERE b_num = #{b_num} </delete>
+		DELETE FROM board_tbl WHERE b_num = #{b_num} 
+	</delete>
 
 	<!-- 추천(자식) 선삭제 -->
 	<delete id="deleteRecommendsByBoard" parameterType="int">
