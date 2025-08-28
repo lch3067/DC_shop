@@ -25,7 +25,8 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				</exclusion>
+				 </exclusion>
+
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -33,12 +34,13 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
+
 		</dependency>
 
 		<!-- Logging -->
@@ -109,6 +111,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+
 
 		<!-- Mybatis 설정 시작 -->
 		<dependency>
@@ -206,7 +209,7 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- jdbc -->
-		
+
 		<!-- 지민님 의존성 : 시작 -->
 		<!-- Spring TX (트랜잭션) -->
 		<dependency>
@@ -229,6 +232,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
+
 		</dependency>
 	</dependencies>
 	<build>

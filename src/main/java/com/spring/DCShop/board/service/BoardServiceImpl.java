@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.board.dto.BoardDTO;
+import com.spring.DCShop.board.dto.CommentDTO;
 import com.spring.DCShop.board.page.Paging;
 import com.spring.DCShop.user.dto.UserDTO;
 
@@ -62,6 +63,7 @@ public class BoardServiceImpl implements BoardService {
 		//jsp로 처리결과 전달
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
+		
 	}
 
 	// 게시판 상세페이지
@@ -73,7 +75,6 @@ public class BoardServiceImpl implements BoardService {
 		// 화면에서 입력받은 값을 가져오기
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		String u_id = (String)request.getSession().getAttribute("sessionid");
-		System.out.println(u_id);
 		
 		// 조회수 증가 - 목록에서 클릭했을시에만 증가하도록
 		int listClick = Integer.parseInt(request.getParameter("listClick"));
@@ -83,8 +84,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 게시판 상세페이지 가져오기
 		BoardDTO board = dao.boardDetailAction(b_num);
-		System.out.println(board);
-		
+
 		model.addAttribute("board", board);
 		
 		// 로그인한 사용자라면 해당 게시글을 추천한 사용자인지 확인
@@ -256,13 +256,31 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void commentListAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		System.out.println("BoardServiceImpl - commentListAction()");
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		List<CommentDTO> list = dao.commentListAction(b_num);
+		model.addAttribute("list", list);
 	}
 
 	// 댓글 등록
 	@Override
 	public void commentInsertAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - commentInsertAction()");
+		Integer me = (Integer) request.getSession().getAttribute("session_u_member_id");
+		System.out.println("me"+me);
+		if (me == null || me == 0) { response.setStatus(401); return; } // 로그인 필요
+
+		String b = request.getParameter("b_num");
+		String content = request.getParameter("c_content");
+		if (b == null || b.isBlank()) { response.sendError(400, "b_num required"); return; }
+		int bnum; try { bnum = Integer.parseInt(b.trim()); } catch (NumberFormatException e) { response.sendError(400, "b_num invalid"); return; }
+		if (content == null || content.trim().isEmpty()) { response.sendError(400, "content required"); return; }
+		CommentDTO dto = new CommentDTO();
+		dto.setB_num(bnum);
+		dto.setU_member_id(me); 
+		dto.setC_content(content.trim());
+		dao.commentInsertAction(dto);
 		
 	}
 
@@ -270,14 +288,25 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void commentUpdateAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		System.out.println("BoardServiceImpl - commentUpdateAction()");
+		int c_num = Integer.parseInt(request.getParameter("c_num"));
+	    String c_content = request.getParameter("c_content");
+
+	    CommentDTO dto = new CommentDTO();
+	    dto.setC_num(c_num);
+	    dto.setC_content(c_content);
+
+	    dao.commentUpdateAction(dto);
 	}
 
 	// 댓글 삭제
 	@Override
 	public void commentDeleteAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		System.out.println("BoardServiceImpl - commentDeleteAction()");
 		
+		int c_num = Integer.parseInt(request.getParameter("c_num"));
+		dao.commentDeleteAction(c_num); // DELETE
 	}
 
 	// 검색

@@ -58,13 +58,13 @@ public interface BoardDAO {
 	public int boardDeleteAction(int b_num);
 	
 	// 댓글 목록
-	public List<CommentDTO> commentListAction();
+	public List<CommentDTO> commentListAction(int b_num);
 	
 	// 댓글 등록
-	public int commentInsertAction(CommentDTO dto);
+	public void commentInsertAction(CommentDTO dto);
 	
 	// 댓글 수정
-	public int commentUpdateAction(int c_num);
+	public int commentUpdateAction(CommentDTO dto);
 			
 	// 댓글 삭제
 	public int commentDeleteAction(int c_num);

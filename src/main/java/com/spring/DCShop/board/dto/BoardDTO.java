@@ -18,7 +18,6 @@ public class BoardDTO {
 	private int b_recommend;		// 추천수
 	private String b_image;			// 이미지
 	private int b_comments;			// 댓글 개수
-	
 	private List<UserDTO> userDTO;
 	
 	public BoardDTO() {
@@ -138,9 +137,9 @@ public class BoardDTO {
 
 	@Override
 	public String toString() {
-		return "BoardDTO [b_num=" + b_num + "u_member_id=" + u_member_id + ", b_title=" + b_title + ", b_contents="
+		return "BoardDTO [b_num=" + b_num + ", u_member_id=" + u_member_id + ", b_title=" + b_title + ", b_contents="
 				+ b_contents + ", b_category=" + b_category + ", b_dateposted=" + b_dateposted + ", b_updateDate="
-				+ b_updateDate + ", b_views=" + b_views + ", b_recommend=" + b_recommend + ", b_image=" + b_image + "]";
+				+ b_updateDate + ", b_views=" + b_views + ", b_recommend=" + b_recommend + ", b_image=" + b_image + "userDTO" + userDTO +  "]";
 	}
 
 }

@@ -94,7 +94,6 @@ public class BoardDAOImpl implements BoardDAO{
 		
 		return b_recommend;
 	}
-	
 	// 작성자
 	public String selectU_nicknameAction(String u_id) {
 		System.out.println("BoardDAOImpl - selectU_nicknameAction()");
@@ -117,7 +116,6 @@ public class BoardDAOImpl implements BoardDAO{
 	// 회원 번호 
 	public int selectU_member_id(String u_id) {
 		System.out.println("BoardDAOImpl - selectU_member_id()");
-		
 		int u_member_id = sqlSession.selectOne("com.spring.DCShop.board.dao.BoardDAO.selectU_member_id",u_id);
 		
 		return u_member_id;
@@ -152,27 +150,35 @@ public class BoardDAOImpl implements BoardDAO{
 
 	// 댓글 목록
 	@Override
-	public List<CommentDTO> commentListAction() {
-		return null;
+	public List<CommentDTO> commentListAction(int b_num) {
+		System.out.println("BoardDAOImpl - commentListAction()");
+		List<CommentDTO> list = sqlSession.selectList("com.spring.DCShop.board.dao.BoardDAO.commentListAction", b_num);
+		// 5. list를 리턴
+		return list;
 	}
 
 	// 댓글 등록
 	@Override
-	public int commentInsertAction(CommentDTO dto) {
-		return 0;
+	public void commentInsertAction(CommentDTO dto) {
+		System.out.println("BoardDAOImpl - commentInsertAction()");
+		System.out.println("dto"+ dto);
+		sqlSession.insert("com.spring.DCShop.board.dao.BoardDAO.commentInsertAction", dto);
 	}
 
 	// 댓글 수정
 	@Override
-	public int commentUpdateAction(int c_num) {
-		return 0;
+	public int commentUpdateAction(CommentDTO dto) {
+		System.out.println("BoardDAOImpl - commentUpdateAction()");
+		return sqlSession.update("com.spring.DCShop.board.dao.BoardDAO.commentUpdateAction", dto);
 	}
 
 	// 댓글 삭제
 	@Override
 	public int commentDeleteAction(int c_num) {
-		return 0;
+		System.out.println("BoardDAOImpl - commentDeleteAction()");
+		return sqlSession.delete("com.spring.DCShop.board.dao.BoardDAO.commentDeleteAction", c_num);
 	}
+	
 
 	// 검색
 	@Override

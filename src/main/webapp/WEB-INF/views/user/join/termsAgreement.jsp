@@ -11,6 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet" />
 <style>
+
 .step {
 	height: 4px;
 	background: #e9ecef;
@@ -53,23 +54,27 @@ body {
 }
 
 /* 테마 */
+
 .border-primary {
-	border-color: #000 !important;
+  border-color: #000 !important;
 }
 
-.bg-primary, .btn-primary {
-	background-color: #000 !important;
-	border-color: #000 !important;
-	color: #fff !important;
+.bg-primary,
+.btn-primary {
+  background-color: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
 }
 
 .btn-primary:hover {
-	background-color: #fff !important;
+  background-color: #fff !important;
 }
 
 /* 필수 / 선택 라벨도 검정 */
-.badge, .label, .required {
-	background-color: #000 !important;
+.badge,
+.label,
+.required {
+  background-color: #000 !important;
 }
 
 body {
@@ -88,53 +93,54 @@ a, a:hover {
 	padding-top: 5rem;
 }
 
+
 .test2 {
-	background-color: black !important;
-	color: #fff !important;
-	margin-left: .25rem !important; -
-	-bs-badge-padding-x: 0.65em; -
-	-bs-badge-padding-y: 0.35em; -
-	-bs-badge-font-size: 0.75em; -
-	-bs-badge-font-weight: 700; -
-	-bs-badge-color: #fff; -
-	-bs-badge-border-radius: var(- -bs-border-radius);
-	display: inline-block;
-	padding: var(- -bs-badge-padding-y) var(- -bs-badge-padding-x);
-	font-size: var(- -bs-badge-font-size);
-	font-weight: var(- -bs-badge-font-weight);
-	line-height: 1;
-	color: var(- -bs-badge-color);
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: var(- -bs-badge-border-radius);
+    background-color: black !important;
+    color: #fff !important;
+    margin-left: .25rem !important;
+    --bs-badge-padding-x: 0.65em;
+    --bs-badge-padding-y: 0.35em;
+    --bs-badge-font-size: 0.75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: #fff;
+    --bs-badge-border-radius: var(--bs-border-radius);
+    display: inline-block;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1;
+    color: var(--bs-badge-color);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
 }
 
 .test {
-	background-color: gray !important;
-	color: #fff !important;
-	margin-left: .25rem !important; -
-	-bs-badge-padding-x: 0.65em; -
-	-bs-badge-padding-y: 0.35em; -
-	-bs-badge-font-size: 0.75em; -
-	-bs-badge-font-weight: 700; -
-	-bs-badge-color: #fff; -
-	-bs-badge-border-radius: var(- -bs-border-radius);
-	display: inline-block;
-	padding: var(- -bs-badge-padding-y) var(- -bs-badge-padding-x);
-	font-size: var(- -bs-badge-font-size);
-	font-weight: var(- -bs-badge-font-weight);
-	line-height: 1;
-	color: var(- -bs-badge-color);
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: var(- -bs-badge-border-radius);
+    background-color: gray !important;
+    color: #fff !important;
+    margin-left: .25rem !important;
+    --bs-badge-padding-x: 0.65em;
+    --bs-badge-padding-y: 0.35em;
+    --bs-badge-font-size: 0.75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: #fff;
+    --bs-badge-border-radius: var(--bs-border-radius);
+    display: inline-block;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1;
+    color: var(--bs-badge-color);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
 }
 
 .form-check-input:checked {
-	background-color: black;
-	border-color: black;
+    background-color: black;
+    border-color: black;
 }
 
 .form-text {
@@ -142,7 +148,7 @@ a, a:hover {
 }
 
 .custom-main {
-	max-width: 900px; /* 원하는 너비 */
+  max-width: 900px; /* 원하는 너비 */
 }
 
 /* -------------------------------------------------------------------- */
@@ -227,6 +233,7 @@ h1, .h3 {
 }
 
 /* 체크박스 스타일 */
+
 .form-check-input:checked {
 	background-color: #000;
 	border-color: #000;
@@ -288,10 +295,10 @@ footer a:hover {
 </style>
 </head>
 <body>
-
-
+	
+	
 	<!-- 헤더부분 -->
-	<%@ include file="../../setting/header.jsp"%>
+	<%@ include file="../../setting/header.jsp" %>
 	<!-- <header class="border-bottom bg-white">
 		<div
 			class="container py-3 d-flex align-items-center justify-content-between">
@@ -303,10 +310,11 @@ footer a:hover {
 				<span>→ 3. 완료</span>
 			</nav>
 		</div> -->
+	
 
-
-	<section class="hero-section1"></section>
-
+	<section class="hero-section1">
+	</section>
+	
 	<main class="container-fluid my-4 my-md-5" style="max-width: 900px;">
 		<div class="mb-3">
 			<ol class="breadcrumb mb-2">
@@ -315,27 +323,24 @@ footer a:hover {
 				<li class="breadcrumb-item active">약관 동의</li>
 			</ol>
 			<div class="step" aria-hidden="true">
-				<div class="bar" style="width: 33%; background-color: black;"></div>
+				<div class="bar" style="width: 33%; background-color:black;"></div>
 			</div>
 		</div>
 
 		<h1 class="h3 fw-semibold mb-4">약관에 동의해 주세요</h1>
 
 		<!-- 다음 버튼을 눌렀을 때 action으로 넘기기 -->
-		<form id="termsForm" method="post" action="join.do">
+		<form id="termsForm" method="post" action="join.do">	
 
 			<!-- 전체 동의 -->
-			<div
-				class="form-check form-switch bg-white border rounded-3 p-3 mb-3 d-flex align-items-center justify-content-between">
-				<label class="form-check-label fw-semibold" for="agreeAll">전체
-					동의</label>
-				<div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다.</div>
-				<!-- 마이페이지에서 선택항목 수정가능? -->
-				<input class="form-check-input" type="checkbox" role="switch"
-					id="agreeAll">
+         <div class="form-check form-switch bg-white border rounded-3 p-3 mb-3 d-flex align-items-center justify-content-between">
+           <label class="form-check-label fw-semibold" for="agreeAll">전체 동의</label>
+         <div class="form-text">모든 약관(필수/선택)에 일괄 동의합니다.</div><!-- 마이페이지에서 선택항목 수정가능? -->
+           <input class="form-check-input" type="checkbox" role="switch" id="agreeAll">
+         </div>
+				
+				
 			</div>
-
-
 
 			<!-- (필수1. 반드시 체크!) 서비스 이용약관 -->
 			<section class="card mb-3">
@@ -343,9 +348,11 @@ footer a:hover {
 					class="card-header bg-white d-flex align-items-center justify-content-between">
 					<div class="form-check m-0">
 						<input class="form-check-input required-check" type="checkbox"
-							value="Y" id="agreeTerms" name="agreeTerms" required> <label
-							class="form-check-label" for="agreeTerms"> (필수) 서비스 이용약관
-							동의 </label> <span class="test2">필수</span>
+							value="Y" id="agreeTerms" name="agreeTerms" required> 
+							<label class="form-check-label" for="agreeTerms"> 
+								(필수) 서비스 이용약관 동의 
+							</label> 
+							<span class="test2">필수</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseTerms"
@@ -379,7 +386,8 @@ footer a:hover {
 						<input class="form-check-input required-check" type="checkbox"
 							value="Y" id="agreePrivacy" name="agreePrivacy" required>
 						<label class="form-check-label" for="agreePrivacy">(필수)
-							개인정보 수집 및 이용 동의</label> <span class="test2">필수</span>
+							개인정보 수집 및 이용 동의</label> <span
+							class="test2">필수</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapsePrivacy"
@@ -431,13 +439,13 @@ footer a:hover {
 
 			<!-- (선택) 마케팅 수신 동의 -->
 			<section class="card mb-4">
-				<div
-					class="card-header bg-white d-flex align-items-center justify-content-between">
+				<div class="card-header bg-white d-flex align-items-center justify-content-between">
 					<div class="form-check m-0">
 						<input class="form-check-input optional-check" type="checkbox"
 							value="Y" id="agreeMarketing" name="agreeMarketing"> <label
 							class="form-check-label" for="agreeMarketing">(선택) 광고성 정보
-							수신 동의</label> <span class="test">선택</span>
+							수신 동의</label> 
+							<span class="test">선택</span>
 					</div>
 					<button class="btn btn-sm btn-outline-secondary" type="button"
 						data-bs-toggle="collapse" data-bs-target="#collapseMarketing"
@@ -488,9 +496,9 @@ footer a:hover {
 		</form>
 	</main>
 
-	<!-- footer부분 -->
-
-	<!-- <div
+<!-- footer부분 -->
+	
+		<!-- <div
 			class="container d-flex flex-column flex-md-row gap-2 justify-content-between text-muted">
 			<div>
 				©
@@ -507,8 +515,8 @@ footer a:hover {
 					href="#" target="_blank">고객센터</a>
 			</div>
 		</div> -->
-	<%@ include file="../../setting/footer.jsp"%>
-
+		<%@ include file="../../setting/footer.jsp" %>
+	
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
