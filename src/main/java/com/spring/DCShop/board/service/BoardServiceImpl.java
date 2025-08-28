@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -235,21 +236,63 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void boardUpdateDTOAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+		
+		BoardDTO dto = dao.boardUpdateDTOAction(b_num);
+		
+		model.addAttribute("board", dto);
 		
 	}
+	
 
-	// 게시판 수정 등록
+	// 게시판 수정 등록 및 상세페이지 이동
 	@Override
-	public void boardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
+	public int boardUpdateAction(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+	    String b_title = request.getParameter("b_title");
+	    String b_contents = request.getParameter("b_contents");
+	    String b_category = request.getParameter("b_category");
+
+	    if (b_title == null || b_title.trim().isEmpty() ||
+	        b_contents == null || b_contents.trim().isEmpty() ||
+	        b_category == null || b_category.trim().isEmpty()) {
+	        throw new ServletException("필수 입력 항목이 비어 있습니다.");
+	    }
+
+	    BoardDTO dto = new BoardDTO();
+	    dto.setB_num(b_num);
+	    dto.setB_title(b_title);
+	    dto.setB_contents(b_contents);
+	    dto.setB_category(b_category);
+
+	    dao.boardUpdateAction(dto);
+	    return b_num;
 	}
 
 	// 게시판 삭제
 	@Override
+	@Transactional
 	public void boardDeleteAction(HttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException {
-		
+		int b_num = Integer.parseInt(request.getParameter("b_num"));
+
+		// 본인 작성글인지 확인
+		String loginId = (String) request.getSession().getAttribute("sessionID");
+		if (loginId == null) {
+			loginId = (String) request.getSession().getAttribute("sessionid");
+		}
+		String authorId = dao.selectBoardAuthorId(b_num);
+		if (loginId == null || authorId == null || !loginId.equals(authorId)) {
+			throw new ServletException("권한이 없습니다.");
+		}
+
+		// 자식 레코드 선삭제 (댓글, 추천)
+		dao.deleteCommentsByBoard(b_num);
+		dao.deleteRecommendsByBoard(b_num);
+
+		int deleteCnt = dao.boardDeleteAction(b_num);
+		model.addAttribute("deleteCnt", deleteCnt);
 	}
 
 	// 댓글 목록
