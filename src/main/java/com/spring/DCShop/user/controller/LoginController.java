@@ -75,4 +75,11 @@ public class LoginController {
 		
 		return "shop/shopMain3";
 	}
+	
+	@RequestMapping("comm_CSD.do")
+	public String comm_CSD() {
+		logger.info("=== url -> comm_CSD ===");
+		
+		return "comm/comm_CSD";
+	}
 }
