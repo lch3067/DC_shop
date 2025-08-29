@@ -30,12 +30,10 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 
-	// 동물 종류 별 세부 카테고리 가져오기
-	public List<Integer> getsemiCategory(String cate){
-		System.out.println("DAOImpl - getsemiCategory()");
-		List<Integer> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.getsemiCategory", cate);
-		System.out.println("세부카테 list : "+list);
-		
+	// 서브카테고리 가져오기
+	@Override
+	public List<Integer> getSubCategory(int mainCate) {
+		List<Integer> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.getSubCategory", mainCate);
 		return list;
 	}
 }

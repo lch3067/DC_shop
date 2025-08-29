@@ -246,25 +246,25 @@
 				<p class="text-gray-600 mt-1">${total} results</p>
 			</div>
 			<!-- 세부 카테고리 -->
-			<c:if test="${petType != null && petType !='' }">
+			<c:if test="${category != null && category !=''}">
 			<nav class="max-w-4xl bg-white shadow-sm border-b border-gray-200 rounded-lg">
 				<div class="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 ">
 					<div class="flex items-center justify-between-center h-16">
 						<div class="flex flex-wrap gap-2 ">
 							<div class="hidden lg:flex flex-wrap items-center gap-x-6 gap-y-3">
 								<c:if test="${petType == '1'}">
-									<c:forEach var="item" items="${cates}">
+									<c:forEach var="item" items="${subCateList}">
 									<c:if test="${ item >= 1100 and item < 1600 }">
-										<a href="${path}/shop_main.do?petType=1&category=${item}" 
+										<a href="${path}/shop_main.do?petType=1&category=${category}&subcate=${item}" 
 										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors whitespace-nowrap px-1">
 											${dogcategoryNames[item]}</a> 
 									</c:if>
 									</c:forEach>
 								</c:if>
 								<c:if test="${petType == '2'}">
-									<c:forEach var="item" items="${cates}">
+									<c:forEach var="item" items="${subCateList}">
 									<c:if test="${ item >= 2100 and item < 2600 }">
-										<a href="${path}/shop_main.do?petType=2&category=${item}" 
+										<a href="${path}/shop_main.do?petType=2&category=${category}&subcate=${item}" 
 										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors  whitespace-nowrap px-1">
 											${catcategoryNames[item]}</a> 
 									</c:if>
@@ -303,6 +303,7 @@
 		<!-- Product Grid -->
 		<div
 			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+			<c:if test="${list != null or !list.isEmpty() }">
 			<c:forEach var="dto" items="${list}">
 			<div
 				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
@@ -329,6 +330,12 @@
 				</div>
 			</div>
 			</c:forEach>
+			</c:if>
+			<c:if test="${empty list}">
+				<div >
+					<h5>상품이 없습니다.</h5>
+				</div>
+			</c:if>
 			
 
 		</div>

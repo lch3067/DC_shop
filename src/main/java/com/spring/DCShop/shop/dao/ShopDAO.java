@@ -13,5 +13,5 @@ public interface ShopDAO {
 	// 상품 갯수
 	public int productCnt(Map<String, Object> countP);
 	
-	public List<Integer> getsemiCategory(String cate);
+	public List<Integer> getSubCategory(int mainCate);
 }

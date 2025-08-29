@@ -13,6 +13,8 @@
 		<result property="pd_price" column="pd_price"/>
 		<result property="pd_stock" column="pd_stock"/>
 		<result property="pd_category" column="pd_category"/>
+		<result property="pd_pet_category" column="pd_pet_category"/>
+		<result property="pd_subcategory" column="pd_subcategory"/>
 		<result property="pd_created" column="pd_created"/>
 		<result property="pd_updated" column="pd_updated"/>
 		<result property="pd_brand" column="pd_brand"/> 
@@ -54,9 +56,15 @@
 							<choose>
 								<when test= "petType == 1">
 									pd.pd_pet_category = '1'
+									<if test="category != null ">
+										and pd.pd_category = #{category}
+									</if>
 								</when>
 								<when test= "petType == 2">
 									pd.pd_pet_category = '2'
+									<if test="category != null ">
+										and pd.pd_category = #{category}
+									</if>
 								</when>
 								<otherwise>
 									pd.pd_pet_category in (1,2)
@@ -122,22 +130,10 @@
 	<!-- WHERE pd_status IN ('판매중','품절','재입고대기') -->
 	
 	<!-- 세부카테고리 목록을 가져오기 -->
-	<select id= "getsemiCategory" parameterType="int" resultType="int">
-		SELECT DISTINCT PD_CATEGORY
-		FROM product_tbl
-		<if test="_parameter != null and _parameter != ''">
-			<where>
-				<if test="_parameter == 1">
-				  pd_pet_category = 1
-				  AND PD_CATEGORY BETWEEN 1100 AND 1599
-				</if>
-				<if test="_parameter == 2">
-				  pd_pet_category = 2
-				  AND PD_CATEGORY BETWEEN 2100 AND 2599
-			  	</if>	
-			</where>
-	  </if>
-	  order by PD_CATEGORY asc
+	<select id="getSubCategory" parameterType="int" resultType="int">
+		SELECT DISTINCT pd_subcategory
+		  FROM product_tbl
+		 WHERE pd_category = #{mainCate}
 	</select>
 	
 	
