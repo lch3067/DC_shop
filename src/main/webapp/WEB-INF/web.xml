@@ -54,4 +54,9 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 한글 안깨지게 처리 종료 -->
+	
+	<servlet-mapping>
+  <servlet-name>appServlet</servlet-name>
+  <url-pattern>*.bc</url-pattern>   <!-- *.do 가 아니라 *.bc -->
+</servlet-mapping>
 </web-app>
