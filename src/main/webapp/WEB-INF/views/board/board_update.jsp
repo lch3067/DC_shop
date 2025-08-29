@@ -8,11 +8,9 @@
 <meta charset="UTF-8">
 <title>게시글 수정</title>
 <link rel="stylesheet" href="${path}/resources/css/board.css">
-<link
+<!-- <link
 	href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@300;500&display=swap"
-	rel="stylesheet">
-
-
+	rel="stylesheet"> -->
 
 <script type="text/javascript">
 	function confirmUpdateCheck() {
@@ -36,48 +34,78 @@
 			</div>
 		</div> -->
 		</section>
-		<br><br><br><br><br>
 		
 		<div class="container">
-		<h1>게시글 수정</h1>
-
-		<form action="${path}/board_updateAction" method="post"
-			enctype="multipart/form-data" onsubmit="return confirmUpdateCheck();">
-			<input type="hidden" name="b_num" value="${board.b_num}">
-
-			<div class="form-group">
-				<label for="b_title">제목</label> <input type="text" name="b_title"
-					id="b_title" value="${board.b_title}">
+			<div id="contents">
+				<div class="titleArea">
+					<h1 align="center"> 게시글 수정</h1>
+				</div>
+				<div>
+					<div class="table_div">
+						<form action="${path}/board_updateAction" method="post"
+								enctype="multipart/form-data" onsubmit="return confirmUpdateCheck();">
+							<input type="hidden" name="b_num" value="${board.b_num}">
+							<table>
+								<tr>
+									<th style="width: 150px"> 작성자 </th>
+									<td style="width: 150px; text-align:left"> ${sessionScope.session_u_nickname} </td>
+								</tr>
+								<tr>
+									<th style="width: 150px"> 카테고리 </th>
+									<td style="width: 150px; text-align:left"> 
+										<select class="input" name="b_category" id="b_category">
+											<option value="자유" ${board.b_category == '자유' ? 'selected' : ''}>자유</option>
+											<option value="꿀팁" ${board.b_category == '꿀팁' ? 'selected' : ''}>꿀팁</option>
+											<option value="리뷰" ${board.b_category == '리뷰' ? 'selected' : ''}>리뷰</option>
+											<option value="질문" ${board.b_category == '질문' ? 'selected' : ''}>질문</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th style="width: 150px"> 글제목 </th>
+									<td style="text-align:center"> 
+										<input style="width: 1000px" type="text" name="b_title" id="b_title" value="${board.b_title}">
+									</td>
+								</tr>
+								<tr>
+									<th style="width: 150px"> 글내용 </th>
+									<td style="width: 150px; text-align:center">
+										<textarea rows="5" cols="133" name="b_contents" id="b_contents">${board.b_contents}</textarea>
+									</td>
+								</tr>
+								<tr>
+									<th style="width: 150px"> 이미지 </th>
+									<td style="width: 150px; text-align:left">
+										<c:if test="${board.b_image != null}">
+											<img src="${board.b_image}">
+											<input type="file" class="input" name="b_image" 
+											id="b_image" accept="fimage/*">
+										</c:if>
+										<c:if test="${board.b_image == null}">
+											<input type="file" class="input" name="b_image" 
+											id="b_image" accept="fimage/*">
+										</c:if>
+									</td>
+								</tr>
+							</table>
+							<div align="right">
+								<br>
+								<button type="submit" class="inputButton">
+									수정완료
+								</button>
+								<input type="reset" class="inputButton" value="수정전으로">
+								<input type="button" class="inputButton" value="목록" onclick="window.location='${path}/board_list'">
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
-
-			<div class="form-group">
-				<label for="b_contents">내용</label>
-				<textarea name="b_contents" id="b_contents">${board.b_contents}</textarea>
-			</div>
-
-			<div class="form-group">
-				<label for="b_category">카테고리</label> <select name="b_category"
-					id="b_category" size="5" class="category-select">
-					<option value="자유" ${board.b_category == '자유' ? 'selected' : ''}>자유</option>
-					<option value="꿀팁" ${board.b_category == '꿀팁' ? 'selected' : ''}>꿀팁</option>
-					<option value="리뷰" ${board.b_category == '리뷰' ? 'selected' : ''}>리뷰</option>
-					<option value="질문" ${board.b_category == '질문' ? 'selected' : ''}>질문</option>
-
-
-				</select>
-			</div>
-
-			<button type="submit" class="btn">
-				<i class="fas fa-paw"></i> 수정완료
-			</button>
-		</form>
-	</div>
-		
-		<br><br><br><br><br>
+				
+		</div>
+			
 		<!-- footer 부분 -->
 		<%@ include file="/WEB-INF/views/setting/footer.jsp" %>
 	</div>
 
-	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>

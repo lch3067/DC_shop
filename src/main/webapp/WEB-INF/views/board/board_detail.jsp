@@ -292,7 +292,7 @@
 									<td> 
 										<div style="min-height: 700px" align="left">
 											${board.b_contents} 
-											<img src="${board.b_image}">
+											<img src="${board.b_image}" style="width:350px">
 										</div>
 										<div align="right" style="height: 20px">
 											<div style="font-size: 15px"> 등록일 : ${board.b_dateposted} </div> 

@@ -239,7 +239,7 @@ public class BoardServiceImpl implements BoardService {
 		int b_num = Integer.parseInt(request.getParameter("b_num"));
 		
 		BoardDTO dto = dao.boardUpdateDTOAction(b_num);
-		
+		System.out.println(dto);
 		model.addAttribute("board", dto);
 		
 	}

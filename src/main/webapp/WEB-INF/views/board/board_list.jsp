@@ -74,14 +74,14 @@
 					<form name="boardList">
 						<table>
 							<tr>
-								<th style="width: 30px">번호</th>
-								<th style="width: 30px">구분</th>
+								<th style="width: 80px">번호</th>
+								<th style="width: 80px">구분</th>
 								<th style="width: auto">제목</th>
-								<th style="width: 50px">작성자</th>
-								<th style="width: 30px"><img
+								<th style="width: 100px">작성자</th>
+								<th style="width: 80px"><img
 									src="/DCShop/resources/image/board/추천_total.png"></th>
-								<th style="width: 30px">조회</th>
-								<th style="width: 100px">작성일</th>
+								<th style="width: 80px">조회</th>
+								<th style="width: 200px">작성일</th>
 							</tr>
 
 							<!-- 게시글이 있으면 -->
