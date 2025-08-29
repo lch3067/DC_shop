@@ -79,7 +79,8 @@
 							<div class="w-5 h-5 flex items-center justify-center mr-3">
 								<i class="ri-search-line text-gray-500"></i>
 							</div>
-							<form method="get" action="${pageContext.request.contextPath}/shop_main.do">
+							<form method="get" id="searchForm" action="${pageContext.request.contextPath}/shop_main.do"
+								onsubmit="submitWithParams('searchForm')">
 								<input type="hidden" name="petType" value="${petType}">
 								<input type="hidden" name="sortOrder" value="${sortOrder}">
 								<input type="text" value="${keyword}" placeholder="Search" name="searchKeyword" id="searchKeyword"
@@ -279,9 +280,12 @@
 			<!-- 정렬부분!! -->
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<form id="sortform" method="get" 
-					action="${pageContext.request.contextPath}/shop_main.do?sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" >
+					<form id="sortForm" method="get" 
+					action="${pageContext.request.contextPath}/shop_main.do"
+						onsubmit = "submitWithParams('sortForm'); return false" >
 						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
+					    <input type="hidden" name="petType" value="${petType}">
+					    <input type="hidden" name="category" value="${category}">
 						<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
 							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
 							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
@@ -574,6 +578,25 @@
           quantityInput.value = currentQuantity;
         };
       });
+    </script>
+    
+    <script>
+    function submitWithParams(formId){
+    	const urlParams = new URLSearchParams(window.location.search);
+    	const form = document.getElementById(formId);
+    	
+    	for(const [key, value] of urlParams.entries()){
+    		if(!form.querySelector('[name="${key}"]')){
+    			const hidden = document.createElement("input");
+    				hidden.type = "hidden";
+   		      		hidden.name = key;
+   		      		hidden.value = value;
+   		      		form.appendChild(hidden);
+    		}
+    	}
+    	form.submit();
+    }
+    
     </script>
     
     
