@@ -290,7 +290,7 @@
 								</tr>
 								<tr>
 									<td> 
-										<div style="min-height: 700px" align="left">
+										<div style="min-height: 700px; white-space: pre-line;" align="left">
 											${board.b_contents} 
 											<img src="${board.b_image}" style="width:350px">
 										</div>
@@ -338,7 +338,7 @@
 					<c:choose>
 						<c:when test="${not empty sessionScope.sessionid}">
 							<table>
-								<tr>
+								<tr style="border-top: 1px solid #e5e5e5;">
 									<th style="width:150px">댓글작성</th>
 									<td style="width:270px; text-align:left">
 										<textarea style="width:600px" rows="5" cols="93" name="c_content" id="c_content" placeholder="댓글입력"></textarea>
