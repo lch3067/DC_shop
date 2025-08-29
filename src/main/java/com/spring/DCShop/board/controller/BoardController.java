@@ -25,7 +25,7 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired
-	BoardServiceImpl service;
+	private BoardServiceImpl service;
 	
 	// 게시판 목록
 	@RequestMapping("board_list")
