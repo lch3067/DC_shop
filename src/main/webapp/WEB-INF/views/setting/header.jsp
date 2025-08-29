@@ -18,6 +18,38 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="${path}/resources/css/header.css">
 <style>
+/* CSS */
+.nav-item-with-sub {
+  position: relative;
+  display: inline-block;
+}
+
+.sub-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* 부모 아래에 위치 */
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+.sub-menu a {
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+}
+
+.sub-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+.nav-item-with-sub:hover .sub-menu {
+  display: block;
+}
+
 </style>
 </head>
 <body>
@@ -28,13 +60,24 @@
 			<nav class="desktop-nav1">
 				<!-- <a href="#" class="nav-link">주요</a> --> 
 				<a href="#" class="nav-link1" onclick="window.location='${path}/shop_main.do'">SHOP</a>
-				<a href="#" class="nav-link1" onclick="window.location='${path}/comm_main.do'">COMMUNITY</a>
+				<%-- <a href="#" class="nav-link1" onclick="window.location='${path}/comm_main.do'">COMMUNITY</a> --%>
+				<nav class="desktop-nav1">
+				    <div class="nav-item-with-sub">
+				        <a href="#" class="nav-link1">COMMUNITY</a>
+				        <div class="sub-menu">
+				            <a href="${path}/comm_main.do">공지/이벤트</a>
+				            <a href="${path}/board_list" >자유</a>
+				            <a href="${path}/comm_CSD.do">묘한발견(준비중)</a>
+				        </div>
+				    </div>
+				</nav>
+				
 				
 				<c:if test="${empty sessionScope.sessionid}">
 				<a href="#" class="nav-link1" onclick="window.location='${path}/termsAgreement.do'">회원가입</a>
 				</c:if>
 				<c:if test="${!(empty sessionScope.sessionid)}">
-				<a href="#" class="nav-link1" onclick="window.location='${path}/yak'">나의정보</a>
+				<a href="#" class="nav-link1" onclick="window.location='${path}/mypage_main.do'">나의정보</a>
 				</c:if>
 				
 				<c:if test="${empty sessionScope.sessionid}">
@@ -57,5 +100,7 @@
 			</nav>
 		</div> -->
 	</header>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
