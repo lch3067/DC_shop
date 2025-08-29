@@ -49,21 +49,15 @@
 		<%@ include file="/WEB-INF/views/setting/header.jsp" %>
 		
 		<section class="hero-section1">
-		<!-- <div class="hero-container">
-			<div class="hero-content">
-				<h1 class="hero-title">랜딩 페이지 제목</h1>
-				<p class="hero-description">실용성 있는 디자인과 직관적이며 대담한 추상적 조합으로, 사용하기
-					자연스럽고 유용한 소프트웨어를 초점에 맞춘다.</p>
-				<button class="hero-btn">더보기</button>
-			</div>
-		</div> -->
+		
 		</section>
 
 		<!-- 컨텐츠부분 -->
 		<div id="container">
 			<div id="contests">
 				<div class="titleArea">
-					<h1 align="center">게시판</h1>
+					<!-- <h1 align="center">게시판</h1> -->
+					<center><img alt="" src="resources/img_main/자유게시판2.png" height="200px"></center>
 				</div>
 
 				<div>
@@ -117,21 +111,21 @@
 								<!-- 페이징 처리 -->
 								<!-- 이전 버튼 활성화 -->
 								<c:if test="${paging.startPage > 10}">
-									<li><a href="${path}/comm_main.do?pageNum=${paging.prev}"
+									<li><a href="${path}/board_list?pageNum=${paging.prev}"
 										class="prevPage"> << </a></li>
 								</c:if>
 
 								<!-- 페이지 번호 처리 -->
 								<c:forEach var="num" begin="${paging.startPage}"
 									end="${paging.endPage}">
-									<li><a href="${path}/comm_main.do?pageNum=${num}"
+									<li><a href="${path}/board_list?pageNum=${num}"
 										class="<c:if test='${num == paging.currentPage}'> active </c:if>">
 											${num} </a></li>
 								</c:forEach>
 
 								<!-- 다음 버튼 활성화 -->
 								<c:if test="${paging.endPage < paging.pageCount}">
-									<li><a href="${path}/comm_main.do?pageNum=${paging.next}"
+									<li><a href="${path}/board_list?pageNum=${paging.next}"
 										class="nextPage"> >> </a></li>
 								</c:if>
 							</ul>
