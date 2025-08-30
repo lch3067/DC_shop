@@ -29,11 +29,11 @@ public class ShopDAOImpl implements ShopDAO{
 		return total;
 	}
 
-
-	// 서브카테고리 가져오기
 	@Override
-	public List<Integer> getSubCategory(int mainCate) {
-		List<Integer> list = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.getSubCategory", mainCate);
-		return list;
+	public List<Integer> getSubcategory(int category) {
+		List<Integer> total = sqlSession.selectList("com.spring.DCShop.shop.dao.ShopDAO.getSubcategory", category);
+		return total;
 	}
+
+
 }

@@ -29,10 +29,11 @@ public class ShopServiceImpl implements ShopService{
 		String sortOrder = request.getParameter("sortOrder");		// 정렬타입
 		String keyword = request.getParameter("searchKeyword");
 		String petType = request.getParameter("petType"); 
-		String category = request.getParameter("category");
-
-//		int petType = Integer.parseInt(petTypeStr);
-		System.out.println("동물종류 : "+petType + "   카테고리 :" + category+"    정렬 : "+sortOrder+"      키워드 : "+keyword);
+		String category = request.getParameter("category");			// 메인카테고리
+		String subcategory = request.getParameter("subcategory");	// 서브카테고리
+		// 가격
+		String priceMin = request.getParameter("priceMin");
+		String priceMax = request.getParameter("priceMax");
 		
 		
 		// 게시글 갯수 
@@ -45,6 +46,9 @@ public class ShopServiceImpl implements ShopService{
 		countP.put("keyword", keyword);
 		countP.put("petType", petType);
 		countP.put("category", category);
+		countP.put("subcategory", subcategory);
+		countP.put("priceMin", priceMin);
+		countP.put("priceMax", priceMax);
 		// 전체 상품 수 조회 (+키워드에 맞게)
 		int total = dao.productCnt(countP);
 		
@@ -60,21 +64,19 @@ public class ShopServiceImpl implements ShopService{
 		map.put("petType", petType);
 		map.put("category", category);
 		
-		// 서브카테고리 가져오기
-		if(category != null && !category.trim().isEmpty()) {
-			int mainCate = Integer.parseInt(category);
-			List<Integer> subCateList = dao.getSubCategory(mainCate);
-			if(subCateList != null) {
-				map.put("subCateList", subCateList);
-				countP.put("subCateList", subCateList);
-				model.addAttribute("subCateList", subCateList);
-			}
-			
-		}
-		
+		map.put("subcategory", subcategory);
+		map.put("priceMin", priceMin);
+		map.put("priceMax", priceMax);
 		
 		// (상품)리스트 출력 함수 호출
 		List<ShopDTO> list = dao.productListAction(map);
+		
+		if(category != null && !category.trim().isEmpty()) {
+			int categoryI = Integer.parseInt(category);
+			List<Integer> cateList = dao.getSubcategory(categoryI);
+			model.addAttribute("cateList",cateList);
+		}
+		
 		
 		Map<Integer, String> dogcategoryNames = new HashMap<>();
 		int[] dogKeys = {1101,1102,1103,1201,1202,1203,1204,1205,1301,1302,1401,1402,1403,1404,1501,1502,1503,1504};
@@ -106,6 +108,7 @@ public class ShopServiceImpl implements ShopService{
 		model.addAttribute("petType", petType);
 		model.addAttribute("total", total);
 		model.addAttribute("category", category);
+		model.addAttribute("subcategory", subcategory);
 	}
 
 }

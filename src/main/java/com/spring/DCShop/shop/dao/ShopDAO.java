@@ -13,5 +13,6 @@ public interface ShopDAO {
 	// 상품 갯수
 	public int productCnt(Map<String, Object> countP);
 	
-	public List<Integer> getSubCategory(int mainCate);
+	// 세부 카테고리 가져오기
+	public List<Integer> getSubcategory(int category);
 }

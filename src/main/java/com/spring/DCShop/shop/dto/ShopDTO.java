@@ -8,7 +8,9 @@ public class ShopDTO {
 	private String pd_description;	// 상품설명
 	private int pd_price;			// 상품 가격
 	private int pd_stock;			// 재고수량
+	private int pd_pet_category;	// 동물타입(강아지1/고양이2)
 	private int pd_category;		// 상품카테고리
+	private int pd_subcategory;		// 서브카테고리
 	private Date pd_created;		// 상품 등록일
 	private Date pd_updated;		// 상품 수정일
 	private String pd_brand;		// 브랜드
@@ -17,8 +19,7 @@ public class ShopDTO {
 	private int pd_discount_rate;	// 할인율
 	private String pd_status;		// 판매상태(판매중, 품절, 재입고대기)
 	private String pd_option;		// 옵션
-	private int pd_pet_category;	// 동물타입(강아지1/고양이2)
-	
+
 	private int review_count;		// 리뷰갯수
 	private double review_score;	// 리뷰점수
 	private String sortOrder;		// 정렬방법
@@ -30,17 +31,19 @@ public class ShopDTO {
 	}
 
 
-	public ShopDTO(int pd_id, String pd_name, String pd_description, int pd_price, int pd_stock, int pd_category,
-			Date pd_created, Date pd_updated, String pd_brand, String pd_image_url, int pd_shipping_fee,
-			int pd_discount_rate, String pd_status, String pd_option, int pd_pet_category, int review_count,
-			String sortOrder, double review_score) {
+	public ShopDTO(int pd_id, String pd_name, String pd_description, int pd_price, int pd_stock, int pd_pet_category,
+			int pd_category, int pd_subcategory, Date pd_created, Date pd_updated, String pd_brand, String pd_image_url,
+			int pd_shipping_fee, int pd_discount_rate, String pd_status, String pd_option, int review_count,
+			double review_score, String sortOrder) {
 		super();
 		this.pd_id = pd_id;
 		this.pd_name = pd_name;
 		this.pd_description = pd_description;
 		this.pd_price = pd_price;
 		this.pd_stock = pd_stock;
+		this.pd_pet_category = pd_pet_category;
 		this.pd_category = pd_category;
+		this.pd_subcategory = pd_subcategory;
 		this.pd_created = pd_created;
 		this.pd_updated = pd_updated;
 		this.pd_brand = pd_brand;
@@ -49,10 +52,9 @@ public class ShopDTO {
 		this.pd_discount_rate = pd_discount_rate;
 		this.pd_status = pd_status;
 		this.pd_option = pd_option;
-		this.pd_pet_category = pd_pet_category;
 		this.review_count = review_count;
-		this.sortOrder = sortOrder;
 		this.review_score = review_score;
+		this.sortOrder = sortOrder;
 	}
 
 
@@ -106,6 +108,16 @@ public class ShopDTO {
 	}
 
 
+	public int getPd_pet_category() {
+		return pd_pet_category;
+	}
+
+
+	public void setPd_pet_category(int pd_pet_category) {
+		this.pd_pet_category = pd_pet_category;
+	}
+
+
 	public int getPd_category() {
 		return pd_category;
 	}
@@ -113,6 +125,16 @@ public class ShopDTO {
 
 	public void setPd_category(int pd_category) {
 		this.pd_category = pd_category;
+	}
+
+
+	public int getPd_subcategory() {
+		return pd_subcategory;
+	}
+
+
+	public void setPd_subcategory(int pd_subcategory) {
+		this.pd_subcategory = pd_subcategory;
 	}
 
 
@@ -196,16 +218,6 @@ public class ShopDTO {
 	}
 
 
-	public int getPd_pet_category() {
-		return pd_pet_category;
-	}
-
-
-	public void setPd_pet_category(int pd_pet_category) {
-		this.pd_pet_category = pd_pet_category;
-	}
-
-
 	public int getReview_count() {
 		return review_count;
 	}
@@ -213,16 +225,6 @@ public class ShopDTO {
 
 	public void setReview_count(int review_count) {
 		this.review_count = review_count;
-	}
-
-
-	public String getSortOrder() {
-		return sortOrder;
-	}
-
-
-	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
 	}
 
 
@@ -236,15 +238,25 @@ public class ShopDTO {
 	}
 
 
+	public String getSortOrder() {
+		return sortOrder;
+	}
+
+
+	public void setSortOrder(String sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ShopDTO [pd_id=" + pd_id + ", pd_name=" + pd_name + ", pd_description=" + pd_description + ", pd_price="
-				+ pd_price + ", pd_stock=" + pd_stock + ", pd_category=" + pd_category + ", pd_created=" + pd_created
-				+ ", pd_updated=" + pd_updated + ", pd_brand=" + pd_brand + ", pd_image_url=" + pd_image_url
-				+ ", pd_shipping_fee=" + pd_shipping_fee + ", pd_discount_rate=" + pd_discount_rate + ", pd_status="
-				+ pd_status + ", pd_option=" + pd_option + ", pd_pet_category=" + pd_pet_category + ", review_count="
-				+ review_count + ", sortOrder=" + sortOrder + ", review_score=" + review_score + "]";
+				+ pd_price + ", pd_stock=" + pd_stock + ", pd_pet_category=" + pd_pet_category + ", pd_category="
+				+ pd_category + ", pd_subcategory=" + pd_subcategory + ", pd_created=" + pd_created + ", pd_updated="
+				+ pd_updated + ", pd_brand=" + pd_brand + ", pd_image_url=" + pd_image_url + ", pd_shipping_fee="
+				+ pd_shipping_fee + ", pd_discount_rate=" + pd_discount_rate + ", pd_status=" + pd_status
+				+ ", pd_option=" + pd_option + ", review_count=" + review_count + ", review_score=" + review_score
+				+ ", sortOrder=" + sortOrder + "]";
 	}
-	
 	
 }

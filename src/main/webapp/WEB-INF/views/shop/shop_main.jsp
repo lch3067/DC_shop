@@ -211,22 +211,33 @@
 				<div
 					class="flex items-center justify-between mb-3 cursor-pointer price-toggle">
 					<div class="flex items-center">
-						<div
-							class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
+						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
 							<i class="ri-money-dollar-circle-line text-green-600 text-sm"></i>
 						</div>
 						<span class="font-medium text-gray-900">Price</span>
 					</div>
 					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
+						<i class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
 					</div>
 				</div>
+				
+				<div id="active-filters" class="flex flex-wrap gap-2 items-center mt-2">
+				  <span id="active-price-pill"
+				        class="hidden inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+				    <i class="ri-price-tag-3-line"></i>
+				    <span id="active-price-text"></span>
+				    <button id="clear-price" type="button" class="ri-close-line ml-1"></button>
+				  </span>
+				</div>
+				
 				<div class="price-content ml-9">
 					<div class="flex items-center justify-between mb-3">
-						<span class="text-sm text-gray-600">$<span
-							id="min-price">0</span></span> <span class="text-sm text-gray-600">$<span
-							id="max-price">100</span></span>
+						<span class="text-sm text-gray-600">\
+							<span id="min-price">0</span>
+						</span> 
+						<span class="text-sm text-gray-600">\
+							<span id="max-price">150000</span>
+						</span>
 					</div>
 					<div class="relative">
 						<input type="range" min="0" max="100" value="0"
@@ -236,57 +247,193 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 가격 조정 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			const priceRange = document.getElementById("price-range");		// 슬라이ㅓㄷ
+		  	const maxPriceDisplay = document.getElementById("max-price");	// 최대가격
+		  	const minPriceDisplay = document.getElementById("min-price");	// 최소가격
+		  	
+		    const pricePill = document.getElementById("active-price-pill");		// 배지표기
+		    const priceText = document.getElementById("active-price-text");		// 배지내 텍스트
+		    const clearPrice = document.getElementById("clear-price");			// x버튼
+		    
+		    const PRICE_MAX_CAP = 150000;
+		  	
+		 	// 슬라이더 값 실제 값으로 변환
+		  	function sliderToPrice(v) {			
+		  		return Math.round((v / 100) * PRICE_MAX_CAP / 1000) * 1000;
+		  	}
+		 	// 숫자 → ₩ 포맷
+		    function won(n){ return n.toLocaleString('ko-KR'); }
+		 	
+		 	// 배지 표시
+		    function showPricePill(min, max) {
+		    	priceText.textContent = '가격: ₩' + won(min) + ' ~ ₩' + won(max);
+		        pricePill.classList.remove("hidden");
+		     }
+		    function hidePricePill() {
+		        pricePill.classList.add("hidden");
+		        priceText.textContent = "";
+		     }
+		    minPriceDisplay.textContent = won(0);
+		    maxPriceDisplay.textContent = won(sliderToPrice(priceRange.value));
+
+		    // 디바운스(연속 입력 방지)
+		    let t = null;
+		    function debounce(fn, delay=250){
+		      clearTimeout(t);
+		      t = setTimeout(fn, delay);
+		    }
+		    function currentKeyword(){
+		        return $("#searchKeyword").val() || $("#currentSearchKeyword").val() || "";
+		    }
+		    
+		    function applyPriceFilter(){
+		        const sortOrder     = $("#sortOrder").val() || "new_pd";
+		        const searchKeyword = currentKeyword();
+		        const qs            = new URLSearchParams(location.search);
+		        const petType       = qs.get("petType") || "${petType}";
+		        const category      = qs.get("category") || "${category}";
+		        const subcategory   = qs.get("subcategory") || "";
+
+		        const priceMin = 0;
+		        const priceMax = sliderToPrice(priceRange.value);
+
+		        $.ajax({
+		          url: "${path}/productList.do",
+		          type: "GET",
+		          data: {
+		            petType, category, subcategory,
+		            searchKeyword, sortOrder,
+		            priceMin, priceMax
+		          },
+		          success: function(res){
+		            $("#product-grid").html(res);
+
+		            // 배지 업데이트
+		            showPricePill(priceMin, priceMax);
+
+		            // URL 동기화해서 새로고침/뒤로가기 유지
+		            const qs2 = new URLSearchParams(location.search);
+		            if (petType) qs2.set("petType", petType);
+		            if (category) qs2.set("category", category); else qs2.delete("category");
+		            if (subcategory) qs2.set("subcategory", subcategory); else qs2.delete("subcategory");
+		            if (searchKeyword) qs2.set("searchKeyword", searchKeyword); else qs2.delete("searchKeyword");
+		            qs2.set("sortOrder", sortOrder);
+		            qs2.set("priceMin", priceMin);
+		            qs2.set("priceMax", priceMax);
+		            history.pushState(null, "", location.pathname + "?" + qs2.toString());
+		          },
+		          error: function(xhr){
+		            console.error(xhr.status, xhr.responseText);
+		            $("#product-grid").html("오류");
+		          }
+		        });
+		      }
+
+		      // 슬라이더 움직일 때: 숫자 표시 + 배지/목록 적용(디바운스)
+		      priceRange.addEventListener("input", function () {
+		        const priceMax = sliderToPrice(this.value);
+		        maxPriceDisplay.textContent = won(priceMax);
+		        debounce(applyPriceFilter, 300);
+		      });
+
+		      // X 버튼: 가격 필터 해제
+		      clearPrice.addEventListener("click", function(){
+		        // 기본값으로 리셋
+		        	priceRange.value = 100; // 150000원 위치
+		        	minPriceDisplay.textContent = won(0);
+		        	maxPriceDisplay.textContent = won(PRICE_MAX_CAP);
+		        	hidePricePill();
+
+			        // 목록 갱신 (priceMin/Max 제거)
+			        const sortOrder     = $("#sortOrder").val() || "new_pd";
+			        const searchKeyword = currentKeyword();
+			        const qs            = new URLSearchParams(location.search);
+			        const petType       = qs.get("petType") || "${petType}";
+			        const category      = qs.get("category") || "${category}";
+			        const subcategory   = qs.get("subcategory") || "";
+
+			        $.ajax({
+				  		url: "${path}/productList.do",
+				        type: "GET",
+				        data: {
+				          petType, category, subcategory,
+				          searchKeyword, sortOrder,
+				          priceMin: "", priceMax: ""
+				        },
+				        success: function(res){
+		 		           $("#product-grid").html(res);
+		
+				            // URL 정리
+				            const qs2 = new URLSearchParams(location.search);
+				            qs2.delete("priceMin");
+				            qs2.delete("priceMax");
+				            history.pushState(null, "", location.pathname + "?" + qs2.toString());
+				        },
+				        error: function(xhr){
+				            console.error(xhr.status, xhr.responseText);
+				            $("#product-grid").html("오류");
+		          		}
+		        	});
+		      });
+		});
+	</script>
+	
+	
 	<!-- Main Content -->
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 		<!-- Header -->
-		<div
-			class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
 			<div>
-				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Shop 
-				</h1>
+				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Shop</h1>
 				<p class="text-gray-600 mt-1">${total} results</p>
 			</div>
 			<!-- 세부 카테고리 -->
-			<c:if test="${category != null && category !=''}">
-			<nav class="max-w-4xl bg-white shadow-sm border-b border-gray-200 rounded-lg">
-				<div class="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 ">
-					<div class="flex items-center justify-between-center h-16">
-						<div class="flex flex-wrap gap-2 ">
-							<div class="hidden lg:flex flex-wrap items-center gap-x-6 gap-y-3">
-								<c:if test="${petType == '1'}">
-									<c:forEach var="item" items="${subCateList}">
-									<c:if test="${ item >= 1100 and item < 1600 }">
-										<a href="${path}/shop_main.do?petType=1&category=${category}&subcate=${item}" 
-										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors whitespace-nowrap px-1">
-											${dogcategoryNames[item]}</a> 
+			<c:if test="${category != null && category !='' }">
+				<nav class="max-w-4xl bg-white shadow-sm border-b border-gray-200 rounded-lg">
+					<div class="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 ">
+						<div class="flex items-center justify-between-center h-16">
+							<div class="flex flex-wrap gap-2 ">
+								<div class="hidden lg:flex flex-wrap items-center gap-x-6 gap-y-3">
+									<c:if test="${petType == '1'}">
+										<c:forEach var="item" items="${cateList}">
+											<c:if test="${ item >= 1100 and item < 1600 }">
+												<a href="#" 
+												class="js-subcat text-sm text-gray-500 hover:text-primary no-underline transition-colors whitespace-nowrap px-1"
+												data-pet-type="1"
+												data-subcategory="${item}">
+													${dogcategoryNames[item]}</a> 
+											</c:if>
+										</c:forEach>
 									</c:if>
-									</c:forEach>
-								</c:if>
-								<c:if test="${petType == '2'}">
-									<c:forEach var="item" items="${subCateList}">
-									<c:if test="${ item >= 2100 and item < 2600 }">
-										<a href="${path}/shop_main.do?petType=2&category=${category}&subcate=${item}" 
-										class="text-sm text-gray-500 hover:text-primary no-underline transition-colors  whitespace-nowrap px-1">
-											${catcategoryNames[item]}</a> 
+									<c:if test="${petType == '2'}">
+										<c:forEach var="item" items="${cateList}">
+											<c:if test="${ item >= 2100 and item < 2600 }">
+												<a href="#" 
+												class="js-subcat text-sm text-gray-500 hover:text-primary no-underline transition-colors  whitespace-nowrap px-1"
+												data-pet-type="2"
+												data-subcategory="${item}">
+													${catcategoryNames[item]}</a> 
+											</c:if>
+										</c:forEach>
 									</c:if>
-									</c:forEach>
-								</c:if>
+								</div>
 							</div>
-						</div>
-						</div>
-				</div>
-			</nav>
+							</div>
+					</div>
+				</nav>
 			</c:if>
+			
 			<!-- 정렬부분!! -->
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<form id="sortForm" method="get" 
-					action="${pageContext.request.contextPath}/shop_main.do"
-						onsubmit = "submitWithParams('sortForm'); return false" >
+					<form id="sortform" method="get" 
+					action="${pageContext.request.contextPath}/shop_main.do" >
 						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
-					    <input type="hidden" name="petType" value="${petType}">
-					    <input type="hidden" name="category" value="${category}">
-						<select id="sortOrder" name="sortOrder" onchange="this.form.submit()"
+						<select id="sortOrder" name="sortOrder" onchange="return false;"
 							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
 							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
 							<option value="low_price" ${sortOrder=="low_price"?"selected":""}>낮은가격순</option>
@@ -305,44 +452,74 @@
 		
 		
 		<!-- Product Grid -->
-		<div
-			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-			<c:if test="${list != null or !list.isEmpty() }">
-			<c:forEach var="dto" items="${list}">
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Rachael%20Ray%20Nutrish%20natural%20dry%20dog%20food%20bag%20with%20wholesome%20ingredients%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20pet%20nutrition&width=300&height=300&seq=2&orientation=squarish"
-						alt="Rachael Ray Nutrish"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1"></div>
-					<h3 class="font-medium text-gray-900 mb-2">${dto.pd_name}</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">${dto.pd_price}</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">${dto.review_count}</span>
-					</div>
-				</div>
-			</div>
-			</c:forEach>
-			</c:if>
-			<c:if test="${empty list}">
-				<div >
-					<h5>상품이 없습니다.</h5>
-				</div>
-			</c:if>
-			
 
+		<div id="product-grid">
+			<%@ include file="productList.jsp" %>
 		</div>
+		
+		<!-- 정렬 -->
+		<script>
+			$(document).ready(function(){
+				$("#sortOrder").on("change", function(){
+					let sortOrder = $(this).val();
+					let searchKeyword = $("#searchKeyword").val();
+					
+					$.ajax({
+						url:"${path}/productList.do",
+						type:"GET",
+						data:{
+							petType: "${petType}",
+							category: "${category}",
+							searchKeyword: searchKeyword,
+							sortOrder: sortOrder
+						},
+						success: function(html){
+							$("#product-grid").html(html);
+						},
+						error: function(){
+							$("#product-grid").html("오류");
+						}
+					});
+				});
+			});
+		</script>
+		<!-- 세부카테고리 셀렉 -->
+		<script>
+		$(document).ready(function(){
+			$(document).on("click", ".js-subcat", function(e){
+				e.preventDefault();
+				const sortOrder = $("#sortOrder").val() || "new_pd";		// 초기값
+			    const searchKeyword = $("#searchKeyword").val() || ""; 		// 동일
+			    const subcategory = $(this).data("subcategory");
+			    const petType = $(this).data("pet-type");
+			    
+			    $.ajax({
+			    	url: "${path}/productList.do",
+			        type: "GET",
+			        data: {
+			          petType: petType,
+			          subcategory: subcategory,
+			          sortOrder: sortOrder,
+			          searchKeyword: searchKeyword
+			        },
+			        success: function(res){
+			        	$("#product-grid").html(res);
+			        	// 뒤로가기 및 새로고침
+			        	const params = new URLSearchParams(window.location.search);
+			            params.set("petType", petType);
+			            params.set("subcategory", subcategory);
+			            params.set("sortOrder", sortOrder);
+			            if (searchKeyword) params.set("searchKeyword", searchKeyword); else params.delete("searchKeyword");
+			            history.pushState(null, "", location.pathname + "?" + qs2.toString());	
+			        },
+			        error: function () {
+			            $("#product-grid").html("오류");
+			          }
+			    });
+			});
+		});
+			
+		</script>
 		
 		<!-- 페이징 처리 부분 -->
 		<div class="paging">
@@ -452,11 +629,11 @@
           priceArrow.style.transform =
             priceContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
         });
-        const priceRange = document.getElementById("price-range");
-        const maxPriceDisplay = document.getElementById("max-price");
-        priceRange.addEventListener("input", function () {
-          maxPriceDisplay.textContent = this.value;
-        });
+        // const priceRange = document.getElementById("price-range");
+        // const maxPriceDisplay = document.getElementById("max-price");
+        // priceRange.addEventListener("input", function () {
+        //   maxPriceDisplay.textContent = this.value;
+        // });
         const checkboxes = document.querySelectorAll(".custom-checkbox");
         checkboxes.forEach((checkbox) => {
           checkbox.addEventListener("click", function () {
@@ -477,6 +654,8 @@
         }
       });
     </script>
+    
+    
 	<!-- Product Detail Modal -->
 	<div id="product-modal" class="fixed inset-0 z-50 hidden">
 		<div class="absolute inset-0 bg-black bg-opacity-50"

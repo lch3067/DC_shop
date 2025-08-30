@@ -28,4 +28,11 @@ public class ShopController {
 		
 		return "shop/shop_main";
 	}
+	
+	@RequestMapping("productList.do")
+	public String productList(HttpServletRequest request, HttpServletResponse response, Model model) {
+	    logger.info("=== url -> productList ===");
+	    service.productListAction(request, response, model);
+	    return "shop/productList"; 
+	}
 }
