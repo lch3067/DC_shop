@@ -57,15 +57,9 @@
 							<choose>
 								<when test= "petType == 1">
 									pd.pd_pet_category = '1'
-									<if test="category != null ">
-										and pd.pd_category = #{category}
-									</if>
 								</when>
 								<when test= "petType == 2">
 									pd.pd_pet_category = '2'
-									<if test="category != null ">
-										and pd.pd_category = #{category}
-									</if>
 								</when>
 								<otherwise>
 									pd.pd_pet_category in (1,2)

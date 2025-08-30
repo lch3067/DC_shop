@@ -1,5 +1,6 @@
 package com.spring.DCShop.shop.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,13 +64,13 @@ public class ShopServiceImpl implements ShopService{
 		map.put("keyword", keyword);
 		map.put("petType", petType);
 		map.put("category", category);
-		
 		map.put("subcategory", subcategory);
 		map.put("priceMin", priceMin);
 		map.put("priceMax", priceMax);
 		
 		// (상품)리스트 출력 함수 호출
 		List<ShopDTO> list = dao.productListAction(map);
+		
 		
 		if(category != null && !category.trim().isEmpty()) {
 			int categoryI = Integer.parseInt(category);
@@ -79,26 +80,44 @@ public class ShopServiceImpl implements ShopService{
 		
 		
 		Map<Integer, String> dogcategoryNames = new HashMap<>();
-		int[] dogKeys = {1101,1102,1103,1201,1202,1203,1204,1205,1301,1302,1401,1402,1403,1404,1501,1502,1503,1504};
-		String[] dogValues = {"대형","중형","소형","샴푸","미용가위","구강관리","타올","발톱깎이","배변패드","기저귀",
-		                      "공","원반","터그","인형","목줄","하네스","리드줄","자동줄"};
-
-		for (int i = 0; i < dogKeys.length; i++) {
-		    dogcategoryNames.put(dogKeys[i], dogValues[i]);
-		}
-
+		dogcategoryNames.put(1101, "대형");
+		dogcategoryNames.put(1102, "중형");
+		dogcategoryNames.put(1103, "소형");
+		dogcategoryNames.put(1201, "샴푸");
+		dogcategoryNames.put(1202, "미용가위");
+		dogcategoryNames.put(1203, "구강관리");
+		dogcategoryNames.put(1204, "타올");
+		dogcategoryNames.put(1205, "발톱깎이");
+		dogcategoryNames.put(1301, "배변패드");
+		dogcategoryNames.put(1302, "기저귀");
+		dogcategoryNames.put(1401, "공");
+		dogcategoryNames.put(1402, "원반");
+		dogcategoryNames.put(1403, "터그");
+		dogcategoryNames.put(1404, "인형");
+		dogcategoryNames.put(1501, "목줄");
+		dogcategoryNames.put(1502, "하네스");
+		dogcategoryNames.put(1503, "리드줄");
+		dogcategoryNames.put(1504, "자동줄");
 		Map<Integer, String> catcategoryNames = new HashMap<>();
-		int[] catKeys = {2101,2102,2103,2201,2202,2203,2204,2205,2301,2302,2401,2402,2403,2501,2502,2503};
-		String[] catValues = {"대형","중형","소형","샴푸","미용가위","구강관리","타올","발톱깎이",
-		                      "응고형두부모래","흡수형실리카겔모래","낚시대","공","막대","캣타워형","패드형","하우스형"};
-
-		for (int i = 0; i < catKeys.length; i++) {
-		    catcategoryNames.put(catKeys[i], catValues[i]);
-		}
+		catcategoryNames.put(2101, "대형");
+		catcategoryNames.put(2102, "중형");
+		catcategoryNames.put(2103, "소형");
+		catcategoryNames.put(2201, "샴푸");
+		catcategoryNames.put(2202, "미용가위");
+		catcategoryNames.put(2203, "구강관리");
+		catcategoryNames.put(2204, "타올");
+		catcategoryNames.put(2205, "발톱깎이");
+		catcategoryNames.put(2301, "응고형두부모래");
+		catcategoryNames.put(2302, "흡수형실리카겔모래");
+		catcategoryNames.put(2401, "낚시대");
+		catcategoryNames.put(2402, "공");
+		catcategoryNames.put(2403, "막대");
+		catcategoryNames.put(2501, "캣타워형");
+		catcategoryNames.put(2502, "패드형");
+		catcategoryNames.put(2503, "하우스형");
 
 		model.addAttribute("dogcategoryNames", dogcategoryNames);
 		model.addAttribute("catcategoryNames", catcategoryNames);
-		
 		
 		
 		model.addAttribute("list", list);
