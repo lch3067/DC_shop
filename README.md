@@ -150,3 +150,16 @@ jdbc 서버 네이밍 확인
 
 ------------------------------------------------------------------------------------------------------------------------
 
+=======
+## 기술 스택
+- Spring Framework 5.1.8
+- MyBatis
+- Oracle Database
+- JSP/Servlet
+- jQuery
+- CSS3
+
+## 개발 환경
+- Java 11
+- Eclipse IDE
+- Tomcat Server

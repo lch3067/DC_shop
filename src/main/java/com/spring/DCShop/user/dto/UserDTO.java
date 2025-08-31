@@ -1,6 +1,9 @@
 package com.spring.DCShop.user.dto;
-
+	
 import java.sql.Date;
+import java.util.List;
+
+import com.spring.DCShop.board.dto.BoardDTO;
 
 public class UserDTO {
 
@@ -21,6 +24,8 @@ public class UserDTO {
    private String u_image;
    private String u_piagree;
    private String u_magree;
+   
+
    
    public UserDTO() {}
    
@@ -172,6 +177,8 @@ public class UserDTO {
    public void setU_magree(String u_magree) {
       this.u_magree = u_magree;
    }
+   
+
 
    @Override
    public String toString() {

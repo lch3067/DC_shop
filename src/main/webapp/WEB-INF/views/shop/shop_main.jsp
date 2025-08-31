@@ -69,6 +69,10 @@
 							class="text-gray-700 hover:text-primary no-underline transition-colors ">고양이</a> 
 							<a href="#" 
 							class="text-gray-700 hover:text-primary no-underline transition-colors ">이벤트</a> 
+						<a href="#"
+							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/pay.do'">Supplies</a>
+						<a href="#"
+							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/cart.do'">Recommendations</a>
 					</div>
 				</div>
 				<!-- 검색 -->
