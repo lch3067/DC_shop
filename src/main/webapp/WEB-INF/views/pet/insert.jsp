@@ -253,6 +253,7 @@
       <!-- 상단 중앙2 끝 -->
     </div>
 	</main>
+  </div>
   <!-- 컨텐츠 끝 -->
 </div>
 
@@ -388,7 +389,7 @@ function renderPets(){
 	    $('#petCountLabel').text('');
 	    $('#petsJson').val('');
 	    return;
-	  }
+}
 	  
   // 한 마리 이상이면 보이게
   $wrap.show();
