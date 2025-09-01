@@ -1,15 +1,9 @@
 package com.spring.DCShop.mypage.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.spring.DCShop.mypage.service.MypageService;
 
 
 
@@ -17,17 +11,19 @@ import com.spring.DCShop.mypage.service.MypageService;
 public class MypageController {
 	private static final Logger logger = LoggerFactory.getLogger(MypageController.class);
 		
-	@Autowired
-	private MypageService myService;
+	//@Autowired
 	
 	@RequestMapping("mypage_main.do")
-	public String mypage_main(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String mypage_main() {
 		logger.info("=== url -> mypage_main ===");
-		
-		// 주문 상품 리스트 가져와서 뿌려주기
-		myService.getCartList(request, response, model);;
 		
 		return "/mypage/mypage_main";
 	}
 	
+	@RequestMapping("admin_main.do")
+	public String admin_main() {
+		logger.info("=== url -> mypage_main ===");
+		
+		return "/admin/admin_main";
+	}
 }

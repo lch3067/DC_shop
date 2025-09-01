@@ -62,8 +62,6 @@
 	font-size: 15px;
 	padding: 5px 10px 5px 10px;
 }
-/* 회원가입 */
-
 
 /* 이메일 인증 */
 .card {
@@ -135,7 +133,7 @@
 	text-align: center;
 	border: 1px solid #e5e7eb;
 	border-radius: 999px;
-	padding: 4px 2px;
+	padding: 4px 10px;
 	font-weight: 700
 }
 
