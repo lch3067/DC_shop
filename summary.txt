@@ -1,0 +1,94 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<< web.xml >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>
+		/WEB-INF/spring/root-context.xml
+		classpath:/dataSource-config.xml		<!-- db사용을 위한 추가 -->
+	</param-value>
+</context-param>
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<< pom.xml >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// 버전 변경
+<properties>
+	<java-version>11</java-version>
+	<org.springframework-version>5.1.8.RELEASE</org.springframework-version>
+	<org.aspectj-version>1.6.10</org.aspectj-version>
+	<org.slf4j-version>1.6.6</org.slf4j-version>
+</properties>
+
+<!-- jdbc 오류 나신분들만 pom.xml에 추가  -->
+<!-- Cannot load JDBC driver class 'oracle.jdbc.driver.OracleDriver' -->
+<dependency> 
+ 	<groupId>com.oracle.database.jdbc</groupId>
+    <artifactId>ojdbc6</artifactId> 
+    <version>11.2.0.4</version> 
+</dependency>
+ 
+<dependency> 
+    <groupId>commons-dbcp</groupId>
+    <artifactId>commons-dbcp</artifactId>
+    <version>1.4</version>
+</dependency>
+<!-- jdbc -->
+
+<!-- Mybatis 설정 시작 -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>1.3.2</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.4.6</version>
+</dependency>
+
+<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-jdbc</artifactId>
+	    <version>5.3.24</version>
+</dependency>
+<!-- Mybatis 설정 끝 -->
+
+<!-- fileupload 시작(이미지) -->
+<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.3.3</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.4</version>
+</dependency>
+<!-- fileupload 끝 -->
+
+<!-- Map -> JSON 형태로 바꾸기 위해서 -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version> <!-- 프로젝트에 맞는 최신 버전 -->
+</dependency>
+
+
+
+
+<<<<<<<<<<< WEB-INF/spring/appServlet/servlet-context.xml >>>>>>>>>>>>>>
+<!-- MultipartResolver 설정 : 이미지 없로드시 사용 -->
+<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<beans:property name="maxUploadSize" value="100000000"/>
+	<beans:property name="maxInMemorySize" value="100000000"/>
+</beans:bean>
+
+
+
+
+//  jsp 파일 폼 태그 안에 enctype="multipart/form-data"

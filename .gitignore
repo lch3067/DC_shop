@@ -1,0 +1,19 @@
+pom.xml
+pom.properties
+.MF
+.properties
+
+# Maven 설정 파일 무시
+.project
+.classpath
+.springBeans
+.settings/
+config/
+
+# Build / Packaging
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
