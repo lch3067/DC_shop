@@ -33,7 +33,6 @@
 			document.insertForm.action="${path}/board_insertAction";
 			document.insertForm.submit();
 		});
-		
 	});
 </script>
 </head>
