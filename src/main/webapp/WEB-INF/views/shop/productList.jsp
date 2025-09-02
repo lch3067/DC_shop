@@ -2,6 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 
+
+<<script type="text/javascript">
+	function postLink(actionUrl, dto) {
+		
+		
+		let pd_id = document.getElementById("pd_id");
+		console.log(pd_id.value);
+	}
+</script>
+
 <c:choose>
 	<c:when test="${empty list}">
 	    <div class="w-full flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-gray-200 text-center">
@@ -18,19 +28,22 @@
 				<c:forEach var="dto" items="${list}">
 				<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
 					
-					<a href="window.location='/ad_shop_detailAction.pd'" style="text-decoration: none">
+					<a href="#" onclick="return postLink('ad_shop_detailAction.pd', this)" style="text-decoration: none">
 						<div class="aspect-square bg-gray-100 relative overflow-hidden">
 							<img
 								src="https://readdy.ai/api/search-image?query=Rachael%20Ray%20Nutrish%20natural%20dry%20dog%20food%20bag%20with%20wholesome%20ingredients%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20pet%20nutrition&width=300&height=300&seq=2&orientation=squarish"
 								alt="Rachael Ray Nutrish"
 								class="w-full h-full object-cover object-top" />
 						</div>
+						
+						
+						
 						<div class="p-4">
 							<div class="text-sm text-gray-600 mb-1"></div>
-							<h3 class="font-medium text-gray-900 mb-2">${dto.pd_name}</h3>
-							<div class="text-lg font-bold text-gray-900 mb-2">${dto.pd_price}</div>
+							<h3 class="font-medium text-gray-900 mb-2" id="pd_name">${dto.pd_name}</h3>
+							<div class="text-lg font-bold text-gray-900 mb-2" id="pd_price">${dto.pd_price}</div>
 							<div class="flex items-center">
-								<div class="flex items-center text-yellow-400 mr-2" aria-label="별점 ${dto.review_score}점">
+								<div class="flex items-center text-yellow-400 mr-2" id="review_score" aria-label="별점 ${dto.review_score}점">
 									  <c:forEach begin="1" end="${dto.review_score}">
 									    <i class="ri-star-fill text-sm"></i>
 									  </c:forEach>
@@ -40,6 +53,14 @@
 								</div>
 								<span class="text-sm text-gray-600">${dto.review_count}</span>
 							</div>
+							<!-- hidden -->
+							<input type="hidden" id="pd_id" value="${dto.pd_id}">
+							<input type="hidden" id="pd_stock" value="${dto.pd_stock}">
+							<input type="hidden" id="pd_brand" value="${dto.pd_brand}">
+							<input type="hidden" id="pd_image_url" value="${dto.pd_image_url}">
+							<input type="hidden" id="pd_shipping_fee" value="${dto.pd_shipping_fee}">
+							<input type="hidden" id="pd_discount_rate" value="${dto.pd_discount_rate}">
+							<input type="hidden" id="pd_status" value="${dto.pd_status}">
 						</div>
 					</a>
 				</div>
