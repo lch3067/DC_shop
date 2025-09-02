@@ -47,7 +47,7 @@
 <link rel="stylesheet" href="${path}/resources/css/shop_main.css">
 <body>
 	<!-- 헤더 시작 -->
-	<%@ include file="../setting/header.jsp" %>
+	<%@ include file="../setting/header.jsp" %> 
 	<!-- 헤더 끝 -->
 	
 	<section class="hero-section1">
@@ -437,6 +437,7 @@
 					<form id="sortform" method="get" 
 					action="${pageContext.request.contextPath}/shop_main.do" >
 						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
+						<input type="hidden" name="subcategory" id="subcategory" value="${subcategory}">
 						<select id="sortOrder" name="sortOrder" onchange="return false;"
 							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
 							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
@@ -467,6 +468,7 @@
 				$("#sortOrder").on("change", function(){
 					let sortOrder = $(this).val();
 					let searchKeyword = $("#searchKeyword").val();
+					let subcategory = $("#subcategory").val();
 					
 					$.ajax({
 						url:"${path}/productList.do",
@@ -475,7 +477,8 @@
 							petType: "${petType}",
 							category: "${category}",
 							searchKeyword: searchKeyword,
-							sortOrder: sortOrder
+							sortOrder: sortOrder,
+							subcategory : subcategory
 						},
 						success: function(html){
 							$("#product-grid").html(html);
@@ -496,6 +499,8 @@
 			    const searchKeyword = $("#searchKeyword").val() || ""; 		// 동일
 			    const subcategory = $(this).data("subcategory");
 			    const petType = $(this).data("pet-type");
+			    
+			    $("#subcategory").val(subcategory); 	// 클릭시 값 업뎃해서 hidden적용
 			    
 			    $.ajax({
 			    	url: "${path}/productList.do",
