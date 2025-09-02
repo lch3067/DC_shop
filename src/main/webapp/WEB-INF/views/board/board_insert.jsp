@@ -33,6 +33,7 @@
 			document.insertForm.action="${path}/board_insertAction";
 			document.insertForm.submit();
 		});
+		
 	});
 </script>
 </head>
@@ -49,9 +50,10 @@
 		<!-- 컨텐츠 부분 -->
 		<div id="container">
 			<div id="contents">
-				<div class="titleArea">
+				<!-- <div class="titleArea">
 					<h1 align="center"> 게시글 작성</h1>
-				</div>
+				</div> -->
+				<center><img alt="" src="resources/img_main/작성중.png" height="100px"></center>
 				<div>
 					<div class="table_div">
 						<form name="insertForm" method="post" enctype="multipart/form-data">
