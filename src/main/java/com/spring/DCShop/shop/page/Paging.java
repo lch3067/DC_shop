@@ -15,7 +15,6 @@ public class Paging {
 	private int startPage;
 	private int pageBlock;
 	private int endPage;
-	
 	private int prev;				// 이전
 	private int next;				// 다음
 	

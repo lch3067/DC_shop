@@ -70,8 +70,6 @@ public class ShopServiceImpl implements ShopService{
 		// (상품)리스트 출력 함수 호출
 		List<ShopDTO> list = dao.productListAction(map);
 		
-		System.out.println(list);
-		
 		if(category != null && !category.trim().isEmpty()) {
 			int categoryI = Integer.parseInt(category);
 			List<Integer> cateList = dao.getSubcategory(categoryI);
