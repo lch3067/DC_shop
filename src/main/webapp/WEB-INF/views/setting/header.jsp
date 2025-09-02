@@ -54,7 +54,7 @@
 </head>
 <body>
 <c:if test="${not empty sessionScope.session_u_member_id}">
-  <jsp:include page="${path}/chatbot.jsp" flush="true" />
+	<%@ include file="chatbot.jsp" %>
 </c:if>
 <header class="header1">
 		<div class="header-container1">
