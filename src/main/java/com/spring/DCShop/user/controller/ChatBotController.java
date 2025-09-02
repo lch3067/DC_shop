@@ -24,7 +24,7 @@ public class ChatBotController {
 	@GetMapping(value="/config", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ChatBotPluginDTO config(HttpSession session) {
 		
-		// 객체에 pluginKey값 담기.
+		// 객체에 환경변수 pluginKey값 담기. 언어는 한국어로 고정.
 		ChatBotPluginDTO dto = new ChatBotPluginDTO(prov.getPluginKey(), "ko");
 		
 		return dto;
