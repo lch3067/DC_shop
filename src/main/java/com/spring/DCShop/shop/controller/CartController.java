@@ -56,6 +56,15 @@ public class CartController {
 		
 		cartservice.addProductList(request, response, model);
 		
+		
+		
+		return "redirect:/cartgo.do";
+	}
+	
+	@RequestMapping("/cartgo.do")
+	public String cartgo(HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("=== url -> cart ===");
+		
 		cartservice.getProductList(request, response, model);
 		
 		return "shop/cart";

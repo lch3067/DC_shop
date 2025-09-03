@@ -9,7 +9,7 @@ import com.spring.DCShop.shop.dto.UserDTO;
 
 public interface CartDAO {
 
-	public int addProductList(CartDTO dto);
+	public int upsertCart(CartDTO dto);
 	
 	public UserDTO getUserInfo(String sessiongId);
 
