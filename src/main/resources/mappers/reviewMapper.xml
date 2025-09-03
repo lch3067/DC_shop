@@ -17,7 +17,7 @@
     <result property="u_nickname"  column="u_nickname"/>
   </resultMap>
 
-    <!-- 리뷰 목록(페이지) : 최신 r_num 내림차순 -->
+  <!-- 리뷰 목록(페이지) : 최신 r_num 내림차순 -->
   <select id="reviewList" parameterType="map" resultType="com.spring.DCShop.shop.dto.ReviewDTO">
     SELECT *
 	  FROM (
@@ -31,7 +31,7 @@
 	        r.r_content,
 	        r.r_img,
 	        r.r_regDate,
-	        u.u_nickname  -- ★ 닉네임 가져오기
+	        u.u_nickname  -- 닉네임 join해서 가져옴
 	      FROM review_tbl r
 	      LEFT JOIN user_tbl u
 	        ON u.u_member_id = r.u_member_id
@@ -50,6 +50,7 @@
 	</select>
 	
 	<!-- 평균 별점 -->
+	<!-- 평균을 소수 첫째 자리로 반올림. 리뷰가 없으면 0 리턴 -->
 	<select id="avgScoreByProduct" parameterType="int" resultType="double">
 	    SELECT NVL(ROUND(AVG(r_score), 1), 0)
 		  FROM review_tbl
@@ -57,6 +58,7 @@
 	</select>
 
   <!-- 리뷰 상세 -->
+  <!-- 닉네임 LEFT JOIN으로 가져옴 -->
   <select id="getReviewDetail" parameterType="int" resultType="com.spring.DCShop.shop.dto.ReviewDTO">
     SELECT
       r.r_num,
@@ -72,7 +74,7 @@
     WHERE r.r_num = #{r_num}
   </select>
 
-  <!-- 리뷰 수정/삭제 버튼 클릭 시 본인 인증 (id 통일: review_chk) -->
+  <!-- 리뷰 수정/삭제 버튼 클릭 시 본인 인증 -->
   <select id="review_chk" parameterType="map" resultType="int">
     SELECT COUNT(*) AS cnt
       FROM review_tbl
@@ -81,6 +83,7 @@
   </select>
 
   <!-- 리뷰 수정 -->
+  <!-- 새 이미지가 있을 때만 r_img를 업데이트 -->
   <update id="updateReview" parameterType="com.spring.DCShop.shop.dto.ReviewDTO">
     UPDATE review_tbl
        SET r_score   = #{r_score},
@@ -106,8 +109,7 @@
       r_content,
       r_score,
       r_img,
-      r_regDate,
-      r_like_cnt
+      r_regDate
     ) VALUES (
       (SELECT NVL(MAX(r_num)+1, 1) FROM review_tbl),
       #{u_member_id},
@@ -115,12 +117,11 @@
       #{r_content},
       #{r_score},
       #{r_img, jdbcType=VARCHAR},
-      SYSDATE,
-      0
+      SYSDATE
     )
   </insert>
   
-  <!-- 상품 상세: 최신 리뷰 5개 -->
+  <!-- 상품 상세: 등록일 내림차순으로 정렬 후, 최신 리뷰 5개 -->
 	<select id="recentReviews" parameterType="int"
 	        resultType="com.spring.DCShop.shop.dto.ReviewDTO">
 	  SELECT r_num, u_member_id, pd_id, r_score, r_content, r_img, r_regDate

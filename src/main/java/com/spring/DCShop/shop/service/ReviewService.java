@@ -21,10 +21,6 @@ public interface ReviewService {
 	public void reviewDetailAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 	
-	// 좋아요 수
-	public void increaseLike(HttpServletRequest request, HttpServletResponse response, Model model)
-		throws ServletException, IOException;
-	
 	// [리뷰 수정삭제 버튼] 클릭시 - 회원번호 인증처리
 	public int review_chkAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;

@@ -16,24 +16,28 @@
 <link rel="stylesheet" href="${path}/resources/css/product/reviewList.css">
 
 <!-- js -->
-<script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script> <!-- 별 아이콘 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="${path}/resources/js/common/main.js" defer></script>
 
 <script>
 $(function(){
+  /* 문서 준비되면 실행. 세션에 session_u_member_id가 있으면 로그인한 상태 */
   var loggedIn = ${not empty sessionScope.session_u_member_id};
 
+  /* “목록” 버튼: 상품번호가 있으면 그 상품의 리뷰목록으로, 없으면 기본 목록으로 이동 */
   $('#btnList').on('click', function(){
     const pdId = $('#pd_id').val();
     location.href = pdId ? ('${path}/review_list.bc?pd_id=' + pdId) : '${path}/review_list.bc';
   });
 
+  /* “수정” 버튼: 미로그인 시 로그인 유도 */
   $('#btnEdit').on('click', function(){
     if (!loggedIn) {
       if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) location.href='${path}/login_main.do';
       return;
     }
+    /* 평점/내용 필수 검사 후 /review_updateAction.bc로 제출 */
     const score = $('#r_score').val();
     const content = $('#r_content').val().trim();
     if(!score){ alert('평점을 선택해주세요.'); $('#r_score').focus(); return; }
@@ -42,6 +46,7 @@ $(function(){
     document.editForm.submit();
   });
 
+  /* “삭제” 버튼: 로그인 확인 */
   $('#btndelete').on('click', function(){
     if (!loggedIn) {
       if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) location.href='${path}/login_main.do';

@@ -24,6 +24,7 @@
 </head>
 <!-- 선택 수량 읽어서 URL에 포함 -->
 <script>
+  /* 입력값을 읽고 min/max 범위로 보정 후 반환 */
   function getQty() {
     var el  = document.getElementById('qtyInput');
     if (!el) return 1;
@@ -36,6 +37,7 @@
     el.value = v;
     return v;
   }
+  /* +/− 버튼이 호출. 현재 수량에 증감을 적용 */
   function chgQty(delta) {
     var el = document.getElementById('qtyInput');
     if (!el || el.disabled) return;
@@ -47,10 +49,12 @@
     if (v > max) v = max;
     el.value = v;
   }
+  /* qty를 쿼리에 붙여 장바구니 URL로 이동 */
   function addToCart(pdId) {
     var qty = getQty();
     location.href = '${path}/cart/add.do?pd_id=' + pdId + '&qty=' + qty;
   }
+  /* “바로구매” URL 이동 */
   function orderNow(pdId) {
     var qty = getQty();
     location.href = '${path}/order/now.do?pd_id=' + pdId + '&qty=' + qty;
@@ -69,6 +73,7 @@
           	<div class="center">
 
               <%-- 이미지 URL : 절대경로/리소스경로/파일명만 저장된 경우 처리 --%>
+              <%-- 저장된 값이 절대경로/리소스경로면 그대로, 파일명만 있으면 우리 폴더를 붙여 완성 --%>
               <c:set var="img" value="/resources/img/no-image.png"/>
               <c:if test="${not empty dto.pd_image_url}">
                 <c:choose>

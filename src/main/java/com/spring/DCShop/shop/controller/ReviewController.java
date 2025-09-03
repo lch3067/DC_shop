@@ -41,6 +41,7 @@ public class ReviewController {
 		
 		service.reviewDetailAction(request, response, model);
 		
+		// 서비스가 이미 응답을 보냈다면 더 이상 뷰를 리턴하면 안 되므로 null 반환(중복 렌더링 방지)
 	    if (response.isCommitted()) {
 	        return null; 
 	    }
@@ -54,6 +55,7 @@ public class ReviewController {
 		throws ServletException, IOException{
 		logger.info("<<< url => review_chkAction.bc >>>");
 		
+		// 서비스에서 인증/권한 체크 결과를 받음
 		int result = service.review_chkAction(request, response, model); // 1 = 통과 | 2 = 실패
 		
 		// r_num 파라미터(이름 혼용 대비)
@@ -61,9 +63,12 @@ public class ReviewController {
 	    if (p == null || p.isBlank()) p = request.getParameter("r_num");
 	    int r_num = (p != null && p.matches("\\d+")) ? Integer.parseInt(p) : 0;
 
+	    // RedirectAttributes: 리다이렉트 시 쿼리스트링으로 붙여줌
+	    // 통과면: r_num + ra.addAttribute("edit","1") 붙여서 상세로 리다이렉트
+	    // 실패면: message=error 달아서 상세로 리다이렉트
 	    if (result != 0) {
 	        redirectAttributes.addAttribute("r_num", r_num);
-	        redirectAttributes.addAttribute("edit", "1"); // 편집 모드 
+	        redirectAttributes.addAttribute("edit", "1"); 
 	        return "redirect:/review_detailAction.bc";
 	    } else {
 	        redirectAttributes.addAttribute("r_num", r_num);
@@ -108,7 +113,7 @@ public class ReviewController {
 		throws ServletException, IOException{
 		logger.info("<<< url => review_insert.bc >>>");
 		
-		// 상세페이지에서 넘어온 pd_id를 폼으로 전달
+		// 상세페이지에서 넘어온 pd_id를 모델에 넣어서 폼으로 전달
 	    model.addAttribute("pd_id", request.getParameter("pd_id"));
 		return "shop/review_insert";
 	}
