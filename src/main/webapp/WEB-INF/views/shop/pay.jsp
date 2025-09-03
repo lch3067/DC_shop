@@ -140,26 +140,26 @@ input[type="checkbox"]:checked::after {
 			<h2 class="font-medium mb-4">배송지 정보</h2>
 			<div class="space-y-4">
 				<div>
-					<label class="text-sm text-gray-500 block mb-1">받는 사람</label> <input
-						type="text" value="김민수" class="w-full p-3 border rounded-lg"
-						readonly />
+					<label class="text-sm text-gray-500 block mb-1">받는 사람</label> 
+					<input type="text" value="김민수" class="w-full p-3 border rounded-lg" id="u_name" />
+				</div>
+				<div>
+					<label class="text-sm text-gray-500 block mb-1">우편번호</label> 
+					<input type="text" value="04108" class="w-full p-3 border rounded-lg mb-2" id="u_zip_code"/>
+					<!-- <input type="text" value="터틀프라자 1층" class="w-full p-3 border rounded-lg" /> -->
 				</div>
 				<div>
 					<label class="text-sm text-gray-500 block mb-1">주소</label> 
-						<input
-						type="text" value="서울 마포구 백범로 23"
-						class="w-full p-3 border rounded-lg mb-2" readonly />
-					<input type="text" value="터틀프라자 1층"
-						class="w-full p-3 border rounded-lg" readonly />
+					<input type="text" value="서울 마포구 백범로 23 터틀프라자 1층" class="w-full p-3 border rounded-lg mb-2" id="u_address"/>
+					<!-- <input type="text" value="터틀프라자 1층" class="w-full p-3 border rounded-lg" /> -->
 				</div>
 				<div>
-					<label class="text-sm text-gray-500 block mb-1">배송 요청사항</label> <input
-						type="text" class="w-full p-3 border rounded-lg" id="o_request"/>
+					<label class="text-sm text-gray-500 block mb-1">배송 요청사항</label> 
+					<input type="text" class="w-full p-3 border rounded-lg" id="o_request"/>
 				</div>
 				<div>
-					<label class="text-sm text-gray-500 block mb-1">연락처</label> <input
-						type="tel" value="${sessionScope.session_u_phone}"
-						class="w-full p-3 border rounded-lg" id="u_phone" readonly />
+					<label class="text-sm text-gray-500 block mb-1">연락처</label> 
+					<input type="tel" value="${sessionScope.session_u_phone}" class="w-full p-3 border rounded-lg" id="u_phone"/>
 				</div>
 			</div>
 		</section>
@@ -268,11 +268,13 @@ input[type="checkbox"]:checked::after {
       	const orderId = generateOrderId();
       	
       	const orderInfo = {
-      		o_num: orderId,
       		pd_id: 1,
-      		u_member_id : 1,
+      		o_name : document.getElementById("u_name").value,
+      		o_phone : document.getElementById("u_phone").value,
       		o_price : 1000,
       		o_count : 2,
+      		o_address : document.getElementById("u_address").value,
+      		o_zip_code : document.getElementById("u_zip_code").value,
       		o_request: document.getElementById("o_request").value
           };
       	
@@ -282,7 +284,7 @@ input[type="checkbox"]:checked::after {
 				successUrl: window.location.origin + "${path}/pay_success?orderInfo=" + encodeURIComponent(JSON.stringify(orderInfo)),
 				failUrl: window.location.origin + "${path}/pay_fail",
 				customerEmail: "${sessionScope.session_u_email}",		// 구매자 이매일. 최대 길이 100자
-				customerName: "김민수",						// 구매자명. 최대 길이 100자
+				customerName: document.getElementById("u_name").value,					// 구매자명. 최대 길이 100자
 				customerMobilePhone: o_phone,			// 구매자 휴대폰 번호. 가상계좌, 퀵계좌이체 휴대폰 자동 완성에 사용됨. -없이 숫자로만 구성된 8~15자의 문자열
 			});
       });

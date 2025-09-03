@@ -64,7 +64,7 @@ public class OrderController {
 	 
 	@RequestMapping("/pay_confirm")
 	@ResponseBody
-    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
+    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody, HttpServletRequest request) throws Exception {
 		logger.info("<<< url => confirm >>>");
 		
         JSONParser parser = new JSONParser();
@@ -131,7 +131,7 @@ public class OrderController {
 
         if(isSuccess) {
         	// 결제가 정상적으로 승인이 되었다면 DB에 저장
-        	// service.payInsertAction(jsonBody, jsonObject);
+        	service.orderInsertAction(jsonBody, jsonObject, request);
         }
 
         

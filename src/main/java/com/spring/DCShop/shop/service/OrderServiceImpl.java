@@ -1,5 +1,7 @@
 package com.spring.DCShop.shop.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,18 +17,26 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	OrderDAO dao;
 
+	// 결제내역 저장
 	@Override
-	public void orderInsertAction(String jsonBody, JSONObject jsonObject) throws Exception {
+	public void orderInsertAction(String jsonBody, JSONObject jsonObject, HttpServletRequest request) throws Exception {
 		System.out.println("OrderServiceImpl - orderInsertAction()");
 				
 		JSONParser parser = new JSONParser();
 		
-        Long o_num;
-        int pd_id;
-        int u_member_id;
-        int o_price;
-        int o_count;
-        String o_request;
+        Long o_num;					// 주문번호(Pk)
+        int pd_id;					// 상품 고유번호 (PK,FK)
+        int u_member_id;			// 회원 아이디 (FK)
+        String o_name;				// 주문자 이름
+        String o_phone;				// 주문자 폰 번호
+        int o_price;				// 주문가격
+        int o_count;				// 주문개수
+        String o_payment;			// 결제정보 (카드/네이버페이/카카오페이)
+        String o_address;			// 배송주소
+        int o_zip_code;				// 우편번호
+        String o_request;			// 배송요청사항
+        String o_status;			// 주문상태 (주문완료/환불/반품진행/교환진행)
+        String o_payment_key;		// 결제키
 
         try {
         	JSONObject requestData = (JSONObject) parser.parse(jsonBody);
@@ -35,32 +45,73 @@ public class OrderServiceImpl implements OrderService{
             System.out.println("orderInfo = " + orderInfo.toJSONString());
             
         	// o_num은 문자열로 넘어오기 때문에 Long 변환
-            o_num = Long.valueOf(orderInfo.get("o_num").toString());
+            // o_num = Long.valueOf(orderInfo.get("o_num").toString());
             // 숫자들은 JSONParser가 Long으로 파싱하므로 바로 캐스팅 후 intValue() 사용
             pd_id = ((Long) orderInfo.get("pd_id")).intValue();
-            u_member_id = ((Long) orderInfo.get("u_member_id")).intValue();
+            o_name = (String) orderInfo.get("o_name");
+            o_phone = (String) orderInfo.get("o_phone");
             o_price = ((Long) orderInfo.get("o_price")).intValue();
             o_count = ((Long) orderInfo.get("o_count")).intValue();
+            o_address = (String) orderInfo.get("o_address");
+            o_zip_code = Integer.parseInt((String) orderInfo.get("o_zip_code"));
             o_request = (String)orderInfo.get("o_request");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         };
         
+        u_member_id = (Integer) request.getSession().getAttribute("session_u_member_id");
+        o_num = Long.valueOf(jsonObject.get("orderId").toString());
+        
+        // 결제 정보
+        String method = (String) jsonObject.get("method");
+        if(method.equals("간편결제")) {
+        	JSONObject easyPay = (JSONObject) jsonObject.get("easyPay");
+        	o_payment = (String) easyPay.get("provider");
+        } else {
+        	o_payment = method;
+        }
+        
+        // 결제 상태가 DONE 일 때 주문완료
+        String status = (String) jsonObject.get("status");
+        if(status.equals("DONE")) {
+        	o_status = "주문완료";
+        } else {
+        	o_status = "";
+        }
+        
+        o_payment_key = (String) jsonObject.get("paymentKey");
+        
         System.out.println("o_num = " + o_num);
         System.out.println("pd_id = " + pd_id);
+        System.out.println("u_member_id = " + u_member_id);
+        System.out.println("o_name = " + o_name);
+        System.out.println("o_phone = " + o_phone);
         System.out.println("o_price = " + o_price);
         System.out.println("o_count = " + o_count);
+        System.out.println("o_payment = " + o_payment);
+        System.out.println("o_address = " + o_address);
+        System.out.println("o_zip_code = " + o_zip_code);
         System.out.println("o_request = " + o_request);
+        System.out.println("o_status = " + o_status);
+        System.out.println("o_payment_key = " + o_payment_key);
         
         OrderDTO dto = new OrderDTO();
         
         dto.setO_num(o_num);
         dto.setPd_id(pd_id);
         dto.setU_member_id(u_member_id);
+        dto.setO_name(o_name);
+        dto.setO_phone(o_phone);
         dto.setO_price(o_price);
         dto.setO_count(o_count);
-        dto.setO_payment("카카오페이");
+        dto.setO_payment(o_payment);
+        dto.setO_address(o_address);
+        dto.setO_zip_code(o_zip_code);
         dto.setO_request(o_request);
+        dto.setO_status(o_status);
+        dto.setO_payment_key(o_payment_key);
+        
+        dao.orderInsertAction(dto);
 	}
 
 }

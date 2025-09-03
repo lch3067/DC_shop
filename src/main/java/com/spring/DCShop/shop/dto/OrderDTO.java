@@ -7,8 +7,8 @@ public class OrderDTO {
 	private Long o_num;		// 주문번호(Pk)
 	private int pd_id;		// 상품 고유번호 (PK,FK)
 	private int u_member_id;	// 회원 아이디 (FK)
-	private String o_name;		// 회원 이름
-	private String o_phone;		// 회원 폰 번호
+	private String o_name;		// 주문자 이름
+	private String o_phone;		// 주문자 폰 번호
 	private Date o_date;	// 주문일
 	private int o_price;	// 주문가격
 	private String o_delivery_state; 	// 배송상태 (배송중/배송완료)
