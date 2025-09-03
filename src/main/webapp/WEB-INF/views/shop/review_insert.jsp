@@ -67,9 +67,9 @@ $(function(){
       <div id="section2">
         <div id="right">
           <div class="table_div">
-            <!-- ★ 폼은 하나만 -->
             <form id="insertForm" name="insertForm"
                   method="post"
+                  enctype="multipart/form-data"
                   action="<c:url value='/review_insertAction.bc?pd_id=${pdId}'/>"> 
 
               <input type="hidden" name="pd_id" id="pd_id" value="${pdId}"/>
@@ -113,15 +113,15 @@ $(function(){
                 <tr>
                   <th>이미지</th>
                   <td colspan="3" style="text-align:center">
-                    <input type="file" name="uploadFile" id="uploadFile" accept="image/*" />
+                    <input type="file" name="r_imgFile" id="r_imgFile" accept="image/*" />
                   </td>
                 </tr>
 
                 <tr>
                   <td colspan="4" style="text-align:center">
                     <br>
-                    <input type="button" class="inputButton" value="작성" id="btnSave">
-                    <input type="button" class="inputButton" value="초기화" id="btnReset">
+                    <input type="button" class="btn btn-dark" value="작성" id="btnSave">
+                    <input type="button" class="btn btn-dark" value="초기화" id="btnReset">
                   </td>
                 </tr>
               </table>

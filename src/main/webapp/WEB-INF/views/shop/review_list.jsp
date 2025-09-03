@@ -50,11 +50,6 @@
 <%-- 세션 회원번호를 숫자로 파싱(타입 불일치 대비) --%>
 <fmt:parseNumber var="sessMemId" value="${sessionScope.session_u_member_id}" integerOnly="true" />
 
-<style>
-  /* 아이콘 별 렌더링 보정(원하면 외부 css로 이동) */
-  .rating-stars { display: inline-flex; gap: 0; line-height: 1; }
-  .rating-stars i { font-size: 16px; }
-</style>
 </head>
 
 <body>
@@ -77,11 +72,11 @@
                 <tr>
                   <th>리뷰번호</th>
                   <th>상품번호</th>
+                  <th>이미지</th>
                   <th>내용</th>
                   <th>별점</th>
                   <th>작성자</th>
-                  <th>작성일</th>
-                  <th>좋아요</th>
+                  <th class="th-date">작성일</th>
                 </tr>
 
                 <tbody>
@@ -94,6 +89,18 @@
                           aria-label="리뷰 상세: ${fn:escapeXml(dto.r_content)}">
                         <td>${dto.r_num}</td>
                         <td>${dto.pd_id}</td>
+                        
+                        <!-- 썸네일 -->
+                        <td>
+                          <c:if test="${not empty dto.r_img}">
+                            <a href="<c:url value='/review_detailAction.bc'/>?r_num=${dto.r_num}">
+                              <img class="rv-thumb"
+                                   src="<c:url value='/resources/upload/review/${dto.r_img}'/>"
+                                   alt="리뷰 썸네일">
+                            </a>
+                          </c:if>
+                        </td>
+                        
                         <td class="text-left">
                           <a href="<c:url value='/review_detailAction.bc'/>?r_num=${dto.r_num}">
                             <c:out value="${fn:length(dto.r_content) > 60
@@ -105,6 +112,7 @@
                         <td>
                           <span class="rating-stars" aria-label="별점 ${dto.r_score}점"><c:forEach var="i" begin="1" end="5"><i class="${i <= dto.r_score ? 'fa-solid' : 'fa-regular'} fa-star"></i></c:forEach></span>
                         </td>
+                        
                         <td>
 						  <c:choose>
 						    <c:when test="${not empty dto.u_nickname}">
@@ -115,8 +123,11 @@
 						    </c:otherwise>
 						  </c:choose>
 						</td>
-                        <td><fmt:formatDate value="${dto.r_regDate}" pattern="yyyy-MM-dd"/></td>
-                        <td>${dto.r_like_cnt}</td>
+						
+                        <td class="date-cell">
+				            <fmt:formatDate value="${dto.r_regDate}" pattern="yyyy-MM-dd"/>
+				          </td>
+				          
                       </tr>
                     </c:forEach>
                   </c:when>
@@ -176,7 +187,7 @@
                 <!-- 글쓰기 버튼 -->
                 <tr>
                   <td colspan="7" align="center">
-                    <a href="${reviewWriteUrl}" class="inputButton">리뷰작성</a>
+                    <a href="${reviewWriteUrl}" class="btn btn-dark">리뷰작성</a>
                   </td>
                 </tr>
               </table>

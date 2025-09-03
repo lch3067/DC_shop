@@ -43,7 +43,12 @@ public class ReviewDAOImpl implements ReviewDAO{
 		
 		return dto;
 	}
-
+	
+	@Override
+    public List<ReviewDTO> recentReviews(int pd_id) {
+        return sqlSession.selectList("com.spring.DCShop.shop.dao.ReviewDAO.recentReviews", pd_id);
+    }
+	
 	// [리뷰 수정삭제 버튼] 클릭시 - 아이디 인증처리
 	@Override
 	public int review_chk(Map<String, Object> map) {
@@ -79,5 +84,15 @@ public class ReviewDAOImpl implements ReviewDAO{
 		sqlSession.insert("com.spring.DCShop.shop.dao.ReviewDAO.insertReview", dto);
 		
 	}
+
+	// 평균 별점
+	 @Override
+	    public Double avgScoreByProduct(int pd_id) {
+	        Double avg = sqlSession.selectOne(
+	            "com.spring.DCShop.shop.dao.ReviewDAO.avgScoreByProduct",
+	            pd_id
+	        );
+	        return (avg == null) ? 0.0 : avg;  // null-safe
+	    }
 
 }

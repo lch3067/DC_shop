@@ -14,42 +14,46 @@
     <result property="r_content"   column="r_content"/>
     <result property="r_img"       column="r_img"/>
     <result property="r_regDate"   column="r_regDate"/>  <!-- ★ 등록일 명시 -->
-    <result property="r_like_cnt"  column="r_like_cnt"/>
     <result property="u_nickname"  column="u_nickname"/>
   </resultMap>
 
-    <!-- 목록: 닉네임 조인 + 페이징(Oracle ROWNUM 방식) -->
+    <!-- 리뷰 목록(페이지) : 최신 r_num 내림차순 -->
   <select id="reviewList" parameterType="map" resultType="com.spring.DCShop.shop.dto.ReviewDTO">
     SELECT *
-    FROM (
-      SELECT A.*, ROWNUM rn
-      FROM (
-        SELECT
-          r.r_num,
-          r.u_member_id,
-          r.pd_id,
-          r.r_score,
-          r.r_content,
-          r.r_like_cnt,
-          r.r_regDate,
-          u.u_nickname AS u_nickname
-        FROM review_tbl r
-        LEFT JOIN user_tbl u ON u.u_member_id = r.u_member_id
-        <trim prefix="WHERE" prefixOverrides="AND|OR">
-          <if test="pd_id != null"> AND r.pd_id = #{pd_id} </if>
-        </trim>
-        ORDER BY r.r_regDate DESC
-      ) A
-      WHERE ROWNUM <![CDATA[<=]]> #{end}
-    )
-    WHERE rn <![CDATA[>=]]> #{start}
+	  FROM (
+	    SELECT ROWNUM rn, x.*
+	    FROM (
+	      SELECT
+	        r.r_num,
+	        r.u_member_id,
+	        r.pd_id,
+	        r.r_score,
+	        r.r_content,
+	        r.r_img,
+	        r.r_regDate,
+	        u.u_nickname  -- ★ 닉네임 가져오기
+	      FROM review_tbl r
+	      LEFT JOIN user_tbl u
+	        ON u.u_member_id = r.u_member_id
+	      WHERE r.pd_id = #{pd_id}
+	      ORDER BY r.r_num DESC
+	    ) x
+	  )
+	  WHERE rn BETWEEN #{startRow} AND #{endRow}
   </select>
 
-  <!-- 리뷰 개수 (단일 파라미터: #{value} 사용) -->
+  <!-- 리뷰 개수 -->
   <select id="reviewCnt" parameterType="int" resultType="int">
 	  SELECT COUNT(*)
 	    FROM review_tbl
 	   WHERE pd_id = #{value}
+	</select>
+	
+	<!-- 평균 별점 -->
+	<select id="avgScoreByProduct" parameterType="int" resultType="double">
+	    SELECT NVL(ROUND(AVG(r_score), 1), 0)
+		  FROM review_tbl
+		  WHERE pd_id = #{value}
 	</select>
 
   <!-- 리뷰 상세 -->
@@ -62,7 +66,6 @@
       r.r_content,
       r.r_img,
       r.r_regDate AS r_regDate,
-      r.r_like_cnt,
       u.u_nickname AS u_nickname
     FROM review_tbl r
     LEFT JOIN user_tbl u ON u.u_member_id = r.u_member_id
@@ -82,7 +85,10 @@
     UPDATE review_tbl
        SET r_score   = #{r_score},
            r_content = #{r_content}
-     WHERE r_num = #{r_num}
+     <if test="r_img != null">
+       , r_img = #{r_img}
+	  </if>
+	   WHERE r_num = #{r_num}
   </update>
 
   <!-- 리뷰 삭제 -->
@@ -108,10 +114,30 @@
       #{pd_id},
       #{r_content},
       #{r_score},
-      null,
+      #{r_img, jdbcType=VARCHAR},
       SYSDATE,
       0
     )
   </insert>
-
+  
+  <!-- 상품 상세: 최신 리뷰 5개 -->
+	<select id="recentReviews" parameterType="int"
+	        resultType="com.spring.DCShop.shop.dto.ReviewDTO">
+	  SELECT r_num, u_member_id, pd_id, r_score, r_content, r_img, r_regDate
+	  FROM (
+	    SELECT
+	      r.r_num,
+	      r.u_member_id,
+	      r.pd_id,
+	      r.r_score,
+	      r.r_content,
+	      r.r_img,
+	      r.r_regDate
+	    FROM review_tbl r
+	    WHERE r.pd_id = #{value}
+	    ORDER BY r.r_regDate DESC
+	  )
+	  WHERE ROWNUM &lt;= 5
+	</select>
+  
 </mapper>

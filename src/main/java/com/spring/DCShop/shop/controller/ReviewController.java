@@ -72,6 +72,14 @@ public class ReviewController {
 	    }
 	}
 	
+	// 리뷰 수정 폼 열기 (GET)
+	@RequestMapping("/review_editForm.bc")
+	public String review_editForm(HttpServletRequest request, HttpServletResponse response, Model model)
+	        throws ServletException, IOException {
+	    service.reviewEditForm(request, response, model); 
+	    return "shop/review_edit"; 
+	}
+	
 	// [리뷰 수정처리]
 	@RequestMapping("/review_updateAction.bc")
 	public String review_updateAction(HttpServletRequest request, HttpServletResponse response, Model model)
@@ -80,7 +88,7 @@ public class ReviewController {
 		
 		service.reviewUpdateAction(request, response, model);
 		String rnum = request.getParameter("r_num");
-	    return "redirect:/review_detailAction.bc?r_num=" + rnum; // 상세로 복귀
+	    return "redirect:/review_detailAction.bc?r_num=" + rnum;
 	}
 	
 	// [리뷰 삭제처리]
@@ -113,14 +121,6 @@ public class ReviewController {
 		
 		return service.reviewInsertAction(request, response, model);
 		
-//		// 방금 작성한 상품의 리뷰 목록으로 이동하기 위해 pd_id 유지
-//	    String pdId = request.getParameter("pd_id");
-//	    
-//	    // pd_id가 있으면 붙이고, 없으면 전체 목록
-//	    if (pdId == null || pdId.isBlank()) {
-//	        return "redirect:/review_list.bc";
-//	    }
-//	    return "redirect:/review_list.bc?pd_id=" + pdId;
 	}
 
 }

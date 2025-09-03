@@ -11,7 +11,6 @@ public class ReviewDTO {
 	private int r_score; // 별점 (0~5)
 	private String r_img; // 리뷰 이미지 URL
 	private Date r_regDate; // 작성일
-	private int r_like_cnt; // 좋아요 수
 	private String u_nickname; // 닉네임
 	
 	public ReviewDTO() {
@@ -19,7 +18,7 @@ public class ReviewDTO {
 	}
 
 	public ReviewDTO(int r_num, int u_member_id, int pd_id, String r_content, int r_score, String r_img, Date r_regDate,
-			int r_like_cnt, String u_nickname) {
+			String u_nickname) {
 		super();
 		this.r_num = r_num;
 		this.u_member_id = u_member_id;
@@ -28,7 +27,6 @@ public class ReviewDTO {
 		this.r_score = r_score;
 		this.r_img = r_img;
 		this.r_regDate = r_regDate;
-		this.r_like_cnt = r_like_cnt;
 		this.u_nickname = u_nickname;
 	}
 
@@ -88,14 +86,6 @@ public class ReviewDTO {
 		this.r_regDate = r_regDate;
 	}
 
-	public int getR_like_cnt() {
-		return r_like_cnt;
-	}
-
-	public void setR_like_cnt(int r_like_cnt) {
-		this.r_like_cnt = r_like_cnt;
-	}
-
 	public String getU_nickname() {
 		return u_nickname;
 	}
@@ -108,6 +98,6 @@ public class ReviewDTO {
 	public String toString() {
 		return "ReviewDTO [r_num=" + r_num + ", u_member_id=" + u_member_id + ", pd_id=" + pd_id + ", r_content="
 				+ r_content + ", r_score=" + r_score + ", r_img=" + r_img + ", r_regDate=" + r_regDate + ", r_like_cnt="
-				+ r_like_cnt + ", u_nickname=" + u_nickname + "]";
+				+ ", u_nickname=" + u_nickname + "]";
 	}
 }
