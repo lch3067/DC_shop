@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CartDTO {
 
-	private int ctNum;
+	private Long ctNum;
 	private int pdId;
 	private int uMemberId;
 	private int ctQuantity;
@@ -16,8 +16,8 @@ public class CartDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public CartDTO(int ctNum, int pdId, int uMemberId, int ctQuantity, Date ctAddDate, List<ProductDTO> productDto) {
+
+	public CartDTO(Long ctNum, int pdId, int uMemberId, int ctQuantity, Date ctAddDate, List<ProductDTO> productDto) {
 		super();
 		this.ctNum = ctNum;
 		this.pdId = pdId;
@@ -27,11 +27,11 @@ public class CartDTO {
 		this.productDto = productDto;
 	}
 
-	public int getCtNum() {
+	public Long getCtNum() {
 		return ctNum;
 	}
 
-	public void setCtNum(int ctNum) {
+	public void setCtNum(Long ctNum) {
 		this.ctNum = ctNum;
 	}
 

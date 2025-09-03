@@ -6,20 +6,20 @@
 
 <mapper namespace="com.spring.DCShop.shop.dao.CartDAO">
 
-	
 	<!-- 카트 정보 담기 -->
-	<select id="addProductList"  parameterType="com.spring.DCShop.shop.dto.UserDTO">
-		SELECT u_member_id, 
-		       u_id, 
-		       u_name,
-		       u_address,
-		       u_zip_code,
-		       u_phone,
-		       u_email,
-		       u_nickname
-		  FROM user_tbl
-		 WHERE u_id = #{sessionId} 
-	</select>
+	<insert id="addProductList" parameterType="com.spring.DCShop.shop.dto.CartDTO">
+		<!-- CT_NUM 시퀀스 선조회 -->
+		 <selectKey keyProperty="ctNum" resultType="java.lang.Long" order="BEFORE">
+		   SELECT CART_TBL_SEQ.NEXTVAL FROM DUAL
+		 </selectKey>
+	
+		 INSERT INTO CART_TBL (
+		      CT_NUM, PD_ID, U_MEMBER_ID, CT_QUANTITY, CT_ADD_DATE
+		  ) VALUES (
+		      #{ctNum}, #{pdId}, #{uMemberId}, #{ctQuantity}, SYSDATE
+		  )
+		  
+	</insert>
 	
 	<!-- 로그인한 유저의 맴버아이디 가져오기 -->
 	<select id="getUserInfo"  resultMap="userMap">

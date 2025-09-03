@@ -52,6 +52,8 @@ public class CartServiceImpl implements CartService {
 		
 		List<CartDTO> productList = cartdao.getProductList(Integer.toString(uMemberId));
 
+		System.out.println(productList);
+		
 		model.addAttribute("user", userInfo);
 		model.addAttribute("cart", productList);
 		

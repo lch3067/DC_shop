@@ -163,13 +163,13 @@
 							<c:set var="hasPd"
 								value="${not empty c.productDto and fn:length(c.productDto) gt 0}" />
 							<c:set var="pd" value="${hasPd ? c.productDto[0] : null}" />
-							<c:set var="price" value="${hasPd ? pd.pdPrice : 0}" />
+							<c:set var="price" value="${hasPd ? pd.pd_price : 0}" />
 
 							<div class="card cart-item" data-id="${c.pdId}">
 								<div class="card-body d-flex flex-wrap gap-3 align-items-center">
 									<c:choose>
-										<c:when test="${hasPd and not empty pd.pdImageUrl}">
-											<img src="${pd.pdImageUrl}" alt="${pd.pdName}"
+										<c:when test="${hasPd and not empty pd.pd_image_url}">
+											<img src="${pd.pd_image_url}" alt="${pd.pd_name}"
 												class="cart-item-thumb flex-shrink-0" />
 										</c:when>
 										<c:otherwise>
@@ -182,7 +182,7 @@
 
 									<div class="me-auto">
 										<div class="fw-semibold">
-											<c:out value="${hasPd ? pd.pdName : '알 수 없는 상품'}" />
+											<c:out value="${hasPd ? pd.pd_name : '알 수 없는 상품'}" />
 										</div>
 										<div class="text-primary fw-bold price" data-price="${price}">
 											<fmt:formatNumber value="${price}" type="currency"
