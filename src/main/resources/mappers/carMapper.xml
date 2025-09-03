@@ -8,7 +8,7 @@
 
 	
 	<!-- 카트 정보 담기 -->
-	<select id="addProductList"  parameterType="com.spring.DCShop.shop.dto.">
+	<select id="addProductList"  parameterType="com.spring.DCShop.shop.dto.UserDTO">
 		SELECT u_member_id, 
 		       u_id, 
 		       u_name,
