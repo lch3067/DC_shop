@@ -69,7 +69,7 @@
 				  <tr>
 				    <!-- 왼쪽: 상품 이미지 -->
 				    <td class="left image-cell">
-				      <img src="<c:url value='${img}'/>" alt="<c:out value='${dto.pd_name}'/>" class="pd-photo">
+				      <img src="<c:url value='${dto.pd_image_url}'/>" alt="<c:out value='${dto.pd_name}'/>" class="pd-photo">
 				    </td>
 				
 				    <!-- 오른쪽: 상세 정보 + 버튼 -->
@@ -177,7 +177,7 @@
 				      <div class="actions actions-main">
 						  <button type="button"
 						          class="btn-primary"
-						          onclick="location.href='${path}/cart/add.do?pd_id=${dto.pd_id}&qty=1'">장바구니 담기</button>
+						          onclick="location.href='${path}/cart.do?pd_id=${dto.pd_id}&qty=3.do'">장바구니 담기</button>
 						
 						  <button type="button"
 						          class="btn-secondary"
@@ -225,15 +225,26 @@
 				        <ul class="review-list">
 				          <c:forEach var="r" items="${reviews}">
 				            <li class="review">
-				              <div class="stars" aria-label="별점 ${r.r_score}">
-				                <c:forEach begin="1" end="5" var="i">
-				                  <span class="${i <= r.r_score ? 'on' : ''}">★</span>
-				                </c:forEach>
-				              </div>
-				              <div class="content"><c:out value="${r.r_content}"/></div>
-				              <div class="meta">
-				                <fmt:formatDate value="${r.r_regDate}" pattern="yyyy-MM-dd"/>
-				              </div>
+				              <div class="pd-rating" aria-label="평균 별점 ${avg05} / 5">
+                 <span class="rating-stars">
+                   <!-- 꽉 별 -->
+                   <c:forEach begin="1" end="${fullStars}">
+                     <i class="fa-solid fa-star on"></i>
+                   </c:forEach>
+               
+                   <!-- 반 별 -->
+                   <c:if test="${halfStar == 1}">
+                     <i class="fa-solid fa-star-half-stroke on"></i>
+                   </c:if>
+               
+                   <!-- 빈 별 -->
+                   <c:forEach begin="1" end="${emptyStars}">
+                     <i class="fa-regular fa-star"></i>
+                   </c:forEach>
+                 </span>
+               
+                  <span class="reviews count">(${revCount}개 리뷰)</span>
+               </div>
 				            </li>
 				          </c:forEach>
 				        </ul>

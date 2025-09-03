@@ -6,41 +6,16 @@
 
 
 <script type="text/javascript">
-	function openCheckout(targetUrl) {
+	function openCheckout(el) {
 		
+		const d = el.dataset;
+	
 		const f = document.createElement('form');
 		f.method = 'POST';
-		f.action = '/ad_shop_detailAction.pd';
+		f.action = CTX + '/ad_shop_detailAction.pd';
 		
-		let pd_id 			= document.getElementById("pd_id").value;
-		let pd_name 		= document.getElementById("pd_name").value;
-		let pd_price        = document.getElementById('pd_price').value;
-		let pd_stock        = document.getElementById('pd_stock').value;
-		let pd_brand        = document.getElementById('pd_brand').value;
-		let pd_image_url    = document.getElementById('pd_image_url').value;
-		let pd_shipping_fee = document.getElementById('pd_shipping_fee').value;
-		let pd_discount_rate= document.getElementById('pd_discount_rate').value;
-		let pd_status       = document.getElementById('pd_status').value;
-		let pd_option       = document.getElementById('pd_option').value;
-		let review_count    = document.getElementById('review_count').value;
-		let review_score    = document.getElementById('review_score').value;
-
-		console.log(pd_id + pd_name + pd_price + pd_stock + pd_brand + pd_image_url + pd_shipping_fee 
-				+ pd_discount_rate + pd_status + pd_option + review_count + review_score);
-		
-		addHidden(f, 'pdId', pd_id);
-	    addHidden(f, 'pdName', pd_name);
-	    addHidden(f, 'pdPrice', pd_price);
-	    addHidden(f, 'pdStock', pd_stock);
-	    addHidden(f, 'pdBrand', pd_brand);
-	    addHidden(f, 'pdImageUrl', pd_image_url);
-	    addHidden(f, 'pdShippingFee', pd_shipping_fee);
-	    addHidden(f, 'pdDiscountRate', pd_discount_rate);
-	    addHidden(f, 'pdStatus', pd_status);
-	    addHidden(f, 'pdOption', pd_option);
-	    addHidden(f, 'reviewCount', review_count);
-	    addHidden(f, 'reviewScore', review_score);
-	    
+		addHidden(f, 'pdId', d.pdId);
+	   
 	    document.body.appendChild(f);
 	    f.submit();
 	}
@@ -52,17 +27,6 @@
   	  i.value = value;
   	  form.appendChild(i);
   	}
-</script>
-
-
-
-<<script type="text/javascript">
-	function postLink(actionUrl, dto) {
-		
-		
-		let pd_id = document.getElementById("pd_id");
-		console.log(pd_id.value);
-	}
 </script>
 
 <c:choose>
@@ -83,14 +47,10 @@
 		<div
 			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
 			<c:forEach var="dto" items="${list}">
-				<div
-					class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-
-					<a href="#" onclick="return openCheckout()" style="text-decoration: none">
-						
+				<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+					<a href="#" onclick="return openCheckout(this)" data-pd-id="${dto.pd_id}" style="text-decoration: none">
 						<div class="aspect-square bg-gray-100 relative overflow-hidden">
-							<img
-								src="https://readdy.ai/api/search-image?query=Rachael%20Ray%20Nutrish%20natural%20dry%20dog%20food%20bag%20with%20wholesome%20ingredients%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20pet%20nutrition&width=300&height=300&seq=2&orientation=squarish"
+							<img src="<c:url value='${dto.pd_image_url}'/>"
 								alt="Rachael Ray Nutrish"
 								class="w-full h-full object-cover object-top" />
 						</div>
@@ -111,25 +71,6 @@
 								<span class="text-sm text-gray-600">${dto.review_count}</span>
 							</div>
 						</div>
-						<input type="hidden" id="pd_id"            value="${dto.pd_id}">
-						<input type="hidden" id="pd_name"          value="${fn:escapeXml(dto.pd_name)}">
-						<input type="hidden" id="pd_description"   value="${fn:escapeXml(dto.pd_description)}">
-						<input type="hidden" id="pd_price"         value="${dto.pd_price}">
-						<input type="hidden" id="pd_stock"         value="${dto.pd_stock}">
-						<input type="hidden" id="pd_pet_category"  value="${dto.pd_pet_category}">
-						<input type="hidden" id="pd_category"      value="${dto.pd_category}">
-						<input type="hidden" id="pd_subcategory"   value="${dto.pd_subcategory}">
-						<input type="hidden" id="pd_created"       value="${dto.pd_created}">
-						<input type="hidden" id="pd_updated"       value="${dto.pd_updated}">
-						<input type="hidden" id="pd_brand"         value="${fn:escapeXml(dto.pd_brand)}">
-						<input type="hidden" id="pd_image_url"     value="${fn:escapeXml(dto.pd_image_url)}">
-						<input type="hidden" id="pd_shipping_fee"  value="${dto.pd_shipping_fee}">
-						<input type="hidden" id="pd_discount_rate" value="${dto.pd_discount_rate}">
-						<input type="hidden" id="pd_status"        value="${fn:escapeXml(dto.pd_status)}">
-						<input type="hidden" id="pd_option"        value="${fn:escapeXml(dto.pd_option)}">
-						<input type="hidden" id="review_count"     value="${dto.review_count}">
-						<input type="hidden" id="review_score"     value="${dto.review_score}">
-						<input type="hidden" id="sortOrder"        value="${dto.sortOrder}">
 					</a>
 				</div>
 			</c:forEach>

@@ -30,7 +30,10 @@ public class ProductServiceImpl implements ProductService{
 		System.out.println("ProductServiceImpl - productDetailAction");
 		
 		// pd_id 파라미터 안전 처리: 없거나 잘못되면 1로 폴백
-        String pdIdParam = request.getParameter("pd_id");
+        String pdIdParam = request.getParameter("pdId");
+        
+        System.out.println(pdIdParam);
+        
         int pd_id;
         try {
             pd_id = (pdIdParam == null || pdIdParam.isEmpty()) ? 1 : Integer.parseInt(pdIdParam);
