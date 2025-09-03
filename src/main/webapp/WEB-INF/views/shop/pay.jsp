@@ -268,14 +268,15 @@ input[type="checkbox"]:checked::after {
       	const orderId = generateOrderId();
       	
       	const orderInfo = {
-      		pd_id: 1,
       		o_name : document.getElementById("u_name").value,
       		o_phone : document.getElementById("u_phone").value,
-      		o_price : 1000,
-      		o_count : 2,
       		o_address : document.getElementById("u_address").value,
       		o_zip_code : document.getElementById("u_zip_code").value,
-      		o_request: document.getElementById("o_request").value
+      		o_request: document.getElementById("o_request").value,
+      		
+      		orderList : [{pd_id: 1, o_price: 1000, o_count:2},
+      					 {pd_id: 2, o_price: 1500, o_count:2},
+      					 {pd_id: 3, o_price: 2000, o_count:1}]
           };
       	
 			await widgets.requestPayment({
