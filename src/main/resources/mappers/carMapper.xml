@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.DCShop.shop.dao.CartDAO">
+
+	
+	<!-- 카트 정보 담기 -->
+	<select id="addProductList"  parameterType="com.spring.DCShop.shop.dto.">
+		SELECT u_member_id, 
+		       u_id, 
+		       u_name,
+		       u_address,
+		       u_zip_code,
+		       u_phone,
+		       u_email,
+		       u_nickname
+		  FROM user_tbl
+		 WHERE u_id = #{sessionId} 
+	</select>
+	
+	<!-- 로그인한 유저의 맴버아이디 가져오기 -->
+	<select id="getUserInfo"  resultMap="userMap">
+		SELECT u_member_id, 
+		       u_id, 
+		       u_name,
+		       u_address,
+		       u_zip_code,
+		       u_phone,
+		       u_email,
+		       u_nickname
+		  FROM user_tbl
+		 WHERE u_id = #{sessionId} 
+	</select>
+	
+	<resultMap id="userMap" type="com.spring.DCShop.shop.dto.UserDTO">
+	  <id     property="uMemberId"    column="u_member_id"/>
+	  <result property="uId"          column="u_id"/>
+	  <result property="uName"        column="u_name"/>
+	  <result property="uAddress"     column="u_address"/>
+	  <result property="uZipCode"     column="u_zip_code"/>
+	  <result property="uPhone"       column="u_phone"/>
+	  <result property="uEmail"       column="u_email"/>
+	  <result property="uNickname"    column="u_nickname"/>
+	</resultMap>
+	
+	
+	<!-- CartList 가져오기 -->
+	<select id="getCartList" resultMap="cartMap">
+		SELECT ct_num
+			 , pd_id
+			 , u_member_id
+		     , ct_quantity
+		     , ct_add_date
+		  FROM cart_tbl
+		 WHERE u_member_id = #{uMemberId}
+	</select>
+	
+	<resultMap id="cartMap" type="com.spring.DCShop.shop.dto.CartDTO">
+	  <id     property="ctNum"     	    column="ct_num"/>
+	  <result property="pdId"      	    column="pd_id"/>
+	  <result property="ctQuantity"	    column="ct_quantity"/>
+	  <result property="ctAddDate" 	    column="ct_add_date"/>
+	  <collection property="productDto" column="pd_id" select="getProduct"/>
+	</resultMap>
+	
+	<select id="getProduct" resultType="com.spring.DCShop.shop.dto.ProductDTO">
+		SELECT pd_id pd_id
+		     , pd_name pd_name
+		     , pd_price pd_price
+		     , pd_brand pd_brand
+		     , pd_image_url pd_image_url
+		     , pd_shipping_fee pd_shipping_fee
+		     , pd_status pd_status
+		  FROM product_tbl
+		 WHERE pd_id = #{pd_id}
+	</select>
+	
+	<!-- 상품 구입 갯수 증가 -->
+	<update id="increaseProductCount" parameterType="java.util.Map">
+	    update cart_tbl
+		   set CT_QUANTITY = CT_QUANTITY + 1
+		 WHERE U_MEMBER_ID = #{uMemberId}
+		   AND PD_ID = #{pdId}
+	</update>
+	
+	<!-- 상품 구입 갯수 가져오기-->
+	<select id="getProductCount" resultMap="cartMap">
+		SELECT ct_quantity 
+		  FROM cart_tbl 
+		 WHERE U_MEMBER_ID = #{uMemberId} 
+		   AND PD_ID = #{pdId}
+	</select>
+	
+	<!-- 상품 구입 갯수 감소 -->
+	<update id="dicreaseProductCount" parameterType="java.util.Map">
+	    update cart_tbl
+		   set CT_QUANTITY = CT_QUANTITY - 1
+		 WHERE U_MEMBER_ID = #{uMemberId}
+		   AND PD_ID = #{pdId}
+	</update>
+	
+	<!-- 장바구니에 상품 삭제 -->
+	<delete id="deleteProductFromCart" parameterType="java.util.Map">
+	    DELETE FROM cart_tbl
+		 WHERE U_MEMBER_ID = #{uMemberId}
+		   AND PD_ID = #{pdId}
+	</delete>
+	
+	<!-- 상품 갯수 삭제 -->
+	<update id="changeProductFromCart" parameterType="java.util.Map">
+	     update cart_tbl
+		   set CT_QUANTITY = #{qty}
+		 WHERE U_MEMBER_ID = #{uMemberId}
+		   AND PD_ID = #{pdId}
+	</update>
+	
+</mapper>
