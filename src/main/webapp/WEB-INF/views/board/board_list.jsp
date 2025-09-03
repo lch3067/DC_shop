@@ -43,7 +43,7 @@
 
 
 </head>
-<body>
+<body class="page-comm">
 	<div class="wrap">
 		<!-- 헤더부분 -->
 		<%@ include file="/WEB-INF/views/setting/header.jsp" %>
@@ -87,7 +87,19 @@
 						<table>
 							<tr>
 								<th style="width: 80px">번호</th>
-								<th style="width: 80px">구분</th>
+								<th style="width: 80px">
+									<div class="board-filter">
+									  <a href="#" class="filter-link">구분▼</a>
+									  <div class="filter-menu">
+									    <a href="#">전체</a>
+									    <a href="#">자유</a>
+									    <a href="#">꿀팁</a>
+									    <a href="#">리뷰</a>
+									    <a href="#">질문</a>
+									  </div>
+									</div>
+								</th>
+								
 								<th style="width: auto">제목</th>
 								<th style="width: 100px">작성자</th>
 								<th style="width: 80px"><img
@@ -106,7 +118,8 @@
                               <a href="${path}/board_detail?b_num=${board.b_num}&listClick=1"> 
                                  ${board.b_title} 
                                  <c:if test="${board.b_comments != 0}">
-                                    [${board.b_comments}]
+                                    <%-- [${board.b_comments}] --%>
+                                    <span class="comment-count"> ${board.b_comments}</span>
                                  </c:if>
                               </a>
                            </td>

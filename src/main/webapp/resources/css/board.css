@@ -47,6 +47,7 @@
 .table_div  table th {
 	font-weight: 400;
 	background-color: #f5ae64;
+	
 }
 
 .table_div  table th, td {
@@ -77,8 +78,14 @@
 	margin: 0 5px;
 }
 
+table tr:hover {
+  background-color: #fff3e0;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 .inputButton {
-	background: #1a1a1a;
+	background: #8d6e63;
 	color: #fff;
 	display: inline-block;
 	padding: 12px 20px;
@@ -172,10 +179,29 @@
   top: 67%; /* 위에서 50% 위치 */
   left: 88%; /* 왼쪽에서 50% 위치 */
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
-  color: #707070; /* 텍스트 색상 */
+  /* color: #707070; */ /* 텍스트 색상 */
   text-align: center;
   padding: 10px;
   /* 필요한 경우 배경색, 테두리 등을 추가합니다. */
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #6d4c41;
+  font-family: "Jua", sans-serif;
+}
+
+.text-overlay1 {
+  position: absolute; /* 부모 요소 기준 위치 지정 */
+  top: 18%; /* 위에서 50% 위치 */
+  left: 50%; /* 왼쪽에서 50% 위치 */
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+  /* color: #707070; */ /* 텍스트 색상 */
+  text-align: center;
+  padding: 10px;
+  /* 필요한 경우 배경색, 테두리 등을 추가합니다. */
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #6d4c41;
+  font-family: "Jua", sans-serif;
 }
 
 .board_search {
@@ -186,6 +212,53 @@
 	 position: relative;
       top: 45px;
 }
-.img_con {
-	width: 200px;
+
+.comment-count {
+  background: #ffe0b2;
+  border-radius: 7px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  color: #333;
+  font-weight: bold;
+}
+
+
+
+.board-filter {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-link {
+  text-decoration: none;
+  background: #f5ae64;
+  color: #6d6d6d;
+  border-radius: 4px;
+}
+
+.filter-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #f5ae64;
+  border: 1px solid #ddd;
+  min-width: 120px;
+  z-index: 100;
+}
+
+.filter-menu a {
+  display: block;
+  padding: 8px 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.filter-menu a:hover {
+  background: #ffe0b2;
+}
+
+.board-filter:hover .filter-menu {
+  display: block;
 }

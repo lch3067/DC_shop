@@ -24,6 +24,34 @@
 #payment-button1 {
 	background-color: black; 
 }
+
+:where([class^="ri-"])::before { content: "\f3c2"; }
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+}
+input[type="checkbox"]:checked {
+    background-color: #0066FF;
+    border-color: #0066FF;
+}
+input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
 </style>
 <script>
       tailwind.config = {
@@ -62,86 +90,146 @@
 	
 	<section class="hero-section1">
 	</section>
-	<div class="max-w-6xl mx-auto px-2">
-	<div>
-      <input type="checkbox" id="coupon-box" /> <label for="coupon-box">
-         5,000원 쿠폰 적용 </label>
-   </div>
-   <!-- 결제 UI -->
-   <div id="payment-method"></div>
-   <!-- 이용약관 UI -->
-   <div id="agreement"></div>
-   <!-- 결제하기 버튼 -->
-   <button class="block mx-auto w-full max-w-sm text-white py-3 rounded-button hover:bg-blue-600 transition mt-8" id="payment-button1" style="margin-top: 30px">결제하기</button>
-	<br>
+	
+	<div
+        class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between"
+      >
+        <h1 class="text-lg font-semibold">주문/결제</h1>
+        <button class="text-gray-500">
+          <i class="ri-close-line text-xl"></i>
+        </button>
+      </div>
+    </header>
 
+    <main class="max-w-3xl mx-auto px-4 py-6">
+      <div class="mb-6">
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-2" />
+          <span class="text-sm">5,000원 쿠폰 적용</span>
+        </label>
+      </div>
 
-   <script>
-      main();
+      <section class="bg-white rounded-lg p-4 mb-6">
+        <div class="flex gap-4 mb-4">
+          <div class="w-20 h-20 bg-gray-100 rounded-md"></div>
+          <div class="flex-1">
+            <h3 class="font-medium mb-1">프리미엄 무선 이어폰</h3>
+            <p class="text-sm text-gray-500 mb-1">블랙 / 1개</p>
+            <p class="font-medium">89,000원</p>
+          </div>
+        </div>
+        <div class="border-t pt-4">
+          <div class="flex justify-between text-sm mb-2">
+            <span>배송비</span>
+            <span>3,000원</span>
+          </div>
+          <div class="flex justify-between font-medium">
+            <span>총 결제금액</span>
+            <span class="text-primary">92,000원</span>
+          </div>
+        </div>
+      </section>
 
-      async function main() {
-        const button = document.getElementById("payment-button1");
-        const coupon = document.getElementById("coupon-box");
-        // ------  결제위젯 초기화 ------
-        const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-        const tossPayments = TossPayments(clientKey);
-        // 회원 결제
-        const customerKey = "_FXmMRqIw2EnuAnChrCuk";
-        const widgets = tossPayments.widgets({
-          customerKey,
-        });
+      <section class="bg-white rounded-lg p-4 mb-6">
+        <h2 class="font-medium mb-4">배송지 정보</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="text-sm text-gray-500 block mb-1">받는 사람</label>
+            <input
+              type="text"
+              value="김민수"
+              class="w-full p-3 border rounded-lg"
+              readonly
+            />
+          </div>
+          <div>
+            <label class="text-sm text-gray-500 block mb-1">주소</label>
+            <input
+              type="text"
+              value="서울특별시 강남구 테헤란로 152"
+              class="w-full p-3 border rounded-lg mb-2"
+              readonly
+            />
+            <input
+              type="text"
+              value="상세주소"
+              class="w-full p-3 border rounded-lg"
+              readonly
+            />
+          </div>
+          <div>
+            <label class="text-sm text-gray-500 block mb-1">연락처</label>
+            <input
+              type="tel"
+              value="010-1234-5678"
+              class="w-full p-3 border rounded-lg"
+              readonly
+            />
+          </div>
+        </div>
+      </section>
 
-        // ------ 주문의 결제 금액 설정 ------
-        await widgets.setAmount({
-          currency: "KRW",
-          value: 50000,
-        });
-
-        await Promise.all([
-          // ------  결제 UI 렌더링 ------
-          widgets.renderPaymentMethods({
-            selector: "#payment-method",
-            variantKey: "DEFAULT",
-          }),
-          // ------  이용약관 UI 렌더링 ------
-          widgets.renderAgreement({ 
-             selector: "#agreement", 
-             variantKey: "AGREEMENT" 
-           }),
-        ]);
-
-        // ------  주문서의 결제 금액이 변경되었을 경우 결제 금액 업데이트 ------
-        coupon.addEventListener("change", async function () {
-          if (coupon.checked) {
-            await widgets.setAmount({
-              currency: "KRW",
-              value: 50000 - 5000,
-            });
-
-            return;
-          }
-
-          await widgets.setAmount({
-            currency: "KRW",
-            value: 50000,
+      <section class="bg-white rounded-lg p-4 mb-20">
+        <h2 class="font-medium mb-4">결제 방법</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            class="border rounded-lg p-4 flex items-center justify-center gap-2 !rounded-button"
+          >
+            <i class="ri-bank-card-line"></i>
+            <span>계좌이체</span>
+          </button>
+          <button
+            class="border rounded-lg p-4 flex items-center justify-center gap-2 !rounded-button"
+          >
+            <i class="ri-bank-card-line"></i>
+            <span>신용카드</span>
+          </button>
+          <button
+            class="border rounded-lg p-4 flex items-center justify-center gap-2 !rounded-button"
+          >
+            <i class="ri-kakao-talk-fill"></i>
+            <span>카카오페이</span>
+          </button>
+          <button
+            class="border rounded-lg p-4 flex items-center justify-center gap-2 !rounded-button"
+          >
+            <i class="ri-navigation-fill"></i>
+            <span>네이버페이</span>
+          </button>
+        </div>
+        <p class="text-xs text-gray-500 mt-4">
+          신용카드 최대 5개월 무이자 할부
+        </p>
+      </section>
+    </main>
+	
+	<div class="max-w-3xl mx-auto">
+        <label class="flex items-center mb-4">
+          <input type="checkbox" class="mr-2" />
+          <span class="text-sm"
+            >[필수] 결제 서비스 이용약관 개인정보 처리 동의</span
+          >
+        </label>
+        <button
+          class="w-full bg-black text-white py-4 !rounded-button font-medium"
+        >
+          92,000원 결제하기
+        </button>
+      </div>
+	<script id="payment-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", function () {
+            if (this.checked) {
+              this.classList.add("checked");
+            } else {
+              this.classList.remove("checked");
+            }
           });
         });
-
-        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-        button.addEventListener("click", async function () {
-          await widgets.requestPayment({
-            orderId: "w19rNavZysFTnUo1VttGy",
-            orderName: "토스 티셔츠 외 2건",
-            successUrl: window.location.origin + "/success.html",
-            failUrl: window.location.origin + "/fail.html",
-            customerEmail: "customer123@gmail.com",
-            customerName: "김토스",
-            customerMobilePhone: "01012341234",
-          });
-        });
-      }
+      });
     </script>
-	</div>
 	<!-- 푸터 시작 -->
 	<%@ include file="../setting/footer.jsp" %>
 	<!-- 푸터 끝 -->
