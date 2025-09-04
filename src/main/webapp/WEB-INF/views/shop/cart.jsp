@@ -88,7 +88,7 @@
 
 	<section class="hero-section1"></section>
 
-	<script>
+<script>
 
    function plusFunction(pdId) {
 	   const qtyId = "qty-" + pdId;
@@ -191,6 +191,45 @@
 	   
 	}
     
+    function checkout() {
+  	  // 어떤 버튼이 눌렸는지 몰라도, 클릭된 버튼은 activeElement 입니다.
+  	  const btn  = document.activeElement;
+  	  const form = btn && btn.closest ? btn.closest('form') : document.querySelector('form[name="payMent"]');
+  	  if (!form) { alert('결제 폼을 찾지 못했습니다.'); return; }
+
+  	  // 이전 주입분 제거(재클릭 대비)
+  	  //form.querySelectorAll('input[data-dyn="1"]').forEach(n => n.remove());
+
+  	  // 총액
+  	  const totalText   = (document.getElementById("summaryTotal")?.textContent || "").trim();
+  	  const totalClient = Number(totalText.replace(/[^\d]/g, '') || 0);
+
+  	  // 아이템 수집
+  	  const items = [];
+  	  document.querySelectorAll('#cartItems .cart-item').forEach(card => {
+  	    const pdId    = Number(card.dataset.id);
+  	    const pdName  = (card.querySelector('.fw-semibold').textContent).trim();
+  	    const pdPrice = Number(card.querySelector('.price').dataset.price);
+  	    const qty     = Math.max(1, parseInt(card.querySelector('.qty-input').value));
+  	    items.push({ pdId, pdName, pdPrice, qty });
+  	  });
+
+  	  add('_payload', JSON.stringify({ items, totalClient, currency: 'KRW' }));
+
+  	  form.method = 'post';
+  	  form.action = CTX + '/payQty.do';
+  	  form.submit();
+
+  	  function add(name, value) {
+  	    const input = document.createElement('input');
+  	    input.type = 'hidden';
+  	    input.name = name;
+  	    input.value = value;
+  	    input.setAttribute('data-dyn','1');
+  	    form.appendChild(input);
+  	  }
+  }
+    
  
 
 </script>
@@ -199,7 +238,7 @@
 	<main class="container-xxl py-4">
 		<div class="container-xxl py-3">
 			<div class="d-flex align-items-center gap-3">
-				<a href="${path}/products.do"
+				<a href="${path}/shop_main.do"
 					class="btn btn-light rounded-circle p-2"> <i
 					class="bi bi-arrow-left"></i>
 				</a>
@@ -229,7 +268,7 @@
 								<div class="card-body d-flex flex-wrap gap-3 align-items-center">
 									<c:choose>
 										<c:when test="${hasPd and not empty pd.pd_image_url}">
-											<img src="${pd.pd_image_url}" alt="${pd.pd_name}"
+											<img src="<c:url value='${pd.pd_image_url}'/>" alt="${pd.pd_name}"
 												class="cart-item-thumb flex-shrink-0" />
 										</c:when>
 										<c:otherwise>
@@ -357,7 +396,9 @@
 								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${total}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>					
-						<input type="button" onclick="window.location='${path}/pay.do'" class="btn btn-dark w-100" value="결제하기"/>
+						<form name="payMent" method="post" class="w-100 w-md-auto">
+							<input type="button" onclick="checkout()" class="btn btn-primary w-100" value="결제하기" />
+						</form>
 					</div>
 				</div>
 			</aside>
@@ -368,10 +409,10 @@
 		<div id="stickyFooter"
 			class="fixed-bottom bg-white border-top shadow fixed-checkout">
 			<div class="container-xxl py-3">
-				<div
-					class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-between">
-					<input type="button" onclick="window.location='${path}/pay.do'"
-						class="btn btn-primary btn-lg w-100 w-md-auto px-3" value="결제하기" />
+				<div class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-between">
+					<form name="payMent" method="post" class="w-100 w-md-auto">
+						<input type="button" onclick="checkout()" class="btn btn-primary btn-lg w-100 w-md-auto px-3" value="결제하기" />
+		            </form>
 				</div>
 			</div>
 		</div>
