@@ -86,13 +86,15 @@ public class ReviewDAOImpl implements ReviewDAO{
 	}
 
 	// 평균 별점
-	 @Override
-	    public Double avgScoreByProduct(int pd_id) {
-	        Double avg = sqlSession.selectOne(
-	            "com.spring.DCShop.shop.dao.ReviewDAO.avgScoreByProduct",
-	            pd_id
-	        );
-	        return (avg == null) ? 0.0 : avg;  // null-safe
+	@Override
+	public Double avgScoreByProduct(int pd_id) {
+		System.out.println("ReviewDAOImpl - avgScoreByProduct()");
+		
+	    Double avg = sqlSession.selectOne("com.spring.DCShop.shop.dao.ReviewDAO.avgScoreByProduct",pd_id);
+        
+	    // 리뷰가 없어서 null이면 0.0으로 대체
+        return (avg == null) ? 0.0 : avg;  
+        
 	    }
 
 }

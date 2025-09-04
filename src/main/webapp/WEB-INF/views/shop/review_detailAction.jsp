@@ -15,23 +15,12 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <script>
+/* 리뷰 1건의 상세 정보를 보여주고 목록/수정/삭제 동작을 제공 */
 $(function () {
+// 세션에 session_u_member_id가 있으면 loggedIn이 true
   var loggedIn = ${not empty sessionScope.session_u_member_id};
 
-  // 좋아요
-  $('#recommendBtn').on('click', function (e) {
-    e.preventDefault();
-    if (!loggedIn) {
-      if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) location.href='${path}/login_main.do';
-      return;
-    }
-    var $btn = $(this);
-    if ($btn.data('busy')) return;
-    $btn.data('busy', true);
-    $.get($btn.attr('href')).always(function(){ location.reload(); });
-  });
-
-  // 수정 버튼
+  // 수정 버튼: 로그인 안 되어 있으면 막고 로그인 유도
   $('#btnEditLink').on('click', function (e) {
     if (!loggedIn) {
       e.preventDefault();

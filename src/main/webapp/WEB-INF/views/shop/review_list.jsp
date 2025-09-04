@@ -153,7 +153,7 @@
                         <li><a href="${path}/review_list.bc?pageNum=${paging.prev}&pd_id=${pdId}" class="prevPage">이전</a></li>
                       </c:if>
 
-                      <!-- (선택) 현재 블록 시작 번호 표시 -->
+                      <!-- 현재 블록 시작 번호 표시 -->
                       <c:if test="${paging.endPage >= 10}">
                         <li><a href="${path}/review_list.bc?pageNum=${paging.startPage}&pd_id=${pdId}" class="startNum">현재첫번호</a></li>
                       </c:if>
