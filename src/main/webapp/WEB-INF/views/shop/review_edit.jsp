@@ -16,20 +16,28 @@
 <link rel="stylesheet" href="${path}/resources/css/product/reviewList.css">
 
 <!-- js -->
-<script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script> <!-- 별 아이콘 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="${path}/resources/js/common/main.js" defer></script>
 
 <script>
 $(function(){
-  // 목록
+  /* 문서 준비되면 실행. 세션에 session_u_member_id가 있으면 로그인한 상태 */
+  var loggedIn = ${not empty sessionScope.session_u_member_id};
+
+  /* “목록” 버튼: 상품번호가 있으면 그 상품의 리뷰목록으로, 없으면 기본 목록으로 이동 */
   $('#btnList').on('click', function(){
     const pdId = $('#pd_id').val();
     location.href = pdId ? ('${path}/review_list.bc?pd_id=' + pdId) : '${path}/review_list.bc';
   });
 
-  // 수정(저장)
+  /* “수정” 버튼: 미로그인 시 로그인 유도 */
   $('#btnEdit').on('click', function(){
+    if (!loggedIn) {
+      if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) location.href='${path}/login_main.do';
+      return;
+    }
+    /* 평점/내용 필수 검사 후 /review_updateAction.bc로 제출 */
     const score = $('#r_score').val();
     const content = $('#r_content').val().trim();
     if(!score){ alert('평점을 선택해주세요.'); $('#r_score').focus(); return; }
@@ -38,8 +46,12 @@ $(function(){
     document.editForm.submit();
   });
 
-  // 삭제
+  /* “삭제” 버튼: 로그인 확인 */
   $('#btndelete').on('click', function(){
+    if (!loggedIn) {
+      if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) location.href='${path}/login_main.do';
+      return;
+    }
     if(!confirm('이 리뷰를 삭제하시겠습니까?')) return;
     document.editForm.action = '${path}/review_deleteAction.bc';
     document.editForm.submit();
@@ -104,7 +116,7 @@ $(function(){
                         <option value="1" <c:if test="${dto.r_score == 1}">selected</c:if>>★☆☆☆☆ (1)</option>
                       </select>
                     </td>
-                  </tr>
+                </tr>
 
                   <tr>
                     <th>리뷰 내용</th>
@@ -118,30 +130,24 @@ $(function(){
                     <th>현재 이미지</th>
                     <td colspan="3" style="text-align:center">
                       <c:choose>
-                        <c:when test="${not empty dto.r_img}">
-                          <img src="<c:url value='${dto.r_img}'/>" alt="리뷰 이미지" style="max-width:300px; height:auto;">
-                        </c:when>
-                        <c:otherwise>
-                          등록된 이미지가 없습니다.
-                        </c:otherwise>
-                      </c:choose>
+					    <c:when test="${not empty dto.r_img}">
+					      <%-- r_img가 파일명만 저장돼 있다면 /resources/upload/review/ 를 붙여서 --%>
+					      <c:set var="imgSrc" value="/resources/upload/review/${dto.r_img}"/>
+					        <c:set var="imgSrc" value="${dto.r_img}"/>
+					      <img src="<c:url value='${imgSrc}'/>" alt="리뷰 이미지" style="max-width:300px; height:auto;">
+					    </c:when>
+					    <c:otherwise>등록된 이미지가 없습니다.</c:otherwise>
+					  </c:choose>
                     </td>
                   </tr>
 
                   <tr>
                     <th>이미지 교체</th>
                     <td colspan="3" style="text-align:center">
-                      <input type="file" name="uploadFile" id="uploadFile" accept="image/*">
+                      <input type="file" name="r_imgFile" id="r_imgFile" accept="image/*">
                       <div style="font-size:12px; color:#666; margin-top:4px;">
                         * 새 이미지를 선택하지 않으면 기존 이미지를 유지합니다.
                       </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <th>좋아요</th>
-                    <td colspan="3" style="text-align:center">
-                      ${dto.r_like_cnt}
                     </td>
                   </tr>
 
@@ -149,10 +155,10 @@ $(function(){
                   <tr>
                     <td colspan="4" class="td-actions">
                       <div class="actions-right">
-                        <a href="${path}/review_list.bc?pd_id=${dto.pd_id}" class="btn btn-light">목록</a>
-                        <button type="button" class="btn btn-dark" id="btnEdit">수정</button>
-                        <button type="button" class="btn btn-dark" id="btndelete">삭제</button>
-                      </div>
+						 <a href="${path}/review_list.bc?pd_id=${dto.pd_id}" class="btn btn-light" id="btnList">목록</a>
+						 <button type="button" class="btn btn-dark" id="btnEdit">수정</button>
+						 <button type="button" class="btn btn-dark" id="btndelete">삭제</button>
+					</div>
                     </td>
                   </tr>
                 </tbody>

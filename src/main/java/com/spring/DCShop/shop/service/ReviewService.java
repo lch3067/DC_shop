@@ -25,6 +25,10 @@ public interface ReviewService {
 	public int review_chkAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 	
+	// 리뷰 수정 화면
+	public void reviewEditForm(HttpServletRequest request, HttpServletResponse response, Model model)
+		throws ServletException, IOException; 
+	
 	// 리뷰 수정처리
 	public void reviewUpdateAction(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;

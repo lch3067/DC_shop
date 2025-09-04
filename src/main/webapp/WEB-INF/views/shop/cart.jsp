@@ -332,7 +332,12 @@
 						</div>
 						<h3 class="h5 fw-semibold mb-2">장바구니가 비어 있습니다</h3>
 						<p class="text-body-secondary mb-4">상품을 담아 결제를 시작해 보세요.</p>
+<<<<<<< HEAD
 						<a href="${path}/shop_main.do" class="btn btn-secondary btn-lg">쇼핑하러 가기</a>
+=======
+						<a href="${path}/shop_main.do" class="btn btn-secondary btn-lg">쇼핑하러
+							가기</a>
+>>>>>>> a12d4522c2d4747419902bda216e09bdb67fdfa6
 					</section>
 				</c:if>
 			</div>
@@ -403,19 +408,6 @@
 			</aside>
 		</div>
 	</main>
-
-	<c:if test="${not empty cart}">
-		<div id="stickyFooter"
-			class="fixed-bottom bg-white border-top shadow fixed-checkout">
-			<div class="container-xxl py-3">
-				<div class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-between">
-					<form name="payMent" method="post" class="w-100 w-md-auto">
-						<input type="button" onclick="checkout()" class="btn btn-primary btn-lg w-100 w-md-auto px-3" value="결제하기" />
-		            </form>
-				</div>
-			</div>
-		</div>
-	</c:if>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
