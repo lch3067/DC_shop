@@ -26,7 +26,6 @@ public class ChatBotController {
 		
 		// 객체에 환경변수 pluginKey값 담기. 언어는 한국어로 고정.
 		ConfigResponse res = new ConfigResponse(prov.getPluginKey(), "ko");
-		System.out.println("플러그인 키 호출" + prov.getPluginKey());
 		return res;
 	}
 	
