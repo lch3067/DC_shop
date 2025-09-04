@@ -101,20 +101,6 @@
   border-color: #d1d5db; /* 테두리 */
 }
 
-/* 별점 사이즈 */
-.rating-stars {
-  display:inline-flex;
-  gap:0;              /* 아이콘 사이 간격 제거 */
-  line-height:1; 
-}
-.rating-stars i {
-  font-size:16px;     /* 원하는 크기 */
-}
-
-/* 아이콘 별 렌더링 보정 */
-.rating-stars { display: inline-flex; gap: 0; line-height: 1; }
-.rating-stars i { font-size: 16px; }
-
 .table-detail .td-actions { padding:12px 16px; text-align:right; }
 .table-detail .actions-right {
     display:flex; justify-content:flex-end; align-items:center; gap:8px; flex-wrap:nowrap;
@@ -246,12 +232,99 @@
   vertical-align: middle;  /* 세로 가운데 */
 }
 
-  .table-detail .td-actions { padding:12px 16px; text-align:right; }
-  .table-detail .actions-right { display:flex; justify-content:flex-end; align-items:center; gap:8px; }
-  .btn{display:inline-block;padding:8px 14px;border-radius:8px;font-weight:600;line-height:1;text-decoration:none;border:1px solid #000}
-  .btn-light{background:#fff;color:#000}
-  .btn-light:hover{background:#f7f7f7}
-  .btn-dark{background:#000;color:#fff}
-  .btn-dark:hover{opacity:.9}
-  .inline{display:inline;margin:0}
-  .page-title { text-align:center; }
+.table-detail .td-actions { padding:12px 16px; text-align:right; }
+.table-detail .actions-right { display:flex; justify-content:flex-end; align-items:center; gap:8px; }
+.btn{display:inline-block;padding:8px 14px;border-radius:8px;font-weight:600;line-height:1;text-decoration:none;border:1px solid #000}
+.btn-light{background:#fff;color:#000}
+.btn-light:hover{background:#f7f7f7}
+.btn-dark{background:#000;color:#fff}
+.btn-dark:hover{opacity:.9}
+.inline{display:inline;margin:0}
+.page-title { text-align:center; }
+
+.btn-like { display:inline-flex; align-items:center; gap:6px; }
+.btn-like i { font-size:14px; }
+.btn-like .like-count { font-weight:600; }
+
+/* 버튼 기본 스타일 제거 */
+.btn-like {
+  all: unset;                /* 브라우저 기본 버튼 스타일 초기화 */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 하트 아이콘 */
+.btn-like i {
+  font-size: 26px;           /* 하트 크게 */
+  color: red;                /* 빨간색 */
+}
+
+/* 괄호 + 숫자 */
+.btn-like .count {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;               /* 진한 회색 글자 */
+}
+
+/* 리뷰 상세 이미지 크기 */
+.rv-image {
+  max-width: 400px;   /* 가로 최대 400px */
+  max-height: 300px;  /* 세로 최대 300px */
+  width: auto;        /* 비율 유지 */
+  height: auto;
+  display: block;
+  margin: 10px auto;  /* 가운데 정렬 */
+  border-radius: 8px; /* 모서리 둥글게 (선택) */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 그림자 (선택) */
+}
+
+.rv-thumb { max-width:120px; max-height:120px; }
+.rv-detail { max-width:500px; max-height:400px; }
+
+ /* 아이콘 별 렌더링 보정*/
+ .rating-stars { display: inline-flex; gap: 0; line-height: 1; }
+ .rating-stars i { font-size: 16px; }
+ 
+ /* 썸네일 */
+ .rv-thumb {
+  width: 80px;   /* 가로 고정 */
+  height: auto;  /* 세로는 비율 유지 */
+  border-radius: 4px;
+}
+
+/* 리뷰 상세 테이블 기본 */
+.table-detail {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 셀 폭 균등하게 */
+}
+
+/* 별점 행 (가운데 정렬 + 여백) */
+.rating-cell {
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* 페이징: 기본, 호버, 활성 */
+.table_div .pagination a{
+  background:#fff;
+  color:#000;
+  border:1px solid #000;
+}
+.table_div .pagination a:hover,
+.table_div .pagination a.active{
+  background:#000;
+  color:#fff;
+  border-color:#000;
+}
+
+/* 리뷰 목록 & 리뷰 상세 공통 아이콘 별 색상 */
+.rating-stars .fa-solid  { color: #f59e0b !important; } /* 채워진 별 */
+.rating-stars .fa-regular{ color: #ddd     !important; } /* 빈 별    */
+
+/* (원하면 크기) */
+.rating-stars i { font-size: 16px; line-height: 1; }
+
+
