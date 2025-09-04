@@ -51,7 +51,7 @@ public class CartController {
 		try {
 			cartservice.addProductList(request, response, model);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		} finally {
 			return "redirect:/cartListShow.do";
 		}
