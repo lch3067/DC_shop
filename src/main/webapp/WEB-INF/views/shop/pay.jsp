@@ -84,6 +84,10 @@ input[type="checkbox"]:checked::after {
 <link rel="stylesheet" href="${path}/resources/css/main.css">
 <link rel="stylesheet" href="${path}/resources/css/shop_main.css">
 <body>
+
+
+	
+
 	<!-- 헤더 시작 -->
 	<%@ include file="../setting/header.jsp" %>
 	<!-- 헤더 끝 -->
@@ -107,6 +111,7 @@ input[type="checkbox"]:checked::after {
           <input type="checkbox" class="mr-2" />
           <span class="text-sm">5,000원 쿠폰 적용</span>
         </label>
+        
       </div>
 
       <section class="bg-white rounded-lg p-4 mb-6">
@@ -128,6 +133,7 @@ input[type="checkbox"]:checked::after {
             <span class="text-primary">92,000원</span>
           </div>
         </div>
+        <c:out value="${goPay}">결과</c:out>
       </section>
 
       <section class="bg-white rounded-lg p-4 mb-6">
