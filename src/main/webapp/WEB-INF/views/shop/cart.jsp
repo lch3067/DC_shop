@@ -405,19 +405,6 @@
 		</div>
 	</main>
 
-	<c:if test="${not empty cart}">
-		<div id="stickyFooter"
-			class="fixed-bottom bg-white border-top shadow fixed-checkout">
-			<div class="container-xxl py-3">
-				<div class="d-flex flex-column flex-md-row gap-3 align-items-center justify-content-between">
-					<form name="payMent" method="post" class="w-100 w-md-auto">
-						<input type="button" onclick="checkout()" class="btn btn-primary btn-lg w-100 w-md-auto px-3" value="결제하기" />
-		            </form>
-				</div>
-			</div>
-		</div>
-	</c:if>
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/js/cart.js"></script>
