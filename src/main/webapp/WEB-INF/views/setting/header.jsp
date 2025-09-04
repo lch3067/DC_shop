@@ -53,6 +53,9 @@
 </style>
 </head>
 <body>
+<c:if test="${not empty sessionScope.session_u_member_id}">
+	<%@ include file="chatbot.jsp" %>
+</c:if>
 <header class="header1">
 		<div class="header-container1">
 			<div class="logo1"><img alt="" src="resources/img_main/독캣배송_아이콘만.png" width="70px"> <!-- 사이트 이름 --></div>
@@ -66,7 +69,7 @@
 				        <a href="#" class="nav-link1">COMMUNITY</a>
 				        <div class="sub-menu">
 				            <a href="${path}/comm_main.do">공지/이벤트</a>
-				            <a href="${path}/comm_main.do" >자유</a>
+				            <a href="${path}/board_list" >자유</a>
 				            <a href="${path}/comm_CSD.do">묘한발견(준비중)</a>
 				        </div>
 				    </div>

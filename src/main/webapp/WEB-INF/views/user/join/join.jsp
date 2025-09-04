@@ -102,7 +102,7 @@
 				</div>
 				<hr style="border: 3px solid">
 				<!-- 상단 중앙2 시작 -->
-				<div id=section2">
+				<div id="section2">
 					<div id="s2_inner">
 						<!-- join 시작 -->
 						<div class="join">
@@ -259,6 +259,5 @@
 	<!-- Footer 시작 -->
 	<%@ include file="../../setting/footer.jsp" %>
 	<!-- Footer 시작 -->
-	</div>
 </body>
 </html>

@@ -21,7 +21,7 @@
 <!-- JS -->
 <script defer src="<c:url value='/resources/js/product/product_detail.js'/>"></script>
 <script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script>
-</head>
+
 <!-- 선택 수량 읽어서 URL에 포함 -->
 <script>
   /* 입력값을 읽고 min/max 범위로 보정 후 반환 */
@@ -60,14 +60,13 @@
     location.href = '${path}/order/now.do?pd_id=' + pdId + '&qty=' + qty;
   }
 </script>
-
+</head>
 <body class="product-detail-page">
   <div class="wrap">
     <%@ include file="/WEB-INF/views/setting/header.jsp" %>
 
     <div id="container">
       <div id="contents">
-
         <div id="section2">
           <div id="right">
           	<div class="center">
@@ -97,7 +96,7 @@
 				  <tr>
 				    <!-- 왼쪽: 상품 이미지 -->
 				    <td class="left image-cell">
-				      <img src="<c:url value='${img}'/>" alt="<c:out value='${dto.pd_name}'/>" class="pd-photo">
+				      <img src="<c:url value='${dto.pd_image_url}'/>" alt="<c:out value='${dto.pd_name}'/>" class="pd-photo">
 				    </td>
 				
 				    <!-- 오른쪽: 상세 정보 + 버튼 -->
@@ -122,12 +121,9 @@
 						<c:forEach var="i" begin="1" end="${emptyStars}">
 						  <span class="star empty">☆</span>
 						</c:forEach>
-
 					  </div>
 					  <span class="reviews count">(${revCount}개 리뷰)</span>
 					</div>
-
-
 
 				      <table class="kv">
 				        <tr>
@@ -260,7 +256,6 @@
 					    </div>
 					  </td>
 					</tr>
-					
 				</table>
 				
 				<div class="pd-bottom">
@@ -279,17 +274,17 @@
 				  </section>
 				
 				  <!-- 리뷰 목록 -->
+				  <section id="panel-rev" class="pd-panel" role="tabpanel" aria-labelledby="tab-rev">
 				  <c:set var="ctx" value="${pageContext.request.contextPath}" />
 				  <c:set var="pid" value="${dto.pd_id}" />
-				  <section id="panel-rev" class="pd-panel" role="tabpanel" aria-labelledby="tab-rev">
+				  
 				    <c:choose>
 					  <c:when test="${empty recentReviews}">
 					    <p class="empty">아직 등록된 리뷰가 없습니다.</p>
 					    <a class="link" href="<c:url value='/review_insert.bc'/>?pd_id=${pid}">리뷰 작성하기</a>
 					  </c:when>
-					
-					  <c:otherwise>
-					    <!-- 최신 리뷰 5개 -->
+				      <c:otherwise>
+					    <%-- 최신 리뷰 5개 --%>
 					    <ul class="recent-reviews">
 					      <c:forEach var="r" items="${recentReviews}">
 					        <li class="rv-item">
@@ -307,28 +302,26 @@
 								    <i class="${i <= r.r_score ? 'fa-solid' : 'fa-regular'} fa-star"></i>
 								  </c:forEach>
 								</div>
-
 					            <div class="rv-text"><c:out value="${r.r_content}"/></div>
 					            <div class="rv-date">
 					              <fmt:formatDate value="${r.r_regDate}" pattern="yyyy-MM-dd"/>
 					            </div>
-					          </div>
+					           </div>
 					        </li>
 					      </c:forEach>
 					    </ul>
 					
-					    <!-- 전체 보기 & 작성 -->
+					    <%-- 전체 보기 & 작성 --%>
 					    <div class="review-actions text-right" style="margin-top:8px">
 						  <a href="<c:url value='/review_list.bc'/>?pd_id=${pid}" class="btn-review-list">리뷰 전체보기</a>
 						  <a href="<c:url value='/review_insert.bc'/>?pd_id=${pid}" class="btn-review-write">리뷰 작성</a>
 						</div>
 					  </c:otherwise>
-					</c:choose>
+					 </c:choose>
 				    
 					  <!-- 리뷰 작성 폼 -->
 					  <form action="${ctx}/review/insert.do" method="post">
 					    <input type="hidden" name="pd_id" value="${pid}">
-					    
 					  </form>
 				  </section>
 				
@@ -340,10 +333,8 @@
 				</div>
 
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
 

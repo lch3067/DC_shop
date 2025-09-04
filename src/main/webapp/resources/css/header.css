@@ -2,7 +2,7 @@
 
 
 body {
-  padding-top: 20px; 
+  padding-top: 20px; /* header 높이만큼 밀어줌 */
 } 
 
 /* 헤더 스타일 */
@@ -12,10 +12,22 @@ body {
 	background-color: rgba(255, 255, 255, 0.7); /* 0.7 = 70% 불투명 */
 	backdrop-filter: blur(8px);
 	border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-	position: sticky;
+	position: fixed;
 	top: 0;
-	z-index: 50; 
+	z-index: 50;
 }
+
+.page-comm .header1 {
+	width: 100%;
+	background: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 224, 178, 0.7);
+	backdrop-filter: blur(8px);
+	border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+	position: fixed;
+	top: 0;
+	z-index: 50;
+}
+
 
 .header-container1 {
 	max-width: 1280px;
@@ -60,8 +72,9 @@ body {
 	cursor: pointer;
 	white-space: nowrap;
 	transition: background 0.2s;
-	width: 74px;
+	/* width: 74px; */
 	height: 37px;
+	text-align: center;
 }
 
 .contact-btn1:hover {
@@ -124,5 +137,4 @@ body {
 .mobile-contact-btn1:hover {
 	background: #374151;
 }
-
 

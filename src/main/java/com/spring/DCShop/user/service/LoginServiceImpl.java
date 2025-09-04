@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.spring.DCShop.board.dao.BoardDAO;
 import com.spring.DCShop.user.dao.LoginDAO;
 import com.spring.DCShop.user.dto.UserDTO;
 
@@ -21,6 +22,8 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private LoginDAO dao;
+	@Autowired
+	private BoardDAO boardDao;
 	
 	@Override
 	public void loginaction(HttpServletRequest request, HttpServletResponse response, Model model)
@@ -34,10 +37,10 @@ public class LoginServiceImpl implements LoginService {
 		map.put("id", id);
 		map.put("pw", pw);
 		
-		int test = 0;
-		String test1 = "";
-		String test2 = "";
-		String test3 = "";
+//		int test = 0;
+//		String test1 = "";
+//		String test2 = "";
+//		String test3 = "";
 		UserDTO dto = dao.idpasswordchk(map);
 		//6. 로그인 성공시 세션 id를 설정
 		if(dto != null) {

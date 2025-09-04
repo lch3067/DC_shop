@@ -82,4 +82,11 @@ public class LoginController {
 		
 		return "comm/comm_CSD";
 	}
+	
+	@RequestMapping("pay.do")
+	public String pay() {
+		logger.info("=== url -> pay ===");
+		
+		return "shop/pay";
+	}
 }

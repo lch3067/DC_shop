@@ -95,9 +95,11 @@ public class CustomerServiceImpl implements CustomerService {
 		customerdto.setU_birthday(Date.valueOf(request.getParameter("u_birthday")));
 		
 		// 유저 주소 : 주소 합치기
-		String address = request.getParameter("u_address") + " " + request.getParameter("u_deTailAddress") + " "
-				+ request.getParameter("u_zip_code");
+		String address = request.getParameter("u_address") + " " + request.getParameter("u_deTailAddress");
 		customerdto.setU_address(address);
+		
+		
+		customerdto.setU_zip_code(Integer.parseInt(request.getParameter("u_zip_code")));
 
 		// 전화번호
 		// hp은 필수가 아니므로 null값이 들어올 수 있으므로 값이 존재할 때만 받아온다.(010-1234-4567);
@@ -108,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		if (!hp1.equals("") && !hp2.equals("") && !hp3.equals("")) {
 			hp = hp1 + "-" + hp2 + "-" + hp3;
-			customerdto.setU_phone(hp3);
+			customerdto.setU_phone(hp);
 		}
 
 		// 이메일 부분
@@ -120,6 +122,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 		customerdto.setU_piagree(request.getParameter("agreePrivacy"));
 		customerdto.setU_magree(request.getParameter("agreeMarketing"));
+		
+		System.out.println("customerdto" + customerdto);
 		
 		request.getSession().setAttribute("customerdto", customerdto);
 	}
