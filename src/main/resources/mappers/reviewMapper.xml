@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.DCShop.shop.dao.ReviewDAO">
+
+  <!-- 상세조회 매핑 명시 -->
+  <resultMap id="ReviewDetailMap" type="com.spring.DCShop.shop.dto.ReviewDTO">
+    <id     property="r_num"       column="r_num"/>
+    <result property="u_member_id" column="u_member_id"/>
+    <result property="pd_id"       column="pd_id"/>
+    <result property="r_score"     column="r_score"/>
+    <result property="r_content"   column="r_content"/>
+    <result property="r_img"       column="r_img"/>
+    <result property="r_regDate"   column="r_regDate"/>  <!-- ★ 등록일 명시 -->
+    <result property="r_like_cnt"  column="r_like_cnt"/>
+    <result property="u_nickname"  column="u_nickname"/>
+  </resultMap>
+
+    <!-- 목록: 닉네임 조인 + 페이징(Oracle ROWNUM 방식) -->
+  <select id="reviewList" parameterType="map" resultType="com.spring.DCShop.shop.dto.ReviewDTO">
+    SELECT *
+    FROM (
+      SELECT A.*, ROWNUM rn
+      FROM (
+        SELECT
+          r.r_num,
+          r.u_member_id,
+          r.pd_id,
+          r.r_score,
+          r.r_content,
+          r.r_like_cnt,
+          r.r_regDate,
+          u.u_nickname AS u_nickname
+        FROM review_tbl r
+        LEFT JOIN user_tbl u ON u.u_member_id = r.u_member_id
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+          <if test="pd_id != null"> AND r.pd_id = #{pd_id} </if>
+        </trim>
+        ORDER BY r.r_regDate DESC
+      ) A
+      WHERE ROWNUM <![CDATA[<=]]> #{end}
+    )
+    WHERE rn <![CDATA[>=]]> #{start}
+  </select>
+
+  <!-- 리뷰 개수 (단일 파라미터: #{value} 사용) -->
+  <select id="reviewCnt" parameterType="int" resultType="int">
+	  SELECT COUNT(*)
+	    FROM review_tbl
+	   WHERE pd_id = #{value}
+	</select>
+
+  <!-- 리뷰 상세 -->
+  <select id="getReviewDetail" parameterType="int" resultType="com.spring.DCShop.shop.dto.ReviewDTO">
+    SELECT
+      r.r_num,
+      r.u_member_id,
+      r.pd_id,
+      r.r_score,
+      r.r_content,
+      r.r_img,
+      r.r_regDate AS r_regDate,
+      r.r_like_cnt,
+      u.u_nickname AS u_nickname
+    FROM review_tbl r
+    LEFT JOIN user_tbl u ON u.u_member_id = r.u_member_id
+    WHERE r.r_num = #{r_num}
+  </select>
+
+  <!-- 리뷰 수정/삭제 버튼 클릭 시 본인 인증 (id 통일: review_chk) -->
+  <select id="review_chk" parameterType="map" resultType="int">
+    SELECT COUNT(*) AS cnt
+      FROM review_tbl
+     WHERE r_num = #{r_num}
+       AND u_member_id = #{u_member_id}
+  </select>
+
+  <!-- 리뷰 수정 -->
+  <update id="updateReview" parameterType="com.spring.DCShop.shop.dto.ReviewDTO">
+    UPDATE review_tbl
+       SET r_score   = #{r_score},
+           r_content = #{r_content}
+     WHERE r_num = #{r_num}
+  </update>
+
+  <!-- 리뷰 삭제 -->
+  <delete id="deleteReview" parameterType="int">
+    DELETE FROM review_tbl
+     WHERE r_num = #{r_num}
+  </delete>
+
+  <!-- 리뷰 작성 -->
+  <insert id="insertReview" parameterType="com.spring.DCShop.shop.dto.ReviewDTO">
+    INSERT INTO review_tbl (
+      r_num,
+      u_member_id,
+      pd_id,
+      r_content,
+      r_score,
+      r_img,
+      r_regDate,
+      r_like_cnt
+    ) VALUES (
+      (SELECT NVL(MAX(r_num)+1, 1) FROM review_tbl),
+      #{u_member_id},
+      #{pd_id},
+      #{r_content},
+      #{r_score},
+      null,
+      SYSDATE,
+      0
+    )
+  </insert>
+
+</mapper>

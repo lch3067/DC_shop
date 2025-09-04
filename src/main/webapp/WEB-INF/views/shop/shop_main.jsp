@@ -38,6 +38,8 @@
         },
       };
     </script>
+    
+
 </head>
 <link rel="stylesheet" href="${path}/resources/css/footer.css">
 <link rel="stylesheet" href="${path}/resources/css/header.css">
@@ -45,7 +47,7 @@
 <link rel="stylesheet" href="${path}/resources/css/shop_main.css">
 <body>
 	<!-- 헤더 시작 -->
-	<%@ include file="../setting/header.jsp" %>
+	<%@ include file="../setting/header.jsp" %> 
 	<!-- 헤더 끝 -->
 	
 	<section class="hero-section1">
@@ -59,21 +61,21 @@
 				<div class="flex items-center space-x-8">
 					<div class="font-['Pacifico'] text-2xl text-primary">logo</div>
 					<div class="hidden lg:flex items-center space-x-8">
-						<a href="#"
-							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/shopMain3.do'">Pet
-							Food</a> <a
-							href="https://readdy.ai/home/b6511771-df02-440a-969d-e1281a6d8c0e/99208426-98f0-4462-846b-ef4957bd049b"
-							data-readdy="true"
-							class="text-gray-700 hover:text-primary transition-colors">Cat
-							Food</a> <a href="#" class="text-primary font-medium">Dog Food</a> <a
-							href="#"
-							class="text-gray-700 hover:text-primary transition-colors">Toys</a>
+							<a href="${path}/shop_main.do?" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">전체</a> 
+							<a href="${path}/shop_main.do?petType=1"
+							data-readdy="true" class="text-gray-700 hover:text-primary no-underline transition-colors">강아지</a> 
+							<a href="${path}/shop_main.do?petType=2" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">고양이</a> 
+							<a href="#" 
+							class="text-gray-700 hover:text-primary no-underline transition-colors ">이벤트</a> 
 						<a href="#"
 							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/pay.do'">Supplies</a>
 						<a href="#"
 							class="text-gray-700 hover:text-primary transition-colors" onclick="window.location='${path}/cart.do'">Recommendations</a>
 					</div>
 				</div>
+				<!-- 검색 -->
 				<div class="flex items-center space-x-4">
 					<div class="relative hidden md:block">
 						<div
@@ -81,8 +83,13 @@
 							<div class="w-5 h-5 flex items-center justify-center mr-3">
 								<i class="ri-search-line text-gray-500"></i>
 							</div>
-							<input type="text" placeholder="Search"
-								class="bg-transparent border-none outline-none flex-1 text-sm" />
+							<form method="get" id="searchForm" action="${pageContext.request.contextPath}/shop_main.do"
+								onsubmit="submitWithParams('searchForm')">
+								<input type="hidden" name="petType" value="${petType}">
+								<input type="hidden" name="sortOrder" value="${sortOrder}">
+								<input type="text" value="${keyword}" placeholder="Search" name="searchKeyword" id="searchKeyword"
+									class="bg-transparent border-none outline-none flex-1 text-sm"/>
+							</form>
 						</div>
 					</div>
 					<button id="mobile-menu-button"
@@ -110,82 +117,131 @@
 		class="filter-panel fixed left-0 top-0 h-full w-80 bg-white shadow-xl z-50 overflow-y-auto">
 		<div class="p-6">
 			<div class="flex items-center justify-between mb-6">
-				<h3 class="text-lg font-semibold text-gray-900">Filters</h3>
+				<h3 class="text-lg font-semibold text-gray-900">필터</h3>
 				<button
 					class="close-filter w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
 					<i class="ri-close-line text-gray-500"></i>
 				</button>
 			</div>
-			<!-- Brand Filter -->
+			
+			<!-- Filter -->
+			<!-- 강아지카테고리 -->
 			<div class="mb-6">
-				<div
-					class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
+				<div class="flex items-center justify-between mb-3 cursor-pointer brand-toggle">
 					<div class="flex items-center">
-						<div
-							class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
+						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
 							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
 						</div>
-						<span class="font-medium text-gray-900">Brand</span>
+						<span class="font-medium text-gray-900">강아지</span>
 					</div>
 					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
+						<i class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
 					</div>
 				</div>
 				<div class="brand-content ml-9 space-y-3">
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="blue-buffalo"></div>
-						<span class="text-sm text-gray-700">Blue Buffalo</span> <span
-							class="text-xs text-gray-500 ml-auto">(24)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1100" class="no-underline"> 
+							<span class="text-sm text-gray-700">의류</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="rachael-ray"></div>
-						<span class="text-sm text-gray-700">Rachael Ray</span> <span
-							class="text-xs text-gray-500 ml-auto">(18)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1200" class="no-underline"> 
+							<span class="text-sm text-gray-700">미용/위생</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="pedigree"></div>
-						<span class="text-sm text-gray-700">Pedigree</span> <span
-							class="text-xs text-gray-500 ml-auto">(32)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1300" class="no-underline"> 
+							<span class="text-sm text-gray-700">화장실</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="purina"></div>
-						<span class="text-sm text-gray-700">Purina</span> <span
-							class="text-xs text-gray-500 ml-auto">(45)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1400" class="no-underline"> 
+							<span class="text-sm text-gray-700">장난감</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="iams"></div>
-						<span class="text-sm text-gray-700">Iams</span> <span
-							class="text-xs text-gray-500 ml-auto">(28)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="hills"></div>
-						<span class="text-sm text-gray-700">Hill's Science Diet</span> <span
-							class="text-xs text-gray-500 ml-auto">(16)</span>
+						<a href="${path}/shop_main.do?petType=1&category=1500" class="no-underline"> 
+							<span class="text-sm text-gray-700">목줄/리드줄</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
 					</div>
 				</div>
 			</div>
+			
+
+			<!-- 고양이 카테고리 -->
+			<div class="mb-6">
+				<div class="flex items-center justify-between mb-3 cursor-pointer brand-toggle2">
+					<div class="flex items-center">
+						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-blue-100 rounded">
+							<i class="ri-price-tag-3-line text-blue-600 text-sm"></i>
+						</div>
+						<span class="font-medium text-gray-900">고양이</span>
+					</div>
+					<div class="w-5 h-5 flex items-center justify-center">
+						<i class="ri-arrow-down-s-line text-gray-500 brand-arrow transition-transform"></i>
+					</div>
+				</div>
+				<div class="brand-content2 ml-9 space-y-3">
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2100" class="no-underline"> 
+							<span class="text-sm text-gray-700">의류</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2200" class="no-underline"> 
+							<span class="text-sm text-gray-700">미용/위생</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2300" class="no-underline"> 
+							<span class="text-sm text-gray-700">모래</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2400" class="no-underline"> 
+							<span class="text-sm text-gray-700">장난감</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+					<div class="flex items-center">
+						<a href="${path}/shop_main.do?petType=2&category=2500" class="no-underline"> 
+							<span class="text-sm text-gray-700">스크래쳐</span></a>
+							<span class="text-xs text-gray-500 ml-auto">갯수</span>
+					</div>
+				</div>
+			</div>
+			
 			<!-- Price Filter -->
 			<div class="mb-6">
 				<div
 					class="flex items-center justify-between mb-3 cursor-pointer price-toggle">
 					<div class="flex items-center">
-						<div
-							class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
+						<div class="w-6 h-6 flex items-center justify-center mr-3 bg-green-100 rounded">
 							<i class="ri-money-dollar-circle-line text-green-600 text-sm"></i>
 						</div>
 						<span class="font-medium text-gray-900">Price</span>
 					</div>
 					<div class="w-5 h-5 flex items-center justify-center">
-						<i
-							class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
+						<i class="ri-arrow-up-s-line text-gray-500 price-arrow transition-transform"></i>
 					</div>
 				</div>
+				
+				<div id="active-filters" class="flex flex-wrap gap-2 items-center mt-2">
+				  <span id="active-price-pill"
+				        class="hidden inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+				    <i class="ri-price-tag-3-line"></i>
+				    <span id="active-price-text"></span>
+				    <button id="clear-price" type="button" class="ri-close-line ml-1"></button>
+				  </span>
+				</div>
+				
 				<div class="price-content ml-9">
 					<div class="flex items-center justify-between mb-3">
-						<span class="text-sm text-gray-600">$<span
-							id="min-price">0</span></span> <span class="text-sm text-gray-600">$<span
-							id="max-price">100</span></span>
+						<span class="text-sm text-gray-600">\
+							<span id="min-price">0</span>
+						</span> 
+						<span class="text-sm text-gray-600">\
+							<span id="max-price">150000</span>
+						</span>
 					</div>
 					<div class="relative">
 						<input type="range" min="0" max="100" value="0"
@@ -193,94 +249,204 @@
 					</div>
 				</div>
 			</div>
-			<!-- Category Filter -->
-			<div class="mb-6">
-				<div class="flex items-center mb-4">
-					<div
-						class="w-6 h-6 flex items-center justify-center mr-3 bg-purple-100 rounded">
-						<i class="ri-list-check-line text-purple-600 text-sm"></i>
-					</div>
-					<span class="font-medium text-gray-900">Filter by</span>
-				</div>
-				<div class="ml-9 space-y-3">
-					<div
-						class="flex items-center p-2 rounded-lg hover:bg-green-50 transition-colors">
-						<div class="custom-checkbox mr-3" data-filter="food"></div>
-						<div class="w-5 h-5 flex items-center justify-center mr-2">
-							<i class="ri-restaurant-line text-green-600 text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-700">Food</span> <span
-							class="text-xs text-gray-500 ml-auto">(89,234)</span>
-					</div>
-					<div
-						class="flex items-center p-2 rounded-lg hover:bg-orange-50 transition-colors">
-						<div class="custom-checkbox mr-3" data-filter="treats"></div>
-						<div class="w-5 h-5 flex items-center justify-center mr-2">
-							<i class="ri-cake-3-line text-orange-600 text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-700">Treats</span> <span
-							class="text-xs text-gray-500 ml-auto">(23,456)</span>
-					</div>
-					<div
-						class="flex items-center p-2 rounded-lg hover:bg-blue-50 transition-colors">
-						<div class="custom-checkbox mr-3" data-filter="supplies"></div>
-						<div class="w-5 h-5 flex items-center justify-center mr-2">
-							<i class="ri-box-3-line text-blue-600 text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-700">Supplies</span> <span
-							class="text-xs text-gray-500 ml-auto">(16,692)</span>
-					</div>
-				</div>
-			</div>
-			<!-- Age Filter -->
-			<div class="mb-6">
-				<div class="flex items-center mb-4">
-					<div
-						class="w-6 h-6 flex items-center justify-center mr-3 bg-yellow-100 rounded">
-						<i class="ri-time-line text-yellow-600 text-sm"></i>
-					</div>
-					<span class="font-medium text-gray-900">Age</span>
-				</div>
-				<div class="ml-9 space-y-3">
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="puppy"></div>
-						<span class="text-sm text-gray-700">Puppy</span> <span
-							class="text-xs text-gray-500 ml-auto">(12,345)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="adult"></div>
-						<span class="text-sm text-gray-700">Adult</span> <span
-							class="text-xs text-gray-500 ml-auto">(67,890)</span>
-					</div>
-					<div class="flex items-center">
-						<div class="custom-checkbox mr-3" data-filter="senior"></div>
-						<span class="text-sm text-gray-700">Senior</span> <span
-							class="text-xs text-gray-500 ml-auto">(9,147)</span>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
+	
+	<!-- 가격 조정 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			const priceRange = document.getElementById("price-range");		// 슬라이ㅓㄷ
+		  	const maxPriceDisplay = document.getElementById("max-price");	// 최대가격
+		  	const minPriceDisplay = document.getElementById("min-price");	// 최소가격
+		  	
+		    const pricePill = document.getElementById("active-price-pill");		// 배지표기
+		    const priceText = document.getElementById("active-price-text");		// 배지내 텍스트
+		    const clearPrice = document.getElementById("clear-price");			// x버튼
+		    
+		    const PRICE_MAX_CAP = 150000;
+		  	
+		 	// 슬라이더 값 실제 값으로 변환
+		  	function sliderToPrice(v) {			
+		  		return Math.round((v / 100) * PRICE_MAX_CAP / 1000) * 1000;
+		  	}
+		 	// 숫자 → ₩ 포맷
+		    function won(n){ return n.toLocaleString('ko-KR'); }
+		 	
+		 	// 배지 표시
+		    function showPricePill(min, max) {
+		    	priceText.textContent = '가격: ₩' + won(min) + ' ~ ₩' + won(max);
+		        pricePill.classList.remove("hidden");
+		     }
+		    function hidePricePill() {
+		        pricePill.classList.add("hidden");
+		        priceText.textContent = "";
+		     }
+		    minPriceDisplay.textContent = won(0);
+		    maxPriceDisplay.textContent = won(sliderToPrice(priceRange.value));
+
+		    // 디바운스(연속 입력 방지)
+		    let t = null;
+		    function debounce(fn, delay=250){
+		      clearTimeout(t);
+		      t = setTimeout(fn, delay);
+		    }
+		    function currentKeyword(){
+		        return $("#searchKeyword").val() || $("#currentSearchKeyword").val() || "";
+		    }
+		    
+		    function applyPriceFilter(){
+		        const sortOrder     = $("#sortOrder").val() || "new_pd";
+		        const searchKeyword = currentKeyword();
+		        const qs            = new URLSearchParams(location.search);
+		        const petType       = qs.get("petType") || "${petType}";
+		        const category      = qs.get("category") || "${category}";
+		        const subcategory   = qs.get("subcategory") || "";
+
+		        const priceMin = 0;
+		        const priceMax = sliderToPrice(priceRange.value);
+
+		        $.ajax({
+		          url: "${path}/productList.do",
+		          type: "GET",
+		          data: {
+		            petType, category, subcategory,
+		            searchKeyword, sortOrder,
+		            priceMin, priceMax
+		          },
+		          success: function(res){
+		            $("#product-grid").html(res);
+
+		            // 배지 업데이트
+		            showPricePill(priceMin, priceMax);
+
+		            // URL 동기화해서 새로고침/뒤로가기 유지
+		            const qs2 = new URLSearchParams(location.search);
+		            if (petType) qs2.set("petType", petType);
+		            if (category) qs2.set("category", category); else qs2.delete("category");
+		            if (subcategory) qs2.set("subcategory", subcategory); else qs2.delete("subcategory");
+		            if (searchKeyword) qs2.set("searchKeyword", searchKeyword); else qs2.delete("searchKeyword");
+		            qs2.set("sortOrder", sortOrder);
+		            qs2.set("priceMin", priceMin);
+		            qs2.set("priceMax", priceMax);
+		            history.pushState(null, "", location.pathname + "?" + qs2.toString());
+		          },
+		          error: function(xhr){
+		            console.error(xhr.status, xhr.responseText);
+		            $("#product-grid").html("오류");
+		          }
+		        });
+		      }
+
+		      // 슬라이더 움직일 때: 숫자 표시 + 배지/목록 적용(디바운스)
+		      priceRange.addEventListener("input", function () {
+		        const priceMax = sliderToPrice(this.value);
+		        maxPriceDisplay.textContent = won(priceMax);
+		        debounce(applyPriceFilter, 300);
+		      });
+
+		      // X 버튼: 가격 필터 해제
+		      clearPrice.addEventListener("click", function(){
+		        // 기본값으로 리셋
+		        	priceRange.value = 100; // 150000원 위치
+		        	minPriceDisplay.textContent = won(0);
+		        	maxPriceDisplay.textContent = won(PRICE_MAX_CAP);
+		        	hidePricePill();
+
+			        // 목록 갱신 (priceMin/Max 제거)
+			        const sortOrder     = $("#sortOrder").val() || "new_pd";
+			        const searchKeyword = currentKeyword();
+			        const qs            = new URLSearchParams(location.search);
+			        const petType       = qs.get("petType") || "${petType}";
+			        const category      = qs.get("category") || "${category}";
+			        const subcategory   = qs.get("subcategory") || "";
+
+			        $.ajax({
+				  		url: "${path}/productList.do",
+				        type: "GET",
+				        data: {
+				          petType, category, subcategory,
+				          searchKeyword, sortOrder,
+				          priceMin: "", priceMax: ""
+				        },
+				        success: function(res){
+		 		           $("#product-grid").html(res);
+		
+				            // URL 정리
+				            const qs2 = new URLSearchParams(location.search);
+				            qs2.delete("priceMin");
+				            qs2.delete("priceMax");
+				            history.pushState(null, "", location.pathname + "?" + qs2.toString());
+				        },
+				        error: function(xhr){
+				            console.error(xhr.status, xhr.responseText);
+				            $("#product-grid").html("오류");
+		          		}
+		        	});
+		      });
+		});
+	</script>
+	
+	
 	<!-- Main Content -->
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 		<!-- Header -->
-		<div
-			class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
 			<div>
-				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog
-					Food</h1>
-				<p class="text-gray-600 mt-1">129,382 results</p>
+				<h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dog Shop</h1>
+				<p class="text-gray-600 mt-1">${total} results</p>
 			</div>
+			<!-- 세부 카테고리 -->
+			<c:if test="${category != null && category !='' }">
+				<nav class="max-w-4xl bg-white shadow-sm border-b border-gray-200 rounded-lg">
+					<div class="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 ">
+						<div class="flex items-center justify-between-center h-16">
+							<div class="flex flex-wrap gap-2 ">
+								<div class="hidden lg:flex flex-wrap items-center gap-x-6 gap-y-3">
+									<c:if test="${petType == '1'}">
+										<c:forEach var="item" items="${cateList}">
+											<c:if test="${ item >= 1100 and item < 1600 }">
+												<a href="#" 
+												class="js-subcat text-sm text-gray-500 hover:text-primary no-underline transition-colors whitespace-nowrap px-1"
+												data-pet-type="1"
+												data-subcategory="${item}">
+													${dogcategoryNames[item]}</a> 
+											</c:if>
+										</c:forEach>
+									</c:if>
+									<c:if test="${petType == '2'}">
+										<c:forEach var="item" items="${cateList}">
+											<c:if test="${ item >= 2100 and item < 2600 }">
+												<a href="#" 
+												class="js-subcat text-sm text-gray-500 hover:text-primary no-underline transition-colors  whitespace-nowrap px-1"
+												data-pet-type="2"
+												data-subcategory="${item}">
+													${catcategoryNames[item]}</a> 
+											</c:if>
+										</c:forEach>
+									</c:if>
+								</div>
+							</div>
+							</div>
+					</div>
+				</nav>
+			</c:if>
+			
+			<!-- 정렬부분!! -->
 			<div class="flex items-center space-x-4">
 				<div class="relative">
-					<select
-						class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-						<option>Sort by: Featured</option>
-						<option>Price: Low to High</option>
-						<option>Price: High to Low</option>
-						<option>Customer Rating</option>
-						<option>Best Sellers</option>
-					</select>
+					<form id="sortform" method="get" 
+					action="${pageContext.request.contextPath}/shop_main.do" >
+						<input type="hidden" name="searchKeyword" id="searchKeyword" value="${keyword}">
+						<input type="hidden" name="subcategory" id="subcategory" value="${subcategory}">
+						<select id="sortOrder" name="sortOrder" onchange="return false;"
+							class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+							<option value="new_pd" ${sortOrder=="new_pd"?"selected":""}>신상품순</option>
+							<option value="low_price" ${sortOrder=="low_price"?"selected":""}>낮은가격순</option>
+							<option value="high_price" ${sortOrder=="high_price"?"selected":""}>높은가격순</option>
+							<option value="review_score" ${sortOrder=="review_score"?"selected":""}>별점순</option>
+							<option value="review_cnt" ${sortOrder=="review_cnt"?"selected":""}>리뷰순</option>
+						</select>
+					</form>
 					<div
 						class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
 						<i class="ri-arrow-down-s-line text-gray-500"></i>
@@ -288,226 +454,108 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<!-- Product Grid -->
-		<div
-			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-			<!-- Product 1 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer product-card"
-				onclick="openProductModal(this)" data-product-id="1">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Blue%20Buffalo%20Life%20Protection%20Formula%20dry%20dog%20food%20bag%20with%20premium%20natural%20ingredients%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20high%20quality%20pet%20food%20packaging&width=300&height=300&seq=1&orientation=squarish"
-						alt="Blue Buffalo Life Protection"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Blue Buffalo</div>
-					<h3 class="font-medium text-gray-900 mb-2">Life Protection
-						Formula Natural Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$324.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">3,542</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 2 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Rachael%20Ray%20Nutrish%20natural%20dry%20dog%20food%20bag%20with%20wholesome%20ingredients%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20pet%20nutrition&width=300&height=300&seq=2&orientation=squarish"
-						alt="Rachael Ray Nutrish"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Rachael Ray</div>
-					<h3 class="font-medium text-gray-900 mb-2">Nutrish Natural Dry
-						Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$34.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">2,319</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 3 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Pedigree%20complete%20nutrition%20dry%20dog%20food%20bag%20with%20balanced%20formula%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20trusted%20pet%20food%20brand&width=300&height=300&seq=3&orientation=squarish"
-						alt="Pedigree" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Pedigree</div>
-					<h3 class="font-medium text-gray-900 mb-2">Complete Nutrition
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">Start
-						$19.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,653</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 4 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Purina%20ONE%20SmartBlend%20dry%20dog%20food%20bag%20with%20real%20meat%20first%20ingredient%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20premium%20nutrition&width=300&height=300&seq=4&orientation=squarish"
-						alt="Purina ONE" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Purina ONE</div>
-					<h3 class="font-medium text-gray-900 mb-2">SmartBlend Natural
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$44.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">2,421</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 5 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Iams%20ProActive%20Health%20dry%20dog%20food%20bag%20with%20wholesome%20grains%20and%20real%20chicken%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20balanced%20nutrition&width=300&height=300&seq=5&orientation=squarish"
-						alt="Iams" class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Iams</div>
-					<h3 class="font-medium text-gray-900 mb-2">ProActive Health
-						Adult Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$29.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,892</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 6 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Hills%20Science%20Diet%20dry%20dog%20food%20bag%20with%20clinically%20proven%20nutrition%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20veterinarian%20recommended&width=300&height=300&seq=6&orientation=squarish"
-						alt="Hill's Science Diet"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Hill's Science</div>
-					<h3 class="font-medium text-gray-900 mb-2">Diet Adult Perfect
-						Weight Dry Dog Food</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$25.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-line text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,234</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 7 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Blue%20Buffalo%20Wilderness%20high%20protein%20dry%20dog%20food%20bag%20with%20real%20meat%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20grain%20free%20formula&width=300&height=300&seq=7&orientation=squarish"
-						alt="Blue Buffalo Wilderness"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Blue Buffalo</div>
-					<h3 class="font-medium text-gray-900 mb-2">Wilderness High
-						Protein Grain Free</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$44.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">2,876</span>
-					</div>
-				</div>
-			</div>
-			<!-- Product 8 -->
-			<div
-				class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-				<div class="aspect-square bg-gray-100 relative overflow-hidden">
-					<img
-						src="https://readdy.ai/api/search-image?query=Purina%20Pro%20Plan%20premium%20dry%20dog%20food%20bag%20with%20real%20salmon%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20advanced%20nutrition%20formula&width=300&height=300&seq=8&orientation=squarish"
-						alt="Purina Pro Plan"
-						class="w-full h-full object-cover object-top" />
-				</div>
-				<div class="p-4">
-					<div class="text-sm text-gray-600 mb-1">Purina Pro Plan</div>
-					<h3 class="font-medium text-gray-900 mb-2">Focus Adult
-						Sensitive Skin & Stomach</h3>
-					<div class="text-lg font-bold text-gray-900 mb-2">$39.99</div>
-					<div class="flex items-center">
-						<div class="flex items-center text-yellow-400 mr-2">
-							<i class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-fill text-sm"></i> <i
-								class="ri-star-half-fill text-sm"></i>
-						</div>
-						<span class="text-sm text-gray-600">1,945</span>
-					</div>
-				</div>
-			</div>
+
+		<div id="product-grid">
+			<%@ include file="productList.jsp" %>
 		</div>
-		<!-- Load More -->
-		<div class="text-center mt-12">
-			<button
-				class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">
-				Load More Products</button>
+		
+		<!-- 정렬 -->
+		<script>
+			$(document).ready(function(){
+				$("#sortOrder").on("change", function(){
+					let sortOrder = $(this).val();
+					let searchKeyword = $("#searchKeyword").val();
+					let subcategory = $("#subcategory").val();
+					
+					$.ajax({
+						url:"${path}/productList.do",
+						type:"GET",
+						data:{
+							petType: "${petType}",
+							category: "${category}",
+							searchKeyword: searchKeyword,
+							sortOrder: sortOrder,
+							subcategory : subcategory
+						},
+						success: function(html){
+							$("#product-grid").html(html);
+						},
+						error: function(){
+							$("#product-grid").html("오류");
+						}
+					});
+				});
+			});
+		</script>
+		<!-- 세부카테고리 셀렉 -->
+		<script>
+		$(document).ready(function(){
+			$(document).on("click", ".js-subcat", function(e){
+				e.preventDefault();
+				const sortOrder = $("#sortOrder").val() || "new_pd";		// 초기값
+			    const searchKeyword = $("#searchKeyword").val() || ""; 		// 동일
+			    const subcategory = $(this).data("subcategory");
+			    const petType = $(this).data("pet-type");
+			    
+			    $("#subcategory").val(subcategory); 	// 클릭시 값 업뎃해서 hidden적용
+			    
+			    $.ajax({
+			    	url: "${path}/productList.do",
+			        type: "GET",
+			        data: {
+			          petType: petType,
+			          subcategory: subcategory,
+			          sortOrder: sortOrder,
+			          searchKeyword: searchKeyword
+			        },
+			        success: function(res){
+			        	$("#product-grid").html(res);
+			        	// 뒤로가기 및 새로고침
+			        	const params = new URLSearchParams(window.location.search);
+			            params.set("petType", petType);
+			            params.set("subcategory", subcategory);
+			            params.set("sortOrder", sortOrder);
+			            if (searchKeyword) params.set("searchKeyword", searchKeyword); else params.delete("searchKeyword");
+			            history.pushState(null, "", location.pathname + "?" + qs2.toString());	
+			        },
+			        error: function () {
+			            $("#product-grid").html("오류");
+			          }
+			    });
+			});
+		});
+			
+		</script>
+		
+		<!-- 페이징 처리 부분 -->
+		<div class="paging">
+			<div class="flex items-center justify-center gap-2 mt-8">
+				<ul class="flex items-center justify-center gap-2">
+					<!-- 이전 버튼 처리 -->
+					<c:if test="${paging.startPage > 10}">
+						<li> <a href="${path}/shop_main.do?pageNum=${paging.prev}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn"
+						aria-label="Previous">이전</a></li>
+					</c:if>
+					
+					<!-- 페이지 번호 처리 -->
+					<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
+						<li><a href="${path}/shop_main.do?pageNum=${num}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn <c:if test='${num == paging.currentPage}'> active</c:if>">${num}</a></li>
+					</c:forEach>
+					
+					<c:if test="${paging.endPage < paging.pageCount}">
+						<li>
+							<a href="${path}/shop_main.do?pageNum=${paging.next}&sortOrder=${sortOrder}&searchKeyword=${keyword}&petType=${petType}" class="page-btn"
+							aria-label="Previous"> 다음 </a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<script id="mobile-menu">
-	
 	const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
 
@@ -564,8 +612,10 @@
     </script>
 	<script id="filter-interactions">
       document.addEventListener("DOMContentLoaded", function () {
-        const brandToggle = document.querySelector(".brand-toggle");
+        const brandToggle = document.querySelector(".brand-toggle");   
+        const brandToggle2 = document.querySelector(".brand-toggle2");
         const brandContent = document.querySelector(".brand-content");
+        const brandContent2 = document.querySelector(".brand-content2");
         const brandArrow = document.querySelector(".brand-arrow");
         const priceToggle = document.querySelector(".price-toggle");
         const priceContent = document.querySelector(".price-content");
@@ -576,25 +626,45 @@
           brandArrow.style.transform =
             brandContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
         });
+        brandToggle2.addEventListener("click", function () {
+            brandContent2.style.display =
+              brandContent2.style.display === "none" ? "block" : "none";
+            brandArrow.style.transform =
+              brandContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
+          });
         priceToggle.addEventListener("click", function () {
           priceContent.style.display =
             priceContent.style.display === "none" ? "block" : "none";
           priceArrow.style.transform =
             priceContent.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
         });
-        const priceRange = document.getElementById("price-range");
-        const maxPriceDisplay = document.getElementById("max-price");
-        priceRange.addEventListener("input", function () {
-          maxPriceDisplay.textContent = this.value;
-        });
+        // const priceRange = document.getElementById("price-range");
+        // const maxPriceDisplay = document.getElementById("max-price");
+        // priceRange.addEventListener("input", function () {
+        //   maxPriceDisplay.textContent = this.value;
+        // });
         const checkboxes = document.querySelectorAll(".custom-checkbox");
         checkboxes.forEach((checkbox) => {
           checkbox.addEventListener("click", function () {
             this.classList.toggle("checked");
           });
         });
+        
+        /* 펫타입 설정시, 패널자동닫힘 */
+        const getURL = new URLSearchParams(window.location.search);
+        const petTypeP = getURL.get('petType');
+        if(petTypeP === '1'){
+        	brandContent.style.display = 'block';  // 강아지 열어
+        	brandContent2.style.display = 'none';  // 고양이 닫아
+        };
+        if(petTypeP === '2'){
+        	brandContent2.style.display = 'block';  // 고양이 열어
+        	brandContent.style.display = 'none';  // 강아지 닫아
+        }
       });
     </script>
+    
+    
 	<!-- Product Detail Modal -->
 	<div id="product-modal" class="fixed inset-0 z-50 hidden">
 		<div class="absolute inset-0 bg-black bg-opacity-50"
@@ -642,71 +712,6 @@
 								</div>
 							</div>
 						</div>
-
-						<!-- Product Info -->
-						<div class="space-y-6">
-							<div>
-								<p id="modal-brand" class="text-sm text-gray-600 mb-1"></p>
-								<h2 id="modal-title"
-									class="text-2xl font-bold text-gray-900 mb-2"></h2>
-								<div class="flex items-center mb-4">
-									<div class="flex items-center text-yellow-400 mr-2">
-										<i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-											class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-											class="ri-star-fill"></i>
-									</div>
-									<span class="text-sm text-gray-600">4.8
-										(3,542 reviews)</span>
-								</div>
-								<p id="modal-price" class="text-3xl font-bold text-gray-900"></p>
-							</div>
-
-							<!-- Size Selection -->
-							<div>
-								<label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
-								<div class="grid grid-cols-3 gap-3">
-									<button
-										class="border rounded-lg px-4 py-2 text-sm font-medium hover:border-primary hover:text-primary">
-										15 lbs</button>
-									<button
-										class="border rounded-lg px-4 py-2 text-sm font-medium hover:border-primary hover:text-primary">
-										30 lbs</button>
-									<button
-										class="border rounded-lg px-4 py-2 text-sm font-medium hover:border-primary hover:text-primary">
-										45 lbs</button>
-								</div>
-							</div>
-
-							<!-- Quantity -->
-							<div>
-								<label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-								<div class="flex items-center w-32 border rounded-lg">
-									<button
-										class="w-10 h-10 flex items-center justify-center border-r hover:bg-gray-50"
-										onclick="updateQuantity(-1)">
-										<i class="ri-subtract-line"></i>
-									</button>
-									<input type="text" id="quantity" value="1"
-										class="w-12 h-10 text-center border-none focus:outline-none"
-										readonly />
-									<button
-										class="w-10 h-10 flex items-center justify-center border-l hover:bg-gray-50"
-										onclick="updateQuantity(1)">
-										<i class="ri-add-line"></i>
-									</button>
-								</div>
-							</div>
-
-							<!-- Actions -->
-							<div class="flex space-x-4">
-								<button
-									class="flex-1 bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">
-									Buy Now</button>
-								<button
-									class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap !rounded-button">
-									Add to Cart</button>
-							</div>
-						</div>
 					</div>
 
 					<!-- Tabs -->
@@ -722,45 +727,12 @@
 								class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700">
 								Q&A</button>
 						</div>
-
-						<!-- Description Tab -->
-						<div class="p-6">
-							<div class="prose max-w-none">
-								<p class="mb-4">Blue Buffalo Life Protection Formula Natural
-									Adult Dry Dog Food is made with the finest natural ingredients
-									enhanced with vitamins and minerals. The formula starts with
-									high-quality protein from real meat, whole grains, garden
-									veggies and fruit.</p>
-
-								<h4 class="font-medium mb-2">Key Benefits:</h4>
-								<ul class="list-disc pl-5 mb-4">
-									<li>Essential, high-quality protein for healthy muscle
-										development</li>
-									<li>Wholesome whole grains, garden veggies and fruit</li>
-									<li>No chicken (or poultry) by-product meals</li>
-									<li>No corn, wheat, soy or artificial preservatives</li>
-								</ul>
-
-								<h4 class="font-medium mb-2">Ingredients:</h4>
-								<p class="mb-4">Deboned Chicken, Chicken Meal, Brown Rice,
-									Barley, Oatmeal, Pea Starch, Flaxseed (source of Omega 3 & 6
-									Fatty Acids), Chicken Fat (preserved with Mixed Tocopherols),
-									Dried Tomato Pomace, Natural Flavor, Peas, Pea Protein...</p>
-
-								<h4 class="font-medium mb-2">Guaranteed Analysis:</h4>
-								<ul class="list-disc pl-5">
-									<li>Crude Protein: 24.0% min</li>
-									<li>Crude Fat: 14.0% min</li>
-									<li>Crude Fiber: 5.0% max</li>
-									<li>Moisture: 10.0% max</li>
-								</ul>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 
 	<script id="product-modal-handlers">
       document.addEventListener("DOMContentLoaded", function () {
@@ -795,6 +767,27 @@
         };
       });
     </script>
+    
+    <script>
+    function submitWithParams(formId){
+    	const urlParams = new URLSearchParams(window.location.search);
+    	const form = document.getElementById(formId);
+    	
+    	for(const [key, value] of urlParams.entries()){
+    		if(!form.querySelector('[name="${key}"]')){
+    			const hidden = document.createElement("input");
+    				hidden.type = "hidden";
+   		      		hidden.name = key;
+   		      		hidden.value = value;
+   		      		form.appendChild(hidden);
+    		}
+    	}
+    	form.submit();
+    }
+    
+    </script>
+    
+    
 	</section>
 	<!-- 푸터 시작 -->
 	<%@ include file="../setting/footer.jsp" %>

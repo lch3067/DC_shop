@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  
+<mapper namespace="com.spring.DCShop.shop.dao.ShopDAO">
+	
+	<resultMap id="shopMap" type="com.spring.DCShop.shop.dto.ShopDTO">
+		<id property="pd_id" column="pd_id"/>
+		<result property="pd_name" column="pd_name"/>
+		<result property="pd_description" column="pd_description"/>
+		<result property="pd_price" column="pd_price"/>
+		<result property="pd_stock" column="pd_stock"/>
+		<result property="pd_pet_category" column="pd_pet_category"/>
+		<result property="pd_category" column="pd_category"/>
+		<result property="pd_subcategory" column="pd_subcategory"/>
+		<result property="pd_created" column="pd_created"/>
+		<result property="pd_updated" column="pd_updated"/>
+		<result property="pd_brand" column="pd_brand"/> 
+		<result property="pd_image_url" column="pd_image_url"/>
+		<result property="pd_shipping_fee" column="pd_shipping_fee"/>
+		<result property="pd_discount_rate" column="pd_discount_rate"/>
+		<result property="pd_status" column="pd_status"/>
+		<result property="pd_option" column="pd_option"/>
+		<result property="review_count" column="review_cnt"/>
+		<result property="review_score" column="review_score"/>
+	</resultMap>
+	
+	<!-- 목록조회  -->
+	<select id="productListAction" parameterType="java.util.Map" resultMap="shopMap">
+		select * 
+		  from (
+		  	Select A.*, rownum as rn
+		      from (
+			      	select pd.pd_id,
+					   pd.pd_name,
+					   pd.pd_price,
+					   pd.pd_description,
+					   pd.pd_stock,
+					   pd.pd_category,
+					   pd.pd_pet_category,
+					   pd.pd_subcategory,
+					   pd.pd_created,
+					   pd.pd_updated,
+					   pd.pd_brand,
+					   pd.pd_image_url,
+					   pd.pd_shipping_fee,
+					   pd.pd_discount_rate,
+					   pd.pd_status,
+					   pd.pd_option,
+					   nvl(R.review_score, 0) as review_score,
+					   nvl(R.review_cnt, 0) as review_cnt
+			  		from product_tbl pd
+					left join (
+							select pd_id, 
+								count(*) as review_cnt,
+								round(avg(r_score)) as review_score
+							from review_tbl
+							group by pd_id) R
+			     	ON pd.pd_id = R.pd_id
+			     	<where>
+					    <if test="keyword != null and keyword != ''">
+							(pd.pd_name like '%'||#{keyword} || '%'
+							OR pd.pd_brand like '%' || #{keyword} || '%')
+						</if>
+						
+						<if test="petType != null and petType != ''">
+							<if test="keyword != null and keyword != ''"> and </if>
+							<choose>
+								<when test= "petType == 1">
+									pd.pd_pet_category = '1'
+								</when>
+								<when test= "petType == 2">
+									pd.pd_pet_category = '2'
+								</when>
+								<otherwise>
+									pd.pd_pet_category in (1,2)
+								</otherwise>
+							</choose>
+						</if>
+						
+						 <!-- 서브카테고리 우선 -->
+				        <if test="subcategory != null and subcategory != ''">
+				          AND pd.pd_subcategory = #{subcategory}
+				        </if>
+				
+				        <!-- 서브카테고리가 비었을 때만 카테고리 -->
+				        <if test="(subcategory == null or subcategory == '') and (category != null and category != '')">
+				          AND pd.pd_category = #{category}
+				        </if>
+				        
+				        <!-- 가격 -->
+				        <if test="priceMin != null and priceMin != ''">
+						  AND pd.pd_price <![CDATA[ >= ]]> #{priceMin}
+						</if>
+						<if test="priceMax != null and priceMax != ''">
+						  AND pd.pd_price <![CDATA[ <= ]]> #{priceMax}
+						</if>	
+				      </where>
+					
+			     	<choose>
+			     		<when test="sortOrder == 'review_cnt'">
+			     			order by review_cnt DESC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'high_price'">
+			     			order by pd_price DESC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'low_price'">
+			     			order by pd_price ASC, pd.pd_id DESC
+			     		</when>
+			     		<when test="sortOrder == 'review_score'">
+			     			order by review_score DESC, pd.pd_id DESC
+			     		</when>
+			     		<otherwise>
+			     			order by pd_id DESC
+			     		</otherwise>
+			     	</choose>
+			     	) A
+		     	)
+		   WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<select id="productCnt" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) AS cnt 
+		FROM product_tbl
+		<where>
+			<if test="keyword != null and keyword != ''">
+				(pd_name like '%' || #{keyword} || '%'
+				or pd_brand like '%' || #{keyword} || '%')
+			</if>
+			
+			<if test="petType != null and petType != ''">
+				<if test="keyword != null and keyword != ''">and</if>
+				<choose>
+					<when test= "petType.equalsIgnoreCase('1')">
+						pd_pet_category = 1
+					</when>
+					<when test= "petType.equalsIgnoreCase('2')">
+						pd_pet_category = 2
+					</when>
+					<otherwise>
+						pd_pet_category in (1,2)
+					</otherwise>
+				</choose>
+			</if>
+			
+			    <if test="subcategory != null and subcategory != ''">
+			      <if test="(keyword != null and keyword != '') or (petType != null and petType != '')">AND</if>
+			      pd_subcategory = #{subcategory}
+			    </if>
+			
+			    <if test="(subcategory == null or subcategory == '') and (category != null and category != '')">
+			      <if test="(keyword != null and keyword != '') or (petType != null and petType != '')">AND</if>
+			      pd_category = #{category}
+			    </if>
+			    <!-- 가격 -->
+		        <if test="priceMin != null and priceMin != ''">
+				  AND pd_price <![CDATA[ >= ]]> #{priceMin}
+				</if>
+				<if test="priceMax != null and priceMax != ''">
+				  AND pd_price <![CDATA[ <= ]]> #{priceMax}
+				</if>	
+		</where>
+	</select>
+	
+	<select id="getSubcategory" parameterType="int" resultType="int">
+		SELECT distinct pd_subcategory
+		  FROM product_tbl
+		  WHERE pd_category = #{_parameter}
+	</select>
+	
+</mapper>

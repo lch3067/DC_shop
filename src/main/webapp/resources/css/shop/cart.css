@@ -23,8 +23,6 @@
 	height: 38px
 }
 
-.qty-input { width:6rem; min-width:6rem; transition:none; } /* 폭 고정 + 트랜지션 제거 */
-
 .fixed-checkout {
 	z-index: 1030
 }

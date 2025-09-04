@@ -59,6 +59,34 @@ input[type="checkbox"]:checked::after {
 	border-width: 0 2px 2px 0;
 	transform: rotate(45deg);
 }
+
+:where([class^="ri-"])::before { content: "\f3c2"; }
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+}
+input[type="checkbox"]:checked {
+    background-color: #0066FF;
+    border-color: #0066FF;
+}
+input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
 </style>
 <script>
       tailwind.config = {
@@ -180,7 +208,6 @@ input[type="checkbox"]:checked::after {
 			33,000원 결제하기</button>
 	</div>
 	<br><br><br>
-	
 	
 	<!-- 푸터 시작 -->
 	<%@ include file="../setting/footer.jsp"%>
