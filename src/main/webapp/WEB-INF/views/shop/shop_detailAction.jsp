@@ -57,7 +57,7 @@
   /* “바로구매” URL 이동 */
   function orderNow(pdId) {
     var qty = getQty();
-    location.href = '${path}/cart.do?pdId=' + pdId + '&qty=' + qty;
+    location.href = '${path}/cartTOPay.do?pdId=' + pdId + '&qty=' + qty;
   }
 </script>
 

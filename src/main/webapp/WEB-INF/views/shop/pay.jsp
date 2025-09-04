@@ -121,6 +121,10 @@ input[type="checkbox"]:checked::after {
 <%-- <link rel="stylesheet" href="${path}/resources/css/shop/pay.css"> --%>
 
 <body>
+
+
+	
+
 	<!-- 헤더 시작 -->
 	<%@ include file="../setting/header.jsp"%>
 	<!-- 헤더 끝 -->
@@ -162,7 +166,9 @@ input[type="checkbox"]:checked::after {
 					<span>총 결제금액</span> <span class="text-primary">33,000원</span>
 				</div>
 			</div>
+	        <c:out value="${goPay}">결과</c:out>
 		</section>
+
 
 		<section class="bg-white rounded-lg p-4 mb-6">
 			<h2 class="font-medium mb-4">배송지 정보</h2>
