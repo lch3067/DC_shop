@@ -225,13 +225,20 @@
 
 					
                     <div align="right">
-                      <input type="hidden" name="u_member_id">
-                      <div class="test" style="display: none;">
+                      <input type="hidden" name="u_member_id" value="${loginUserId}">
+                        <!-- 안내문: 기본은 숨김 -->
+  						<div id="multiPetNotice" class="test" style="display:none;">
 	                      <a style="color: red">※ 추가등록시 밑에 추가되어있는 항목만 등록됩니다!</a>
-                      </div>
+                     	</div>
+                     	
+                     	<!-- 칩이 쌓이는 곳 -->
+						<div id="petChips"></div>
+						
                       <button type="button" class="inputButton" id="addAnotherBtn">+ 추가 등록</button>
                       
-                      <input class="inputButton" type="submit" value="건너뛰기" >
+                      <!-- 건너뛰기는 submit 말고 button으로 별도처리 -->
+  					  <button type="button" class="inputButton" id="skipBtn">건너뛰기</button>
+  					  
                       <input class="inputButton" type="submit" value="등록" id="submitBtn">
                       <input class="inputButton" type="reset" value="초기화">
                       <input class="inputButton" type="button" value="취소" onclick="history.back()">
@@ -384,10 +391,15 @@ function renderPets(){
 	 const $list = $('#addedPets').empty();    // 칩 목록
 	 var count = Array.isArray(pets) ? pets.length : 0;
 	 
+	 // 안내 영역 캐시
+	 var $notice = $('#multiPetNotice');
+	 
 	  if (pets.length === 0){
 	    $wrap.hide();                           // 아무것도 없을 경우 => 아무것도 안 보이게
 	    $('#petCountLabel').text('');
 	    $('#petsJson').val('');
+		 // 안내 숨김
+	    $notice.hide();
 	    return;
 }
 	  
@@ -395,9 +407,9 @@ function renderPets(){
   $wrap.show();
   $('#petCountLabel').text('추가된 반려동물 ' + count + '마리');
   
-  if(pets.length >= 1) {
-	  $(".test").show();
-  } 
+  // 안내 보이기 
+  $notice.show();
+  
   if(pets.length >= 1) {
 	  $(".br-toggle").hide();
   } 
@@ -459,18 +471,19 @@ $('#addedPets').on('click', '.del', function(){
   renderPets();
 });
 
-// 제출 시: 폼에 입력 중인 내용이 또 있다면 같이 담아 보내기
 $('form[action="insertAction.do"]').on('submit', function(){
-  // 폼에 남은 값이 완성되어 있으면 한 마리 더 추가
-  const hasSomething =
-    $('input[name="pet_name"]').val().trim() ||
-    $('#selectBox').val() || $('#pet_kind_custom').val().trim();
+	  // 다중 등록 모드일 때만(= 칩이 이미 있을 때만) 입력칸의 값을 추가로 칩으로 묶어준다
+	  if (pets.length > 0) {
+	    const hasSomething =
+	      $('input[name="pet_name"]').val().trim() ||
+	      $('#selectBox').val() || $('#pet_kind_custom').val().trim();
 
-  if(hasSomething){
-    const extra = readCurrentPet();
-    if(extra){ pets.push(extra); renderPets(); }
-  }
-});
+	    if(hasSomething){
+	      const extra = readCurrentPet();
+	      if(extra){ pets.push(extra); renderPets(); }
+	    }
+	  }
+	});
 
 //등록 버튼 클릭 시: 리스트가 있으면 브라우저 required 우회
 $('#submitBtn').on('click', function () {
@@ -480,7 +493,6 @@ $('#submitBtn').on('click', function () {
     $('input[name="pet_birthday"]').prop('required', false);
     $('select[name="pet_gender"]').prop('required', false);
     $('input[name="pet_kg"]').prop('required', false);
-    // pet_type 라디오는 계속 체크 상태라 괜찮음(라디오에 required 이미 한 쪽만 있음)
   }
 });
 </script>
