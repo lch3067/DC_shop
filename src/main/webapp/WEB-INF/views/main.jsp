@@ -5,10 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>펫샵 - 사랑스러운 반려동물과 함께</title>
+<title>독캣배송</title>
 </head>
-<link rel="stylesheet" href="${path}/resources/css/footer.css">
-<link rel="stylesheet" href="${path}/resources/css/header.css">
 <link rel="stylesheet" href="${path}/resources/css/main.css">
 
 <style>
@@ -209,7 +207,7 @@
 	            <div class="col-md-4">
 	              <div class="product-card">
 	                <div class="product-image">
-	                  <img src="resources/img_main/메인_상품4.jpg" alt="">
+	                  <img src="resources/img_main/메인_상품4.png" alt="">
 	                </div>
 	                <h3 class="product-card-title">상품4</h3>
 	                <p class="product-card-description">카테고리<br>가격</p>
@@ -218,7 +216,7 @@
 	            <div class="col-md-4">
 	              <div class="product-card">
 	                <div class="product-image">
-	                  <img src="resources/img_main/메인_상품5.jpg" alt="">
+	                  <img src="resources/img_main/메인_상품5.png" alt="">
 	                </div>
 	                <h3 class="product-card-title">상품5</h3>
 	                <p class="product-card-description">카테고리<br>가격</p>
@@ -365,7 +363,7 @@
 	            <div class="col-md-4">
 	              <div class="product-card">
 	                <div class="product-image">
-	                  <img src="resources/img_main/메인_상품4.jpg" alt="">
+	                  <img src="resources/img_main/메인_상품4.png" alt="">
 	                </div>
 	                <h3 class="product-card-title">상품4</h3>
 	                <p class="product-card-description">카테고리<br>가격</p>
@@ -374,7 +372,7 @@
 	            <div class="col-md-4">
 	              <div class="product-card">
 	                <div class="product-image">
-	                  <img src="resources/img_main/메인_상품5.jpg" alt="">
+	                  <img src="resources/img_main/메인_상품5.png" alt="">
 	                </div>
 	                <h3 class="product-card-title">상품5</h3>
 	                <p class="product-card-description">카테고리<br>가격</p>
@@ -484,6 +482,5 @@
 	<!-- 푸터 시작 -->
 		<%@ include file="setting/footer.jsp" %>
 	<!-- 푸터 끝 -->
-	<script src="script.js"></script>
 </body>
 </html>
