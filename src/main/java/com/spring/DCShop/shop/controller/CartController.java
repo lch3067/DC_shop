@@ -141,7 +141,7 @@ public class CartController {
 	}
 	
 	@RequestMapping(value="/payQty.do", method = RequestMethod.POST)
-	public String payQty(@RequestBody MultiValueMap<String, String> body, HttpServletRequest request) throws JsonMappingException, JsonProcessingException {
+	public String payQty(@RequestBody MultiValueMap<String, String> body, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
 		logger.info("=== url -> payQty ===");
 		ObjectMapper om = new ObjectMapper();
 
@@ -155,6 +155,8 @@ public class CartController {
 		    System.out.println(it.getPdId());
 		    System.out.println(it.getQty());
 		}
+		
+		model.addAttribute("req", req);
 		
 		return "shop/pay";
 	}

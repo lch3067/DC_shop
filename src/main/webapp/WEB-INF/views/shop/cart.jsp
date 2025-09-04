@@ -332,8 +332,7 @@
 						</div>
 						<h3 class="h5 fw-semibold mb-2">장바구니가 비어 있습니다</h3>
 						<p class="text-body-secondary mb-4">상품을 담아 결제를 시작해 보세요.</p>
-						<a href="${path}/products.do" class="btn btn-secondary btn-lg">쇼핑하러
-							가기</a>
+						<a href="${path}/shop_main.do" class="btn btn-secondary btn-lg">쇼핑하러 가기</a>
 					</section>
 				</c:if>
 			</div>
