@@ -1,7 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 <fmt:setLocale value="ko_KR" />
 <!-- 설정 값 넣기 시작 -->
+=======
+<%@ include file="/WEB-INF/views/setting/setting.jsp"%>
+<fmt:setLocale value="ko_KR" />
+
+>>>>>>> origin/lch
 <%-- 
   기대하는 모델:
   - cart : List<CartDTO> (각 DTO에 productDto: List<ProductDTO> 존재, 보통 1개)
@@ -50,7 +56,11 @@
 <c:set var="memberEmail"
 	value="${not empty member.email ? member.email : (not empty user.uEmail ? user.uEmail : 'john.smith@example.com')}" />
 
+<<<<<<< HEAD
 <!-- 설정 값 넣기 끝 -->
+=======
+>>>>>>> origin/lch
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -78,6 +88,12 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="${path}/resources/css/cart.css">
+
+</head>
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" href="${path}/resources/css/footer.css">
+>>>>>>> origin/lch
 <link rel="stylesheet" href="${path}/resources/css/main.css">
 <link rel="stylesheet" href="${path}/resources/css/shop/cart.css">
 <body
@@ -107,7 +123,11 @@
 	    		if (res.result === 'ok') {
 	    	        // 해당 카드의 수량 텍스트 교체
 	    			//document.getElementById(qtyId).textContent = res.qty;
+<<<<<<< HEAD
 	    			window.location.href = CTX + '/cartListShow.do';
+=======
+	    			window.location.href = CTX + '/cartgo.do';
+>>>>>>> origin/lch
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -132,7 +152,11 @@
 	    		if (res.result === 'ok') {
 	    	        // 해당 카드의 수량 텍스트 교체
 	    			//document.getElementById(qtyId).textContent = res.qty;
+<<<<<<< HEAD
 	    			window.location.href = CTX + '/cartListShow.do';
+=======
+	    			window.location.href = CTX + '/cartgo.do';
+>>>>>>> origin/lch
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -156,7 +180,11 @@
 	    	contentType: 'application/json;charset=UTF-8',
 	    	success : function(res) {
 	    		if (res.result === 'ok') {
+<<<<<<< HEAD
 	    			window.location.href = CTX + '/cartListShow.do';
+=======
+	    			window.location.href = CTX + '/cartgo.do';
+>>>>>>> origin/lch
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -182,7 +210,11 @@
 	    	contentType: 'application/json;charset=UTF-8',
 	    	success : function(res) {
 	    		if (res.result === 'ok') {
+<<<<<<< HEAD
 	    			window.location.href = CTX + '/cartListShow.do';
+=======
+	    			window.location.href = CTX + '/cartgo.do';
+>>>>>>> origin/lch
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -356,8 +388,17 @@
 							<span class="fw-semibold">총 결제금액</span> <span id="summaryTotal"
 								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${total}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
-						</div>					
+						</div>
+
+<<<<<<< HEAD
+						
 						<input type="button" onclick="window.location='${path}/pay.do'" class="btn btn-dark w-100" value="결제하기"/>
+						
+=======
+						<form action="${path}/pay.do" method="post">
+							<button type="submit" class="btn btn-primary w-100">결제하기</button>
+						</form>
+>>>>>>> origin/lch
 					</div>
 				</div>
 			</aside>
