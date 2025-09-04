@@ -12,8 +12,6 @@ public interface CartService {
 	
 	public void getProductList(HttpServletRequest request, HttpServletResponse response, Model model);
 	
-	public void Login(HttpServletRequest request, HttpServletResponse response); 
-	
 	public int increaseProductCount(HttpServletRequest request, Map<String, Object> map);
 	
 	public int dicreaseProductCount(HttpServletRequest request, Map<String, Object> map);

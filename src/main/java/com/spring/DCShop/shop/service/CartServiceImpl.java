@@ -27,7 +27,10 @@ public class CartServiceImpl implements CartService {
 		System.out.println("CartServiceImpl => addProductList");
 		
 		int uMemberId = (Integer) request.getSession().getAttribute("session_u_member_id");
-		int pdId = Integer.parseInt(request.getParameter("pd_id"));
+		
+		System.out.println(request.getParameter("pdId"));
+		
+		int pdId = Integer.parseInt(request.getParameter("pdId"));
 		int qty = Integer.parseInt(request.getParameter("qty"));
 
 		CartDTO dto = new CartDTO();
@@ -35,7 +38,7 @@ public class CartServiceImpl implements CartService {
 		dto.setPdId(pdId);
 		dto.setCtQuantity(qty);
 		
-		cartdao.addProductList(dto);
+		cartdao.upsertCart(dto);
 	}
 	
 	@Override
@@ -60,18 +63,11 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void Login(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("CartServiceImpl => Login");
-		request.getSession().setAttribute("sessionID", "lch3067");
-
-	}
-
-	@Override
 	public int increaseProductCount(HttpServletRequest request, Map<String, Object> map) {
 		System.out.println("CartServiceImpl => increaseProductCount");
 		
 		// 세션 아이디 가져오기
-		String uMemberId = (String) request.getSession().getAttribute("uMemberId");
+		int uMemberId = (Integer) request.getSession().getAttribute("session_u_member_id");
 
 		// 상품 아이디 가져오기
 		String pdId = map.get("pdId").toString();
@@ -80,6 +76,8 @@ public class CartServiceImpl implements CartService {
 
 		increaseInfo.put("uMemberId", uMemberId);
 		increaseInfo.put("pdId", pdId);
+		
+		System.out.println(increaseInfo);
 
 		// 상품 구입 갯수 증가[성공이면 1이상, 실패이면, 0]
 		int upResult = cartdao.increaseProductCount(increaseInfo);
@@ -98,7 +96,7 @@ public class CartServiceImpl implements CartService {
 		System.out.println("CartServiceImpl => dicreaseProductCount");
 		
 		// 세션 아이디 가져오기
-		String uMemberId = (String) request.getSession().getAttribute("uMemberId");
+		int uMemberId = (Integer) request.getSession().getAttribute("session_u_member_id");
 
 		// 상품 아이디 가져오기
 		String pdId = map.get("pdId").toString();
@@ -125,7 +123,7 @@ public class CartServiceImpl implements CartService {
 		System.out.println("CartServiceImpl => deleteProductFromCart");
 		
 		// 세션 아이디 가져오기
-		String uMemberId = (String) request.getSession().getAttribute("uMemberId");
+		int uMemberId = (Integer) request.getSession().getAttribute("session_u_member_id");
 
 		// 상품 아이디 가져오기
 		String pdId = map.get("pdId").toString();
@@ -144,7 +142,7 @@ public class CartServiceImpl implements CartService {
 		System.out.println("CartServiceImpl => deleteProductFromCart");
 		
 		// 세션 아이디 가져오기
-		String uMemberId = (String) request.getSession().getAttribute("uMemberId");
+		int uMemberId = (Integer) request.getSession().getAttribute("session_u_member_id");
 
 		// 상품 아이디 가져오기
 		String pdId = map.get("pdId").toString();

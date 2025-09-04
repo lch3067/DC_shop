@@ -7,19 +7,35 @@
 <mapper namespace="com.spring.DCShop.shop.dao.CartDAO">
 
 	<!-- 카트 정보 담기 -->
-	<insert id="addProductList" parameterType="com.spring.DCShop.shop.dto.CartDTO">
-		<!-- CT_NUM 시퀀스 선조회 -->
-		 <selectKey keyProperty="ctNum" resultType="java.lang.Long" order="BEFORE">
-		   SELECT CART_TBL_SEQ.NEXTVAL FROM DUAL
-		 </selectKey>
+	<!-- CartMapper.xml -->
+	<update id="upsertCart"
+	        parameterType="com.spring.DCShop.shop.dto.CartDTO">
+	  <!-- INSERT 경로에서 사용할 키를 미리 채움 -->
+	  <selectKey keyProperty="ctNum" resultType="long" order="BEFORE">
+	    SELECT CART_TBL_SEQ.NEXTVAL FROM DUAL
+	  </selectKey>
 	
-		 INSERT INTO CART_TBL (
-		      CT_NUM, PD_ID, U_MEMBER_ID, CT_QUANTITY, CT_ADD_DATE
-		  ) VALUES (
-		      #{ctNum}, #{pdId}, #{uMemberId}, #{ctQuantity}, SYSDATE
-		  )
-		  
-	</insert>
+	  MERGE INTO CART_TBL c
+	  USING (
+	    SELECT
+	      #{uMemberId}  AS U_MEMBER_ID,
+	      #{pdId}       AS PD_ID,
+	      NVL(#{ctQuantity}, 1) AS CT_QUANTITY,
+	      #{ctNum}      AS CT_NUM
+	    FROM DUAL
+	  ) s
+	  ON (
+	    c.U_MEMBER_ID = s.U_MEMBER_ID
+	    AND c.PD_ID   = s.PD_ID
+	  )
+	  WHEN MATCHED THEN
+	    UPDATE SET
+	      c.CT_QUANTITY   = c.CT_QUANTITY + s.CT_QUANTITY,
+	      c.CT_ADD_DATE = SYSDATE
+	  WHEN NOT MATCHED THEN
+	    INSERT (CT_NUM, PD_ID, U_MEMBER_ID, CT_QUANTITY, CT_ADD_DATE)
+	    VALUES (s.CT_NUM, s.PD_ID, s.U_MEMBER_ID, s.CT_QUANTITY, SYSDATE)
+	</update>
 	
 	<!-- 로그인한 유저의 맴버아이디 가져오기 -->
 	<select id="getUserInfo"  resultMap="userMap">

@@ -1,6 +1,58 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
-<!doctype html>
+<fmt:setLocale value="ko_KR" />
+<!-- 설정 값 넣기 시작 -->
+<%-- 
+  기대하는 모델:
+  - cart : List<CartDTO> (각 DTO에 productDto: List<ProductDTO> 존재, 보통 1개)
+  - user : UserDTO (uName, uEmail 등 필드)
+  선택적으로 member(Map/Bean: name, email) 를 내려도 됨. 없으면 user로 대체.
+--%>
+
+<%-- 배송비/세금(금액) 기본값. shippingFee/tax가 이미 내려오면 그대로 사용 --%>
+<c:set var="shippingFee" value="${empty shippingFee ? 0 : shippingFee}" />
+<c:set var="tax" value="${empty tax ? 0 : tax}" />
+
+<%-- 합계 계산: CartDTO + ProductDTO[0]만 이용 (여러 옵션이면 로직 확장) --%>
+<c:set var="itemsCount" value="0" />
+<c:set var="subtotal" value="0" />
+<c:set var="shippingFeeSum" value="0" />
+
+<c:forEach var="c" items="${cart}">
+	<c:set var="qty" value="${empty c.ctQuantity ? 1 : c.ctQuantity}" />
+	<%-- 첫 번째 상품만 사용 --%>
+	<c:set var="hasPd"
+		value="${not empty c.productDto and fn:length(c.productDto) gt 0}" />
+	<c:set var="pdPrice" value="${hasPd ? c.productDto[0].pd_price : 0}" />
+	<c:set var="pdShip"
+		value="${hasPd ? c.productDto[0].pd_shipping_fee : 0}" />
+
+	<c:set var="itemsCount" value="${itemsCount + qty}" />
+	<c:set var="subtotal" value="${subtotal + (pdPrice * qty)}" />
+	<c:set var="shippingFeeSum" value="${shippingFeeSum + pdShip}" />
+</c:forEach>
+
+<%-- 컨트롤러에서 shippingFee를 안 줬다면, 상품별 합산을 사용 --%>
+<c:if test="${shippingFee == 0}">
+	<c:set var="shippingFee" value="${shippingFeeSum}" />
+</c:if>
+
+<%-- 컨트롤러에서 tax를 안 줬다면, 예시로 10% 적용 --%>
+<c:if test="${tax == 0}">
+	<c:set var="tax" value="${subtotal * 0.10}" />
+</c:if>
+
+<c:set var="total" value="${subtotal + shippingFee + tax}" />
+
+<%-- 사이드 패널 표시용: member가 없으면 user의 uName/uEmail을 사용 --%>
+<c:set var="memberName"
+	value="${not empty member.name ? member.name : (not empty user.uName ? user.uName : 'John Smith')}" />
+<c:set var="memberEmail"
+	value="${not empty member.email ? member.email : (not empty user.uEmail ? user.uEmail : 'john.smith@example.com')}" />
+
+<!-- 설정 값 넣기 끝 -->
+
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -15,9 +67,15 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
 
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="${path}/resources/css/cart.css">
+
 </head>
-<link rel="stylesheet" href="${path}/resources/css/footer.css">
-<link rel="stylesheet" href="${path}/resources/css/header.css">
 <link rel="stylesheet" href="${path}/resources/css/main.css">
 <link rel="stylesheet" href="${path}/resources/css/shop/cart.css">
 <body class="bg-body-tertiary<c:if test='${not empty cart}'> has-sticky-footer</c:if>">
@@ -47,7 +105,7 @@
 	    		if (res.result === 'ok') {
 	    	        // 해당 카드의 수량 텍스트 교체
 	    			//document.getElementById(qtyId).textContent = res.qty;
-	    			window.location.href = CTX + '/cart.do';
+	    			window.location.href = CTX + '/cartListShow.do';
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -72,7 +130,7 @@
 	    		if (res.result === 'ok') {
 	    	        // 해당 카드의 수량 텍스트 교체
 	    			//document.getElementById(qtyId).textContent = res.qty;
-	    			window.location.href = CTX + '/cart.do';
+	    			window.location.href = CTX + '/cartListShow.do';
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -96,7 +154,7 @@
 	    	contentType: 'application/json;charset=UTF-8',
 	    	success : function(res) {
 	    		if (res.result === 'ok') {
-	    			//window.location.href = CTX + '/cart.do';
+	    			window.location.href = CTX + '/cartListShow.do';
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -122,7 +180,7 @@
 	    	contentType: 'application/json;charset=UTF-8',
 	    	success : function(res) {
 	    		if (res.result === 'ok') {
-	    			window.location.href = CTX + '/cart.do';
+	    			window.location.href = CTX + '/cartListShow.do';
 	    		}
 	    	},
 	    	error : function(request, status, error) {
@@ -257,9 +315,7 @@
 								id="summaryShipping" class="fw-medium"> <c:choose>
 									<c:when test="${shippingFee == 0}">무료</c:when>
 									<c:otherwise>
-										<fmt:formatNumber value="${shippingFee}" type="currency"
-											currencySymbol="₩" minFractionDigits="0"
-											maxFractionDigits="0" />
+										<fmt:formatNumber value="${shippingFee}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 									</c:otherwise>
 								</c:choose>
 							</span>
@@ -267,23 +323,20 @@
 
 						<div class="d-flex justify-content-between small mb-3">
 							<span class="text-body-secondary">세금</span> <span id="summaryTax"
-								class="fw-medium"> <fmt:formatNumber value="${tax}"
-									type="currency" currencySymbol="₩" minFractionDigits="0"
-									maxFractionDigits="0" />
+								class="fw-medium"> 
+								<fmt:formatNumber value="${tax}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>
 
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
 							<span class="fw-semibold">총 결제금액</span> <span id="summaryTotal"
-								class="fs-5 fw-bold text-primary"> <fmt:formatNumber
-									value="${total}" type="currency" currencySymbol="₩"
-									minFractionDigits="0" maxFractionDigits="0" />
+								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${total}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>
 
 						
-						<input type="button" onclick="" class="btn btn-dark w-100" value="결제하기"/>
+						<input type="button" onclick="window.location='${path}/pay.do'" class="btn btn-dark w-100" value="결제하기"/>
 						
 					</div>
 				</div>
