@@ -10,6 +10,6 @@ public interface MypageDAO {
 	
 	public List<OrderDTO> getOrderList(Map<String, Object> productListInfo);
 	
-	//public List<CartDTO> getCartList(Map<String, Object> productListInfo);
+	public List<CartDTO> getCartList(Map<String, Object> productListInfo);
 	
 }
