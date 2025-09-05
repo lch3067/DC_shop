@@ -50,13 +50,14 @@ public class CartController {
 		
 		try {
 			cartservice.addProductList(request, response, model);
+			return "redirect:/cartgo.do";
 		} catch (Exception ex) {
 			//ex.printStackTrace();
-		} finally {
 			return "redirect:/cartListShow.do";
 		}
+		
 	}
-	
+
 	/**
 	 * 
 	 * @purpose 장바구니 리스트로 가기
@@ -136,21 +137,38 @@ public class CartController {
 	}
 	
 	@RequestMapping(value="/payQty.do", method = RequestMethod.POST)
-	public String payQty(@RequestBody MultiValueMap<String, String> body, HttpServletRequest request) throws JsonMappingException, JsonProcessingException {
+	public String payQty(@RequestBody MultiValueMap<String, String> body, HttpServletRequest request, Model model) throws JsonMappingException, JsonProcessingException {
 		logger.info("=== url -> payQty ===");
 		ObjectMapper om = new ObjectMapper();
 
 		String payload = body.getFirst("_payload");  // 그대로 사용
 		CheckoutRequest req = om.readValue(payload, CheckoutRequest.class);
-
-		System.out.println(req.getTotalClient());
-		for (CartItemRequest it : req.getItems()) {
-		    System.out.println(it.getPdName());
-		    System.out.println(it.getPdPrice());
-		    System.out.println(it.getPdId());
-		    System.out.println(it.getQty());
-		}
+		
+		model.addAttribute("goPay", req);
 		
 		return "shop/pay";
+	}
+	
+	/*
+	 * @purpose 바로구매 -> 결제
+	 * 
+	 */
+	@RequestMapping("/cartTOPay.do")
+	public String cartTOPay(HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("=== url -> cartTOPay ===");
+		
+		String sessionid = (String)request.getSession().getAttribute("sessionid");
+		
+		if(sessionid == null) {
+			return "user/login/login_main";
+		}
+		
+		try {
+			cartservice.addProductListForGoPay(request, response, model);
+			return "shop/pay";
+		} catch (Exception ex) {
+			//ex.printStackTrace();
+			return "redirect:/cartListShow.do";
+		}
 	}
 }
