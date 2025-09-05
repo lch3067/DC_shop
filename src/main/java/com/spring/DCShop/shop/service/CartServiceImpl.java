@@ -75,11 +75,39 @@ public class CartServiceImpl implements CartService {
 		caritem.setPdName(pDto.getPd_name());
 		caritem.setPdPrice(pDto.getPd_price()*qty);
 		caritem.setQty(qty);
+		caritem.setPdImg(pDto.getPd_image_url());
+		caritem.setPdDiscountRate(pDto.getPd_discount_rate());
+		
+		Long totalClient;
+		int discountPrice;
+		int pdShippingFee;
+		int totalDiscount;
+		// 주문 금액이 10만원 이상이면 무료배송
+		// 총 금액 계산
+		if(caritem.getPdDiscountRate() > 0) {
+			discountPrice = (caritem.getPdPrice() * (100 - caritem.getPdDiscountRate())) / 100;
+			if(discountPrice >= 100000) {
+				pdShippingFee = 0;
+			} else {
+				pdShippingFee = pDto.getPd_shipping_fee();
+			}
+			totalClient = (long) (discountPrice + pdShippingFee);
+			totalDiscount = caritem.getPdPrice() - discountPrice;
+		} else {
+			if(caritem.getPdPrice() > 100000) {
+				pdShippingFee = 0;
+			} else {
+				pdShippingFee = pDto.getPd_shipping_fee();
+			}
+			totalClient = (long) (caritem.getPdPrice() + pdShippingFee);
+			totalDiscount = 0;
+		}
+		
 		list.add(caritem);
 		
-		CheckoutRequest cr = new CheckoutRequest(list, (long) qty, null);
+		CheckoutRequest cr = new CheckoutRequest(list, pdShippingFee, (long) totalClient, null, totalDiscount);
 		
-		model.addAttribute("goPay", cr);
+		request.getSession().setAttribute("goPay", cr);
 		
 	}
 	

@@ -228,7 +228,7 @@
 
   	  // 배송비
   	  const summaryShipping = (document.getElementById("summaryShipping")?.textContent || "").trim();
-  	  const shipping = Number(summaryShipping.replace(/[^\d]/g, '') || 0);
+  	  const pdShippingFee = Number(summaryShipping.replace(/[^\d]/g, '') || 0);
   	  
   	  // 아이템 수집
   	  const items = [];
@@ -237,11 +237,14 @@
   	    const pdName  = (card.querySelector('.fw-semibold').textContent).trim();
   	    const pdPrice = Number(card.querySelector('.price').dataset.price);
   	    const qty     = Math.max(1, parseInt(card.querySelector('.qty-input').value));
-  	    const pd_discount_rate = Number(card.querySelector('.pd_discount_rate').value);
-  	    items.push({ pdId, pdName, pdPrice, qty, pd_discount_rate });
+  	    const img = card.querySelector('.cart-item-thumb');
+  	    const pdImg	  = (img ? img.getAttribute('src') : '');
+  	    const pdDiscountRate = Number(card.querySelector('.pd_discount_rate').value);
+  	    
+  	    items.push({ pdId, pdName, pdPrice, qty, pdImg, pdDiscountRate });
   	  });
 
-  	  add('_payload', JSON.stringify({ items, totalClient, shipping }));
+  	  add('_payload', JSON.stringify({ items, pdShippingFee, totalClient }));
 
   	  form.method = 'post';
   	  form.action = CTX + '/payQty.do';

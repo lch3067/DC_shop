@@ -160,15 +160,15 @@
 						    <c:choose>
 						      <c:when test="${hasDiscount}">
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/> 원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
+						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/>원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
 						        </span>
 						        <s class="price-old money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
 						        </s>
 						      </c:when>
 						      <c:otherwise>
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
 						        </span>
 						      </c:otherwise>
 						    </c:choose>
