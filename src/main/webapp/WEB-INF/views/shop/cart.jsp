@@ -240,6 +240,7 @@
   	    const img = card.querySelector('.cart-item-thumb');
   	    const pdImg	  = (img ? img.getAttribute('src') : '');
   	    const pdDiscountRate = Number(card.querySelector('.pd_discount_rate').value);
+  	    
   	    items.push({ pdId, pdName, pdPrice, qty, pdImg, pdDiscountRate });
   	  });
 

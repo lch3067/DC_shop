@@ -144,6 +144,8 @@ public class CartController {
 		String payload = body.getFirst("_payload");  // 그대로 사용
 		CheckoutRequest req = om.readValue(payload, CheckoutRequest.class);
 
+		int discountPrice;
+		int totalDiscount = 0;
 		System.out.println(req.getTotalClient());
 		for (CartItemRequest it : req.getItems()) {
 			System.out.println(it.getPdId());
@@ -152,7 +154,14 @@ public class CartController {
 		    System.out.println(it.getQty());
 		    System.out.println(it.getPdImg());
 		    System.out.println(it.getPdDiscountRate());
+		    
+		    if(it.getPdDiscountRate() > 0) {
+		    	discountPrice = ((it.getPdPrice() * it.getQty()) * (100 - it.getPdDiscountRate())) / 100;
+		    	totalDiscount += (it.getPdPrice() * it.getQty()) - discountPrice;
+		    }
 		}
+		
+		req.setTotalDiscount(totalDiscount);
 		
 		request.getSession().setAttribute("goPay", req);
 		

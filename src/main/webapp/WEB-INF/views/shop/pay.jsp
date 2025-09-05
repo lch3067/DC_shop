@@ -169,7 +169,7 @@ input[type="checkbox"]:checked::after {
 						<c:choose>
 					      <c:when test="${item.pdDiscountRate > 0}">
 					        <span class="price-now money">
-					          <fmt:formatNumber value="${item.pdPrice * (100 - item.pdDiscountRate)/100}" type="number" maxFractionDigits="0"/>원 
+					          <fmt:formatNumber value="${(item.pdPrice * (100 - item.pdDiscountRate)/100) * item.qty}" type="number" maxFractionDigits="0"/>원 
 					        </span> &nbsp;
 					        <s class="text-sm text-gray-500 mb-1">
 					          <fmt:formatNumber value="${item.pdPrice * item.qty}" type="number" maxFractionDigits="0"/>원

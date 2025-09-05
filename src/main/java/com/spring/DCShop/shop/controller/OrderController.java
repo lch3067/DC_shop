@@ -131,7 +131,6 @@ public class OrderController {
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
         
-
         if(isSuccess) {
         	// 결제가 정상적으로 승인이 되었다면 DB에 저장
         	service.orderInsertAction(jsonBody, jsonObject, request);
