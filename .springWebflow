@@ -7,5 +7,9 @@
 			<file>src/main/resources/mappers/orderMapper.xml</file>
 			<name><![CDATA[orderMapper]]></name>
 		</config>
+		<config>
+			<file>src/main/resources/mappers/ordermapper_.xml</file>
+			<name><![CDATA[ordermapper_]]></name>
+		</config>
 	</configs>
 </webflow-project-description>

@@ -211,7 +211,9 @@
   	    const pdName  = (card.querySelector('.fw-semibold').textContent).trim();
   	    const pdPrice = Number(card.querySelector('.price').dataset.price);
   	    const qty     = Math.max(1, parseInt(card.querySelector('.qty-input').value));
-  	    items.push({ pdId, pdName, pdPrice, qty });
+  	    const img = card.querySelector('.cart-item-thumb');
+  	    const pdImg	  = (img ? img.getAttribute('src') : '');
+  	    items.push({ pdId, pdName, pdPrice, qty, pdImg });
   	  });
 
   	  add('_payload', JSON.stringify({ items, totalClient, currency: 'KRW' }));
@@ -332,12 +334,8 @@
 						</div>
 						<h3 class="h5 fw-semibold mb-2">장바구니가 비어 있습니다</h3>
 						<p class="text-body-secondary mb-4">상품을 담아 결제를 시작해 보세요.</p>
-<<<<<<< HEAD
-						<a href="${path}/shop_main.do" class="btn btn-secondary btn-lg">쇼핑하러 가기</a>
-=======
 						<a href="${path}/shop_main.do" class="btn btn-secondary btn-lg">쇼핑하러
 							가기</a>
->>>>>>> a12d4522c2d4747419902bda216e09bdb67fdfa6
 					</section>
 				</c:if>
 			</div>

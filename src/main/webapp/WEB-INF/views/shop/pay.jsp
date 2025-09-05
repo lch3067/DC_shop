@@ -1,5 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp"%>
+
+<c:set var="orderName">
+    <c:choose>
+        <c:when test="${sessionScope.goPay.items.size() > 1}">
+            ${sessionScope.goPay.items[0].pdName} 외 ${sessionScope.goPay.items.size() - 1}건
+        </c:when>
+        <c:otherwise>
+            ${sessionScope.goPay.items[0].pdName}
+        </c:otherwise>
+    </c:choose>
+</c:set>
+
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -122,9 +135,6 @@ input[type="checkbox"]:checked::after {
 
 <body>
 
-
-	
-
 	<!-- 헤더 시작 -->
 	<%@ include file="../setting/header.jsp"%>
 	<!-- 헤더 끝 -->
@@ -149,24 +159,54 @@ input[type="checkbox"]:checked::after {
 		</div> -->
 
 		<section class="bg-white rounded-lg p-4 mb-6">
-			<div class="flex gap-4 mb-4">
-				<div class="w-20 h-20 bg-gray-100 rounded-md"></div>
-				<div class="flex-1">
-					<h3 class="font-medium mb-1">강아지 사료</h3>
-					<p class="text-sm text-gray-500 mb-1">대형 / 1개</p>
-					<p class="font-medium">30,000원</p>
+			<c:forEach var="item" items="${sessionScope.goPay.items}">
+				<div class="flex gap-4 mb-4">
+					<img src="<c:url value='${item.pdImg}'/>" alt="<c:out value='${item.pdName}'/>" class="w-20 h-20 rounded-md">
+				    <div class="flex-1">
+						<h3 class="font-medium mb-1">${item.pdName}</h3>
+						<p class="text-sm text-gray-500 mb-1">${item.qty} 개</p>
+						<%-- <p class="font-medium">${item.pdPrice}원</p> --%>
+						<c:choose>
+					      <c:when test="${item.pdDiscountRate > 0}">
+					        <span class="price-now money">
+					          <fmt:formatNumber value="${item.pdPrice * (100 - item.pdDiscountRate)/100}" type="number" maxFractionDigits="0"/>원 
+					        </span> &nbsp;
+					        <s class="text-sm text-gray-500 mb-1">
+					          <fmt:formatNumber value="${item.pdPrice * item.qty}" type="number" maxFractionDigits="0"/>원
+					        </s>
+					      </c:when>
+					      <c:otherwise>
+					        <span class="price-now money">
+					          <fmt:formatNumber value="${item.pdPrice * item.qty}" type="number" maxFractionDigits="0"/>원
+					        </span>
+					      </c:otherwise>
+					    </c:choose>
+					</div>
 				</div>
-			</div>
-			
+			</c:forEach>
 			<div class="border-t pt-4">
 				<div class="flex justify-between text-sm mb-2">
-					<span>배송비</span> <span>3,000원</span>
+					<span>배송비</span> 
+					<c:choose>
+					    <c:when test="${sessionScope.goPay.pdShippingFee == 0}">
+					        <span>무료</span>
+					    </c:when>
+					    <c:otherwise>
+					        <span>${sessionScope.goPay.pdShippingFee}원</span>
+					    </c:otherwise>
+					</c:choose>
+
 				</div>
+			    <c:if test="${sessionScope.goPay.totalDiscount != 0}">
+					<div class="flex justify-between text-sm mb-2" id="discount">
+				        <span>총 할인금액</span> <span id="totalDiscount"> ${sessionScope.goPay.totalDiscount}원 </span>
+					</div>
+			    </c:if>
 				<div class="flex justify-between font-medium">
-					<span>총 결제금액</span> <span class="text-primary">33,000원</span>
+					<span>총 결제금액</span> <span class="text-primary"> ${sessionScope.goPay.totalClient}원 </span>
 				</div>
 			</div>
-	        <c:out value="${goPay}">결과</c:out>
+	        <c:out value="${sessionScope.goPay}">결과</c:out>
 		</section>
 
 
@@ -175,17 +215,15 @@ input[type="checkbox"]:checked::after {
 			<div class="space-y-4">
 				<div>
 					<label class="text-sm text-gray-500 block mb-1">받는 사람</label> 
-					<input type="text" value="김민수" class="w-full p-3 border rounded-lg" id="u_name" />
+					<input type="text" value="${user.u_name}" class="w-full p-3 border rounded-lg" id="u_name" />
 				</div>
 				<div>
 					<label class="text-sm text-gray-500 block mb-1">우편번호</label> 
-					<input type="text" value="04108" class="w-full p-3 border rounded-lg mb-2" id="u_zip_code"/>
-					<!-- <input type="text" value="터틀프라자 1층" class="w-full p-3 border rounded-lg" /> -->
+					<input type="text" value="${user.u_zip_code}" class="w-full p-3 border rounded-lg mb-2" id="u_zip_code"/>
 				</div>
 				<div>
 					<label class="text-sm text-gray-500 block mb-1">주소</label> 
-					<input type="text" value="서울 마포구 백범로 23 터틀프라자 1층" class="w-full p-3 border rounded-lg mb-2" id="u_address"/>
-					<!-- <input type="text" value="터틀프라자 1층" class="w-full p-3 border rounded-lg" /> -->
+					<input type="text" value="${user.u_address}" class="w-full p-3 border rounded-lg mb-2" id="u_address"/>
 				</div>
 				<div>
 					<label class="text-sm text-gray-500 block mb-1">배송 요청사항</label> 
@@ -211,7 +249,7 @@ input[type="checkbox"]:checked::after {
 		<button
 			class="w-full bg-black text-white py-4 !rounded-button font-medium"
 			id="payment-request-button">
-			33,000원 결제하기</button>
+			${sessionScope.goPay.totalClient}원 결제하기</button>
 	</div>
 	<br><br><br>
 	
@@ -220,6 +258,13 @@ input[type="checkbox"]:checked::after {
 	<!-- 푸터 끝 -->
 	
 	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    const zipInput = document.getElementById("u_zip_code");
+	    if (zipInput) {
+	        zipInput.value = String(zipInput.value).padStart(5, '0');
+	    }
+	});
+	
 	main();
 
     async function main() {
@@ -237,7 +282,7 @@ input[type="checkbox"]:checked::after {
       // ------ 주문의 결제 금액 설정 ------
       await widgets.setAmount({
         currency: "KRW",
-        value: 5000,
+        value: ${sessionScope.goPay.totalClient},
       });
 
       await Promise.all([
@@ -295,10 +340,35 @@ input[type="checkbox"]:checked::after {
       const u_phone = document.getElementById("u_phone").value;
       const o_phone = u_phone.replace(/-/g, "");
       
+   	  // 세션에서 gopay.items를 JS에서 사용 가능하도록 JSON 변환
+      const goPayItems = [
+    	    <c:forEach var="item" items="${sessionScope.goPay.items}" varStatus="status">
+    	      {
+    	        pdId: ${item.pdId},
+    	        pdPrice: ${item.pdPrice},
+    	        pdDiscountRate: ${item.pdDiscountRate},
+    	        qty: ${item.qty}
+    	      }<c:if test="${!status.last}">,</c:if>
+    	    </c:forEach>
+    	  ];
+      
+      // orderList
+      function generateOrderList() {
+    	  const orderList = [];
+    	  for(const list of goPayItems) {
+    		  orderList.push({pd_id:list.pdId,
+    			  			  o_price:(list.pdPrice * (100 - list.pdDiscountRate)) / 100, 
+    			  			  o_count:list.qty
+    			  			  });
+    	  }
+    	  return orderList;
+      }
+      
       
       // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
       button.addEventListener("click", async function () {
       	const orderId = generateOrderId();
+      	const orderListResult = generateOrderList();
       	
       	const orderInfo = {
       		o_name : document.getElementById("u_name").value,
@@ -307,14 +377,13 @@ input[type="checkbox"]:checked::after {
       		o_zip_code : document.getElementById("u_zip_code").value,
       		o_request: document.getElementById("o_request").value,
       		
-      		orderList : [{pd_id: 1, o_price: 1000, o_count:2},
-      					 {pd_id: 2, o_price: 1500, o_count:2},
-      					 {pd_id: 3, o_price: 2000, o_count:1}]
+      		orderList : orderListResult
           };
+
       	
 			await widgets.requestPayment({
 				orderId: orderId,		// 영문 대소문자, 숫자, 특수문자 -, _, =로 이루어진 6자 이상 64자 이하의 문자열
-				orderName: "강아지 사료",		// 구매 상품. 예) 생수 외 1건 같은 형식. 최대 길이 100자
+				orderName: "${orderName}",		// 구매 상품. 예) 생수 외 1건 같은 형식. 최대 길이 100자
 				successUrl: window.location.origin + "${path}/pay_success?orderInfo=" + encodeURIComponent(JSON.stringify(orderInfo)),
 				failUrl: window.location.origin + "${path}/pay_fail",
 				customerEmail: "${sessionScope.session_u_email}",		// 구매자 이매일. 최대 길이 100자

@@ -5,6 +5,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.spring.DCShop.shop.dao.OrderDAO">
+
+	<select id="orderUserAction" parameterType="int" resultType="com.spring.DCShop.user.dto.UserDTO">
+		SELECT *
+		  FROM user_tbl
+		 WHERE u_member_id = #{u_member_id}
+	</select>
  	
  	<insert id="orderInsertAction" parameterType="com.spring.DCShop.shop.dto.OrderDTO">
  		INSERT INTO order_tbl(o_num

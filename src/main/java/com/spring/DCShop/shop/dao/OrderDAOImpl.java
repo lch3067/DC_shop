@@ -5,12 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.DCShop.shop.dto.OrderDTO;
+import com.spring.DCShop.user.dto.UserDTO;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO{
 	
 	@Autowired
 	SqlSession sqlSession;
+	
+	// 결제자 정보
+	public UserDTO orderUserAction(int u_member_id) {
+		System.out.println("DAO - orderUserAction()");
+		
+		UserDTO dto = sqlSession.selectOne("com.spring.DCShop.shop.dao.OrderDAO.orderUserAction", u_member_id);
+		
+		return dto;
+	}
 
 	// 결제내역 저장
 	public void orderInsertAction(OrderDTO dto) {

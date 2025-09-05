@@ -150,11 +150,12 @@ public class CartController {
 		    System.out.println(it.getPdPrice());
 		    System.out.println(it.getPdId());
 		    System.out.println(it.getQty());
+		    System.out.println(it.getPdImg());
 		}
 		
-		model.addAttribute("goPay", req);
+		request.getSession().setAttribute("goPay", req);
 		
-		return "shop/pay";
+		return "redirect:/checkout";
 	}
 	
 	/*
@@ -173,7 +174,7 @@ public class CartController {
 		
 		try {
 			cartservice.addProductListForGoPay(request, response, model);
-			return "shop/pay";
+			return "redirect:/checkout";
 		} catch (Exception ex) {
 			//ex.printStackTrace();
 			return "redirect:/cartListShow.do";

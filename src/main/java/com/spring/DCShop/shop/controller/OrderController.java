@@ -37,13 +37,16 @@ public class OrderController {
 	@Autowired
 	private OrderServiceImpl service;
 
-//	@RequestMapping("/checkout")
-//	public String checkout(HttpServletRequest request, HttpServletResponse response, Model model)
-//			throws ServletException, IOException {
-//		logger.info("<<< url => pay >>>");
-//
-//		return "shop/pay";
-//	}
+	@RequestMapping("/checkout")
+	public String checkout(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => pay >>>");
+		
+		System.out.println(request.getSession().getAttribute("goPay"));
+		service.orderUserAction(request, response, model);
+
+		return "shop/pay";
+	}
 
 	
 	@RequestMapping("/pay_success") 

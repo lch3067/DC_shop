@@ -1,6 +1,10 @@
 package com.spring.DCShop.shop.service;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,15 +12,32 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.spring.DCShop.shop.dao.OrderDAO;
+import com.spring.DCShop.shop.dto.CheckoutRequest;
 import com.spring.DCShop.shop.dto.OrderDTO;
+import com.spring.DCShop.user.dto.UserDTO;
 
 @Service
 public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	OrderDAO dao;
+	
+	// 결제자 정보
+	public void orderUserAction(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		System.out.println("OrderServiceImpl - orderUserAction");
+		
+		int u_member_id = (Integer) request.getSession().getAttribute("session_u_member_id");
+		
+		UserDTO dto = dao.orderUserAction(u_member_id);
+		System.out.println(dto);
+		
+		model.addAttribute("user", dto);
+		
+	}
 
 	// 결제내역 저장
 	@Override
@@ -107,6 +128,10 @@ public class OrderServiceImpl implements OrderService{
         } catch (ParseException e) {
             throw new RuntimeException(e);
         };
+        
+	    if (request.getSession() != null) {
+	    	request.getSession().removeAttribute("goPay");
+	    }
         
 	}
 
