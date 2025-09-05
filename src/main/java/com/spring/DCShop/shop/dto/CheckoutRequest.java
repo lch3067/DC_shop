@@ -8,6 +8,7 @@ public class CheckoutRequest {
 	private Long totalClient;
 	private String currency;
 	private Integer totalDiscount;
+	private String shipping;
 	  
 	public CheckoutRequest() {}
 
@@ -18,6 +19,16 @@ public class CheckoutRequest {
 		this.totalClient = totalClient;
 		this.currency = currency;
 		this.totalDiscount = totalDiscount;
+	}
+	
+	public CheckoutRequest(List<CartItemRequest> items,Integer pdShippingFee , Long totalClient, String currency, Integer totalDiscount, String shipping) {
+		super();
+		this.items = items;
+		this.pdShippingFee = pdShippingFee;
+		this.totalClient = totalClient;
+		this.currency = currency;
+		this.totalDiscount = totalDiscount;
+		this.shipping = shipping;
 	}
 
 	public List<CartItemRequest> getItems() {
@@ -44,12 +55,12 @@ public class CheckoutRequest {
 		this.totalClient = totalClient;
 	}
 
-	public String getCurrency() {
-		return currency;
+	public String getShipping() {
+		return shipping;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
+	public void setCurrency(String shipping) {
+		this.shipping = shipping;
 	}
 	
 	public Integer getTotalDiscount() {
@@ -62,7 +73,7 @@ public class CheckoutRequest {
 
 	@Override
 	public String toString() {
-		return "CheckoutRequest [items=" + items + ", pdShippingFee=" + pdShippingFee + ", totalClient=" + totalClient + ", currency=" + currency + ", totalDiscount=" + totalDiscount + "]";
+		return "CheckoutRequest [items=" + items + ", pdShippingFee=" + pdShippingFee + ", totalClient=" + totalClient + ", currency=" + currency + ", totalDiscount=" + totalDiscount + ", shipping=" + shipping + "]";
 	}
 	  
 }

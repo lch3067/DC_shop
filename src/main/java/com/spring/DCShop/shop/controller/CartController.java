@@ -146,11 +146,12 @@ public class CartController {
 
 		System.out.println(req.getTotalClient());
 		for (CartItemRequest it : req.getItems()) {
+			System.out.println(it.getPdId());
 		    System.out.println(it.getPdName());
 		    System.out.println(it.getPdPrice());
-		    System.out.println(it.getPdId());
 		    System.out.println(it.getQty());
 		    System.out.println(it.getPdImg());
+		    System.out.println(it.getPdDiscountRate());
 		}
 		
 		request.getSession().setAttribute("goPay", req);

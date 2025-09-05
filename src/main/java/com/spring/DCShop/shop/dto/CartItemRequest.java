@@ -21,35 +21,35 @@ public class CartItemRequest {
 		this.pdImg = pdImg;
 		this.pdDiscountRate = pdDiscountRate;
 	}
-	
+
 	public Long getPdId() {
 		return pdId;
 	}
-	
+
 	public void setPdId(Long pdId) {
 		this.pdId = pdId;
 	}
-	
+
 	public String getPdName() {
 		return pdName;
 	}
-	
+
 	public void setPdName(String pdName) {
 		this.pdName = pdName;
 	}
-	
+
 	public Integer getPdPrice() {
 		return pdPrice;
 	}
-	
+
 	public void setPdPrice(Integer pdPrice) {
 		this.pdPrice = pdPrice;
 	}
-	
+
 	public Integer getQty() {
 		return qty;
 	}
-	
+
 	public void setQty(Integer qty) {
 		this.qty = qty;
 	}
@@ -75,4 +75,5 @@ public class CartItemRequest {
 		return "CartItemRequest [pdId=" + pdId + ", pdName=" + pdName + ", pdPrice=" + pdPrice + ", qty=" + qty+ ", pdImg=" + pdImg + ", pdDiscountRate=" + pdDiscountRate + "]";
 	}
 
+	
 }
