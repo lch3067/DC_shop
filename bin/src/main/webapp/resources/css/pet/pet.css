@@ -1,0 +1,129 @@
+@charset "UTF-8";
+/* join.css */
+
+#container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#contents {
+	max-width: 900px;
+	min-width: 900px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+/* #section1, #section2 {
+	padding: 10px 20px 20px 0;
+	border-bottom: 5px solid #B1AEB7;
+} */
+
+#s2_inner {
+	width: 100%;
+}
+
+.join {
+	display: flex; /* 한줄(수평)로 배치 */
+	justify-content: center; /* 가운데 배치 */
+	align-items: center; /* 수평 - 가운데 정렬 */
+	max-width: 900px;
+	margin: 40px 10px;
+	height: auto;
+}
+
+.join th {
+	font-size: 15px;
+	font-weight: bold;
+	width: 120px;
+	height: 60px;
+	text-align: center;
+	padding-right: 10px;
+	padding-left: 20px;
+	border-bottom: 5px solid #CCC;
+	background: whitesmoke;
+	margin-right: 5px;
+}
+
+.join td {
+	padding: 10px 0px 10px 10px;
+	border-bottom: 1px solid #CCC;
+}
+
+.input{
+	width: 300px;
+	height: 40px;
+	border: 1px solid gray;
+	box-sizing: border-box;
+	padding: 0 0 0 10px;
+}
+
+.inputButton{
+	background: whitesmoke;
+	font-size: 15px;
+	padding: 5px 10px 5px 10px;
+}
+
+/* ===== 추가된 반려동물 리스트 영역 ===== */
+#addedPetsWrap{
+  display:inline-block;     /* 블록 → 줄바꿈되는 인라인블록 = 내용 너비만큼 */
+  width:fit-content;        /* 내용 크기만큼 */
+  max-width:100%;           /* 너무 넓어지는 것 방지 */
+  background:#fafafa;
+  border:1px solid #e5e5e5;
+  border-radius:10px;
+  padding:12px 14px;
+}
+
+/* 칩 목록: 가로로 나열 + 넘치면 줄바꿈 */
+#addedPets,
+.pet-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+/* 각 칩(정사각형 카드) */
+#addedPets .pet-chip{
+  box-sizing:border-box;
+  width:180px;             /* 정사각형 사이즈 */
+  height:180px;
+  display:flex;
+  flex-direction:column;   /* 내용은 세로 쌓기 */
+  gap:6px;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;         /* 칩은 흰색, 바깥 래퍼는 #fafafa */
+  position:relative;       /* 삭제버튼 위치용 */
+}
+
+/* 칩 내부 텍스트(세로 한 줄씩) */
+#addedPets .chip-lines{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  line-height:1.4;
+  font-size:12px;
+  overflow:auto;            /* 내용 길면 카드 내부 스크롤 */
+}
+
+/* 삭제 버튼 우상단 고정 */
+#addedPets .pet-chip .del{
+  position:absolute;
+  top:8px;
+  right:8px;
+  border:none;
+  background:#eee;
+  padding:2px 6px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* 반응형(아주 작은 화면에서 조금 더 작게) */
+@media (max-width: 480px){
+  #addedPets .pet-chip{
+    width:140px;
+    height:140px;
+    padding:10px;
+  }
+}
