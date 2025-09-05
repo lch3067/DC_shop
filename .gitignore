@@ -4,11 +4,9 @@
 .springBeans
 .settings/
 config/
-target/
 
 # Build / Packaging
-/target/
-/**/target/
+target/
 build/
 *.class
 *.jar
