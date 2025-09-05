@@ -22,14 +22,13 @@ public class MypageServiceImpl implements MypageService {
 	@Autowired
 	private MypageDAO myDao;
 	private int productCountSum;
-	private int productPriceSum;
 	private int productTotalPrice;
 	
-	@ResultMap("getCartList.do")
-	public void getCartList(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public void getCartAndOrderList(HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-		System.out.println("MypageServiceImpl => getCartList");
+		System.out.println("MypageServiceImpl => getCartAndOrderList");
 		
+		/** 주문내역 **/
 		int session_u_member_id = (Integer)request.getSession().getAttribute("session_u_member_id");
 		
 		Map<String, Object> productListInfo = new HashMap<String, Object>();
@@ -44,13 +43,6 @@ public class MypageServiceImpl implements MypageService {
 			productCountSum += i.getO_Count();
 		});
 
-		productPriceSum = 0;
-		
-		list.forEach(i -> {
-			i.getProductDto().forEach(j -> {
-				productPriceSum += j.getPdPrice();
-			});
-		});
 		productTotalPrice = 0;
 		list.forEach(i -> {
 			i.getProductDto().forEach(j -> {
@@ -58,9 +50,10 @@ public class MypageServiceImpl implements MypageService {
 			});
 		});
 		
+		/** 장바구니 **/
+		
 		model.addAttribute("cart", list);
 		model.addAttribute("productCountSum", productCountSum);
-		model.addAttribute("productPriceSum", productPriceSum);
 		model.addAttribute("productTotalPrice", productTotalPrice);
 	}
 	

@@ -63,7 +63,7 @@
 				<!-- 주문 내역 -->
 				<section class="mb-8">
 					<h2 class="text-lg font-semibold mb-3">
-						주문 내역 <font size=1>최신순</font>
+						주문 내역
 					</h2>
 					<div class="relative overflow-x-auto">
 						<table
@@ -71,11 +71,10 @@
 							<thead
 								class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
 								<tr>
-									<th scope="col" class="px-6 py-3 rounded-s-lg">Product
-										name</th>
+									<th scope="col" class="px-6 py-3 rounded-s-lg">PNum</th>
 									<th scope="col" class="px-6 py-3">ProductName</th>
+									<th scope="col" class="px-6 py-3">DeliveryState</th>
 									<th scope="col" class="px-6 py-3">Qty</th>
-									<th scope="col" class="px-6 py-3 rounded-e-lg">Price</th>
 									<th scope="col" class="px-6 py-3 rounded-e-lg">Price</th>
 								</tr>
 							</thead>
@@ -88,10 +87,9 @@
 											<c:out value="${pd.pdId}" />
 										</th>
 										<td class="px-6 py-4"><c:out value="${pd.pdName}" /></td>
+										<td class="px-6 py-4"><c:out value="${c.o_Delivery_State}" /></td>
 										<td class="px-6 py-4"><c:out value="${c.o_Count}" /></td>
-										<td class="px-6 py-4"><c:out value="${pd.pdPrice}" /></td>
-										<td class="px-6 py-4"><c:out
-												value="${c.o_Count * pd.pdPrice}" /></td>
+										<td class="px-6 py-4"><c:out value="${c.o_Count * pd.pdPrice}" /></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -99,14 +97,13 @@
 								<tr class="font-semibold text-gray-900 dark:text-white">
 									<th scope="row" class="px-6 py-3 text-base">Total</th>
 									<td class="px-6 py-3"></td>
+									<td class="px-6 py-3"></td>
 									<td class="px-6 py-3">${productCountSum}</td>
-									<td class="px-6 py-3">${productPriceSum}</td>
 									<td class="px-6 py-3">${productTotalPrice}</td>
 								</tr>
 							</tfoot>
 						</table>
 					</div>
-
 				</section>
 
 				<section>
@@ -114,16 +111,49 @@
 
 				</section>
 
-				<!-- 위시리스트 -->
+				<!-- 장바구니 -->
 				<section>
-					<h2 class="text-lg font-semibold mb-3">관심상품/장바구니</h2>
-					<div class="bg-white border rounded-lg divide-y">
-						<div class="p-4 flex justify-between">
-							<span>Premium Headphones</span> <span class="font-semibold">$199.99</span>
-						</div>
-						<div class="p-4 flex justify-between">
-							<span>Wireless Mouse</span> <span class="font-semibold">$49.99</span>
-						</div>
+					<h2 class="text-lg font-semibold mb-3">
+						장바구니
+					</h2>
+					<div class="relative overflow-x-auto">
+						<table
+							class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+							<thead
+								class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+								<tr>
+									<th scope="col" class="px-6 py-3 rounded-s-lg">PNum</th>
+									<th scope="col" class="px-6 py-3">ProductName</th>
+									<th scope="col" class="px-6 py-3">DeliveryState</th>
+									<th scope="col" class="px-6 py-3">Qty</th>
+									<th scope="col" class="px-6 py-3 rounded-e-lg">Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="c" items="${cart}">
+									<c:set var="pd" value="${c.productDto[0]}" />
+									<tr class="bg-white dark:bg-gray-800">
+										<th scope="row"
+											class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											<c:out value="${pd.pdId}" />
+										</th>
+										<td class="px-6 py-4"><c:out value="${pd.pdName}" /></td>
+										<td class="px-6 py-4"><c:out value="${c.o_Delivery_State}" /></td>
+										<td class="px-6 py-4"><c:out value="${c.o_Count}" /></td>
+										<td class="px-6 py-4"><c:out value="${c.o_Count * pd.pdPrice}" /></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+							<tfoot>
+								<tr class="font-semibold text-gray-900 dark:text-white">
+									<th scope="row" class="px-6 py-3 text-base">Total</th>
+									<td class="px-6 py-3"></td>
+									<td class="px-6 py-3"></td>
+									<td class="px-6 py-3">${productCountSum}</td>
+									<td class="px-6 py-3">${productTotalPrice}</td>
+								</tr>
+							</tfoot>
+						</table>
 					</div>
 				</section>
 			</main>
