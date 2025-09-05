@@ -143,14 +143,6 @@ public class CartController {
 
 		String payload = body.getFirst("_payload");  // 그대로 사용
 		CheckoutRequest req = om.readValue(payload, CheckoutRequest.class);
-
-		System.out.println(req.getTotalClient());
-		for (CartItemRequest it : req.getItems()) {
-		    System.out.println(it.getPdName());
-		    System.out.println(it.getPdPrice());
-		    System.out.println(it.getPdId());
-		    System.out.println(it.getQty());
-		}
 		
 		model.addAttribute("goPay", req);
 		
