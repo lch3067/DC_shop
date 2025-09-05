@@ -331,10 +331,15 @@
 					  </form>
 				  </section>
 				
-				  <!-- Q&A (자리만) -->
+				  <!-- Q&A -->
 				  <section id="panel-qa" class="pd-panel" role="tabpanel" aria-labelledby="tab-qa">
-				    <p class="empty">문의가 없습니다.</p>
-				    <a class="link" href="${path}/qna/write.do?pd_id=${dto.pd_id}">문의 작성하기</a>
+				    
+				    <!-- qna.jsp로 상품 번호(pd_id) 넘김. -->
+				    <%-- qna.jsp는 ${path가 아닌} 상세경로로 지정해주기. --%>
+				  	<jsp:include page="/WEB-INF/views/shop/qna.jsp">
+					    <jsp:param name="pd_id" value="${dto.pd_id}"></jsp:param>
+					</jsp:include>
+					
 				  </section>
 				</div>
 
@@ -342,7 +347,6 @@
 
           </div>
         </div>
-
       </div>
     </div>
 
