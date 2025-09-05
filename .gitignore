@@ -13,8 +13,4 @@ build/
 *.class
 *.jar
 *.war
-<<<<<<< HEAD
 *.ear
-=======
-*.ear
->>>>>>> c96332cd1f68a26a192a3a1c557c81f0f5be566f
