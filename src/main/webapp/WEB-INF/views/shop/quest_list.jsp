@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <!-- 반응형 웹 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>QnA</title>
+
 <script>
 	tailwind.config = {
 		theme : {
@@ -38,8 +40,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
 	rel="stylesheet" />
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
 	rel="stylesheet" />
 <style>
 :where([class^="ri-"])::before {
@@ -56,24 +57,24 @@
 					<table class="w-full border-collapse border border-gray-200">
 						<thead>
 							<tr class="bg-gray-50">
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									번호</th>
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									작성자</th>
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									문의 제목</th>
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									작성일</th>
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									구분</th>
-								<th
-									class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									답변</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									번호
+								</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									작성자
+								</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									문의 제목
+								</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									작성일
+								</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									구분
+								</th>
+								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
+									답변
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -86,19 +87,21 @@
 									<!-- 작성자ID -->
 									<td class="border border-gray-200 px-4 py-3">${dto.u_member_id}</td>
 									<td class="border border-gray-200 px-4 py-3">
-										<!-- 비밀글 여부 체크 --> <c:if test="${dto.q_secret eq 'Y'}">
-											<!-- 등록한 사람본인이 맞는지 체크 -->
-											<c:if
-												test="${dto.u_member_id eq sessionScope.session_u_member_id}"> 
+										<!-- 비밀글 여부 체크 --> 
+									<c:if test="${dto.q_secret eq 'Y'}">
+										<!-- 등록한 사람본인이 맞는지 체크 -->
+										<c:if test="${dto.u_member_id eq sessionScope.session_u_member_id}"> 
 											${dto.q_title}
 										</c:if>
 											<c:if
 												test="${not (dto.u_member_id eq sessionScope.session_u_member_id)}">
 												<span style="color: gray; opacity: 0.6;">비밀글 입니다.</span>
 											</c:if>
-										</c:if> <c:if test="${not (dto.q_secret eq 'Y')}"> 
+										</c:if> 
+									<c:if test="${not (dto.q_secret eq 'Y')}"> 
 										${dto.q_title} 
-									</c:if> <!-- 비밀글 여부 체크 완료-->
+									</c:if> 
+									<!-- 비밀글 여부 체크 완료-->
 									</td>
 
 									<td class="border border-gray-200 px-4 py-3 text-center">
@@ -132,26 +135,56 @@
 											<c:otherwise>
 												<c:set var="bg" value="bg-gray-100" />
 											</c:otherwise>
-										</c:choose> <span class="${bg} text-blue-800 px-2 py-1 rounded text-sm">
-											${category} </span>
+										</c:choose> 
+										<span class="${bg} text-blue-800 px-2 py-1 rounded text-sm">
+											${category} 
+										</span>
 									</td>
 
 									<c:if test="${not (dto.q_answer eq 'Y')}">
 										<td class="border border-gray-200 px-4 py-3 text-center">
-											<span
-											class="bg-pink-100 text-red-800 px-2 py-1 rounded text-sm">
-												답변대기 </span>
+											<span class="bg-pink-100 text-red-800 px-2 py-1 rounded text-sm">
+												답변대기 
+											</span>
 										</td>
 									</c:if>
 									<c:if test="${(dto.q_answer eq 'Y')}">
 										<td class="border border-gray-200 px-4 py-3 text-center">
-											<span
-											class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
-												답변완료 </span>
+											<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+												답변완료 
+											</span>
 										</td>
 									</c:if>
 								</tr>
 							</c:forEach>
+							<!-- paging -->
+							<tr>
+								<td colspan="5" align="center">
+									<ul class="pagination">
+										<!-- 페이징처리 -->
+										<!-- 이전버튼 활성화 -->
+										<c:if test="${paging.startPage > 10}">
+											<li>
+												<a href="${path}/quest_list.qa?pageNum=${paging.prev}" class="prevPage"> [이전] </a>
+											</li>
+										</c:if>
+										
+										<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
+											<li>
+												<a href="${path}/board_list.bc?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'>active</c:if>">${num}</a>
+											</li>
+										</c:forEach>
+										
+										<!-- 페이지 번호 처리 -->
+										<!-- 다음버튼 활성화 -->
+										<c:if test="${paging.startPage < paging.pageCount}">
+											<li>
+												<a href="${path}/board_list.bc?pageNum=${paging.next}" class="nextPage"> [다음] </a>
+											</li>
+										</c:if>
+									</ul>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -163,8 +196,7 @@
 		<!-- 문의 항목 클릭 시 -->
 
 		<!-- 문의 상세 모달 -->
-		<div id="questionDetailModal"
-			class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+		<div id="questionDetailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
 			<div class="bg-white rounded-lg w-full max-w-3xl mx-4">
 				<div class="border-b px-6 py-4 flex justify-between items-center">
 					<h3 class="text-xl font-bold text-gray-900">문의 상세</h3>
@@ -197,7 +229,7 @@
 								</button>
 								<button onclick="deleteQuestion()" class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 whitespace-nowrap">
 									삭제
-									</button>
+								</button>
 							</div>
 						</div>
 						<div class="bg-gray-50 rounded-lg p-4">
@@ -216,14 +248,13 @@
 								<!-- 임시 답변. -->
 								<p class="text-gray-700 whitespace-pre-line">안녕하세요, 고객님.
 									문의주신 주문은 현재 출고 준비중이며, 내일 오전 중으로 배송될 예정입니다. 추가 문의사항이 있으시다면 언제든
-									문의해주세요. 감사합니다.
-								</p>
+									문의해주세요. 감사합니다.</p>
 							</div>
 							<!-- Admin Reply Form -->
 							<div id="adminReplyForm" class="mt-4">
 								<div class="flex items-center space-x-2 mb-4">
-									<i class="ri-edit-line text-primary"></i> 
-									<span class="font-medium text-gray-900">답변 작성</span>
+									<i class="ri-edit-line text-primary"></i> <span
+										class="font-medium text-gray-900">답변 작성</span>
 								</div>
 								<div class="space-y-4">
 									<textarea id="adminReplyText" rows="4"
@@ -233,8 +264,7 @@
 									<div class="flex justify-end">
 										<button onclick="submitAdminReply()"
 											class="bg-primary text-white px-4 py-2 rounded-button hover:bg-orange-600 transition-colors">
-											답변 등록
-										</button>
+											답변 등록</button>
 									</div>
 								</div>
 							</div>
