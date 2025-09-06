@@ -57,7 +57,7 @@
 	<c:set var="total" value="${subtotal}" />
 </c:if>
 <c:if test="${subtotal + shippingFee < 100000}">
-	<c:set var="total" value="${subtotal + shippingFee}" />
+	<c:set var="total" value="${subtotal}" />
 </c:if>
 <%-- 사이드 패널 표시용: member가 없으면 user의 uName/uEmail을 사용 --%>
 <c:set var="memberName"
@@ -415,7 +415,7 @@
 						<div class="d-flex justify-content-between small mb-2">
 							<span class="text-body-secondary">상품 합계</span> <span
 								id="summarySubtotal" class="fw-medium"> <fmt:formatNumber
-									value="${subtotal}" type="currency" currencySymbol="₩"
+									value="${dissubtotal}" type="currency" currencySymbol="₩"
 									minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>
@@ -436,7 +436,7 @@
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
 							<span class="fw-semibold">총 결제금액</span> <span id="summaryTotal"
-								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotal}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
+								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotal + shippingFee}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>					
 						<form name="payMent" method="post" class="w-100 w-md-auto">

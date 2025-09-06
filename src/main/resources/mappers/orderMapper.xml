@@ -33,7 +33,7 @@
  			 , #{u_member_id}
  			 , #{o_name}
  			 , #{o_phone}
- 			 , sysdate
+ 			 , SYSDATE
  			 , #{o_price}
  			 , '배송준비중'
  			 , #{o_count}
