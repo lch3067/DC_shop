@@ -213,7 +213,7 @@ input[type="checkbox"]:checked::after {
 					<span>총 결제금액</span> <span class="text-primary"> ${sessionScope.goPay.totalClient}원 </span>
 				</div>
 			</div>
-	        <c:out value="${sessionScope.goPay}">결과</c:out>
+	        <%-- <c:out value="${sessionScope.goPay}">결과</c:out> --%>
 		</section>
 
 
