@@ -166,7 +166,7 @@
 	    </if>
 	  </select>
 	
-	  <!-- 상품관리 - 목록 (ROWNUM 페이징, 컬럼 alias로 JSP/DTO 이름 맞춤) -->
+	  <!-- 상품관리 - 목록 (ROWNUM 페이징, DTO/JSP 이름과 정확히 일치) -->
 	  <select id="adminProductList" parameterType="map"
 	          resultType="com.spring.DCShop.shop.dto.ShopDTO">
 	    <![CDATA[
@@ -175,35 +175,47 @@
 	      FROM (
 	        SELECT
 	          p.pd_id,
-	          p.pd_id         AS pd_code,         -- 테이블에 pd_code가 없으므로 임시 alias (JSP에서 표기용)
 	          p.pd_name,
-	          p.pd_price      AS price,
-	          p.pd_stock      AS stock,
+	          p.pd_description,
+	          p.pd_price,           
+	          p.pd_stock,           
+	          p.pd_pet_category,
+	          p.pd_category,
+	          p.pd_subcategory,
+	          p.pd_created,
+	          p.pd_updated,
+	          p.pd_brand,
+	          p.pd_image_url,       
+	          p.pd_shipping_fee,
+	          p.pd_discount_rate,
+	          /* 한글 상태 → ON/OFF/WAIT 로 정규화해서 DTO의 pd_status에 매핑 */
 	          CASE p.pd_status
 	            WHEN '판매중'     THEN 'ON'
-	            WHEN '품절'       THEN 'OFF'
 	            WHEN '재입고대기' THEN 'WAIT'
+	            WHEN '품절'       THEN 'OFF'
 	            ELSE 'OFF'
-	          END             AS status,
-	          p.pd_image_url  AS thumbnail_url,
-	          p.pd_subcategory AS category_code,
-	          p.pd_created    AS reg_date
+	          END AS pd_status,     
+	          p.pd_option
 	        FROM product_tbl p
 	        WHERE 1=1
 	    ]]>
 	        <if test="status != null and status != ''">
+	          <![CDATA[
 	          AND p.pd_status =
+	          ]]>
 	          <choose>
-	            <when test="status == 'ON'"> '판매중' </when>
-	            <when test="status == 'OFF'"> '품절' </when>
-	            <when test="status == 'WAIT'"> '재입고대기' </when>
+	            <when test="status == 'ON'">  <![CDATA[ '판매중' ]]></when>
+	            <when test="status == 'OFF'"> <![CDATA[ '품절' ]]></when>
+	            <when test="status == 'WAIT'"><![CDATA[ '재입고대기' ]]></when>
 	          </choose>
 	        </if>
 	        <if test="catFrom != null and catTo != null">
-	          AND p.pd_subcategory BETWEEN #{catFrom} AND #{catTo}
+	          <![CDATA[ AND p.pd_subcategory BETWEEN #{catFrom} AND #{catTo} ]]>
 	        </if>
 	        <if test="q != null and q != ''">
+	          <![CDATA[
 	          AND (p.pd_name LIKE '%' || #{q} || '%' OR p.pd_brand LIKE '%' || #{q} || '%')
+	          ]]>
 	        </if>
 	    <![CDATA[
 	        ORDER BY p.pd_id DESC
@@ -211,7 +223,7 @@
 	    )
 	    WHERE rn BETWEEN #{start} AND #{end}
 	    ]]>
-	  </select>
+	</select>
 	
 	  <!-- 상품관리 - 선택 일괄 상태변경 (ON/OFF/WAIT → 한글 값으로 매핑) -->
 	  <update id="adminProductStatus" parameterType="map">

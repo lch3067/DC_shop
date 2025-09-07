@@ -49,7 +49,7 @@ public class PetServiceImpl implements PetService {
 			System.out.println("출력[json] => " + json); 
 			List<PetDTO> petsDTO = (json != null && !json.trim().isEmpty()) 
 					? OM.readValue(json, new TypeReference<List<PetDTO>>() {}) 
-					: java.util.Collections.emptyList();
+					: java.util.Collections.<PetDTO>emptyList();
 			
 			System.out.println("출력[petsDTO] => " + petsDTO); 
 		

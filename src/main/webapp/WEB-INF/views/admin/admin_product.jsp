@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -56,87 +57,59 @@
               <!-- 상태 필터 -->
               <select name="status" class="w-36 border rounded-lg px-3 py-2">
                 <option value="">상태 전체</option>
-                <option value="ON" ${param.status == 'ON' ? 'selected' : ''}>판매중</option>
-                <option value="OFF" ${param.status == 'OFF' ? 'selected' : ''}>품절</option>
-                <option value="WAIT" ${param.status == 'WAIT' ? 'selected' : ''}>재입고대기</option>
+                <option value="ON"   ${param_status == 'ON'   ? 'selected' : ''}>판매중</option>
+                <option value="OFF"  ${param_status == 'OFF'  ? 'selected' : ''}>품절</option>
+                <option value="WAIT" ${param_status == 'WAIT' ? 'selected' : ''}>재입고대기</option>
               </select>
 
               <!-- 카테고리 필터 -->
               <select name="category" class="w-72 border rounded-lg px-3 py-2">
                 <option value="">카테고리 전체</option>
                 <optgroup label="강아지">
-                  <option value="1100">의류</option>
-                  <option value="1101"> └ 대형</option>
-                  <option value="1102"> └ 중형</option>
-                  <option value="1103"> └ 소형</option>
-                  <option value="1200">미용/위생</option>
-                  <option value="1201"> └ 샴푸</option>
-                  <option value="1202"> └ 미용가위</option>
-                  <option value="1203"> └ 구강관리</option>
-                  <option value="1204"> └ 타올</option>
-                  <option value="1205"> └ 발톱깎이</option>
-                  <option value="1300">화장실</option>
-                  <option value="1301"> └ 배변패드</option>
-                  <option value="1302"> └ 기저귀</option>
-                  <option value="1400">장난감</option>
-                  <option value="1401"> └ 공</option>
-                  <option value="1402"> └ 원반</option>
-                  <option value="1403"> └ 터그</option>
-                  <option value="1404"> └ 인형</option>
-                  <option value="1500">목줄/리드줄</option>
-                  <option value="1501"> └ 목줄</option>
-                  <option value="1502"> └ 하네스</option>
-                  <option value="1503"> └ 리드줄</option>
-                  <option value="1504"> └ 자동줄</option>
+                  <option value="1100" ${param_category=='1100'?'selected':''}>의류</option>
+                  <option value="1200" ${param_category=='1200'?'selected':''}>미용/위생</option>
+                  <option value="1300" ${param_category=='1300'?'selected':''}>화장실</option>
+                  <option value="1400" ${param_category=='1400'?'selected':''}>장난감</option>
+                  <option value="1500" ${param_category=='1500'?'selected':''}>목줄/리드줄</option>
                 </optgroup>
                 <optgroup label="고양이">
-                  <option value="2100">의류</option>
-                  <option value="2101"> └ 대형</option>
-                  <option value="2102"> └ 중형</option>
-                  <option value="2103"> └ 소형</option>
-                  <option value="2200">미용/위생</option>
-                  <option value="2201"> └ 샴푸</option>
-                  <option value="2202"> └ 미용가위</option>
-                  <option value="2203"> └ 구강관리</option>
-                  <option value="2204"> └ 타올</option>
-                  <option value="2205"> └ 발톱깎이</option>
-                  <option value="2300">화장실</option>
-                  <option value="2301"> └ 응고형두부모래</option>
-                  <option value="2302"> └ 흡수형실리카겔모래</option>
-                  <option value="2400">장난감</option>
-                  <option value="2401"> └ 낚시대</option>
-                  <option value="2402"> └ 공</option>
-                  <option value="2403"> └ 막대</option>
-                  <option value="2500">스크래쳐</option>
-                  <option value="2501"> └ 캣타워형</option>
-                  <option value="2502"> └ 패드형</option>
-                  <option value="2503"> └ 하우스형</option>
+                  <option value="2100" ${param_category=='2100'?'selected':''}>의류</option>
+                  <option value="2200" ${param_category=='2200'?'selected':''}>미용/위생</option>
+                  <option value="2300" ${param_category=='2300'?'selected':''}>모래</option>
+                  <option value="2400" ${param_category=='2400'?'selected':''}>장난감</option>
+                  <option value="2500" ${param_category=='2500'?'selected':''}>스크래쳐</option>
                 </optgroup>
               </select>
 
               <!-- 검색창 -->
-              <input type="text" name="q" value="${fn:escapeXml(param.q)}" placeholder="상품명/코드 검색" class="flex-1 md:w-72 border rounded-lg px-3 py-2" />
+              <input type="text" name="q" value="${fn:escapeXml(param_q)}" placeholder="상품명/브랜드 검색" class="flex-1 md:w-72 border rounded-lg px-3 py-2" />
               <button type="submit" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-black">검색</button>
             </form>
 
             <!-- 버튼 줄 -->
             <div class="flex flex-wrap gap-2 mb-3">
-              <form id="bulkOffForm" action="${path}/admin_product/bulkStatus" method="post">
-                <input type="hidden" name="to" value="OFF" />
-                <button type="button" id="bulkOffBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">비활성</button>
-              </form>
-              <form id="bulkOnForm" action="${path}/admin_product/bulkStatus" method="post">
-                <input type="hidden" name="to" value="ON" />
-                <button type="button" id="bulkOnBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">활성</button>
-              </form>
-              <form id="bulkWaitForm" action="${path}/admin_product/bulkStatus" method="post">
-                <input type="hidden" name="to" value="WAIT" />
-                <button type="button" id="bulkWaitBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">재입고대기</button>
-              </form>
-              <form id="bulkDelForm" action="${path}/admin_product/bulkDelete" method="post">
-                <button type="button" id="bulkDelBtn" class="px-3 py-2 border rounded-lg text-red-600 hover:bg-red-50">삭제</button>
-              </form>
-              <a href="${path}/admin_product/new" class="px-3 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-center">상품등록</a>
+              <form id="bulkOffForm"  action="${path}/admin_product_status" method="post">
+			    <input type="hidden" name="to" value="OFF" />
+			    <button type="button" id="bulkOffBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">품절</button>
+			  </form>
+			
+			  <form id="bulkOnForm"   action="${path}/admin_product_status" method="post">
+			    <input type="hidden" name="to" value="ON" />
+			    <button type="button" id="bulkOnBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">판매중</button>
+		  	  </form>
+			
+			  <form id="bulkWaitForm" action="${path}/admin_product_status" method="post">
+			    <input type="hidden" name="to" value="WAIT" />
+			    <button type="button" id="bulkWaitBtn" class="px-3 py-2 border rounded-lg hover:bg-gray-50">재입고대기</button>
+			  </form>
+			
+			  <!-- 선택 삭제 -->
+			  <form id="bulkDelForm"  action="${path}/admin_product_delete" method="post">
+			    <button type="button" id="bulkDelBtn" class="px-3 py-2 border rounded-lg text-red-600 hover:bg-red-50">삭제</button>
+			  </form>
+			  
+			  <!-- 상품등록 버튼 -->
+              <a href="${path}/admin_product_insert" class="px-3 py-2 border rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-center">상품등록</a>
             </div>
           </div>
         </section>
@@ -166,30 +139,70 @@
                   <c:otherwise>
                     <c:forEach var="p" items="${list}">
                       <tr class="border-t hover:bg-gray-50">
-                        <td class="px-4 py-3"><input name="rowCheck" value="${p.pd_id}" type="checkbox" class="rowCheck accent-gray-800" /></td>
+                        <td class="px-4 py-3">
+                          <input name="rowCheck" value="${p.pd_id}" type="checkbox" class="rowCheck accent-gray-800" />
+                        </td>
+
+                        <!-- 썸네일: 내부/외부 URL 모두 안전 처리 -->
                         <td class="px-4 py-3">
                           <c:choose>
-                            <c:when test="${not empty p.thumbnail_url}">
-                              <img src="${p.thumbnail_url}" alt="thumb" class="w-14 h-14 object-cover rounded" />
+                            <c:when test="${not empty p.pd_image_url}">
+                              <c:set var="__raw" value="${p.pd_image_url}" />
+                              <c:choose>
+                                <c:when test="${fn:startsWith(__raw,'http://') or fn:startsWith(__raw,'https://') or fn:startsWith(__raw,'//')}">
+                                  <c:set var="__img" value="${__raw}" />
+                                </c:when>
+                                <c:otherwise>
+                                  <c:choose>
+                                    <c:when test="${fn:startsWith(__raw,'/')}">
+                                      <c:url var="__img" value="${__raw}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                      <c:url var="__img" value="/${__raw}" />
+                                    </c:otherwise>
+                                  </c:choose>
+                                </c:otherwise>
+                              </c:choose>
+                              <img src="${__img}" alt="thumb" class="w-14 h-14 object-cover rounded"
+                                   onerror="this.src='${path}/resources/img_main/mypage_default.png'"/>
                             </c:when>
                             <c:otherwise>
                               <div class="w-14 h-14 bg-gray-100 border rounded grid place-items-center">-</div>
                             </c:otherwise>
                           </c:choose>
                         </td>
+
+                        <!-- 상품번호 -->
                         <td class="px-4 py-3 text-gray-600 whitespace-nowrap">${p.pd_id}</td>
+
+                        <!-- 상품명 + 보조정보: 브랜드 -->
                         <td class="px-4 py-3 text-center whitespace-nowrap">
                           <a href="${path}/product/${p.pd_id}" class="text-gray-900 hover:underline font-medium">${p.pd_name}</a>
-                          <div class="text-xs text-gray-400">${p.pd_code}</div>
+                          <div class="text-xs text-gray-400">${p.pd_brand}</div>
                         </td>
+
+                        <!-- 가격 -->
                         <td class="px-4 py-3 text-right whitespace-nowrap">
-                          <fmt:formatNumber value="${p.price}" type="currency" currencySymbol="₩" />
+                          <fmt:formatNumber value="${p.pd_price}" type="currency" currencySymbol="₩" />
                         </td>
-                        <td class="px-4 py-3 text-right whitespace-nowrap">${p.stock}</td>
+
+                        <!-- 재고 -->
+                        <td class="px-4 py-3 text-right whitespace-nowrap">${p.pd_stock}</td>
+
+                        <!-- 상태 (ON/OFF/WAIT) -->
                         <td class="px-4 py-3 text-center whitespace-nowrap">
-                          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs ${p.status == 'ON' ? 'bg-green-50 text-green-700 border border-green-200' : (p.status == 'WAIT' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' : 'bg-gray-100 text-gray-500 border border-gray-200')}">
-                            ${p.status == 'ON' ? '판매중' : (p.status == 'WAIT' ? '재입고대기' : '품절')}
-                          </span>
+                          <c:set var="__st" value="${p.pd_status}" />
+                          <c:choose>
+                            <c:when test="${__st == 'ON'}">
+                              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-green-50 text-green-700 border border-green-200">판매중</span>
+                            </c:when>
+                            <c:when test="${__st == 'WAIT'}">
+                              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-yellow-50 text-yellow-700 border border-yellow-200">재입고대기</span>
+                            </c:when>
+                            <c:otherwise>
+                              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-500 border border-gray-200">품절</span>
+                            </c:otherwise>
+                          </c:choose>
                         </td>
                       </tr>
                     </c:forEach>
@@ -198,6 +211,60 @@
               </tbody>
             </table>
           </div>
+
+          <!-- 페이징 -->
+          <c:if test="${paging.pageCount > 1}">
+            <div class="p-4 border-t bg-white">
+              <div class="flex items-center justify-between gap-4 flex-wrap">
+                <!-- 좌측: 현재/전체 페이지 (count 게터 없어서 안전한 표기만) -->
+                <div class="text-sm text-gray-500">
+                  페이지 ${paging.currentPage} / ${paging.pageCount}
+                </div>
+
+                <!-- 우측: 페이지 버튼 -->
+                <ul class="inline-flex items-center gap-1">
+                  <!-- 이전 블록 -->
+                  <c:if test="${paging.startPage > 10}">
+                    <c:url var="prevUrl" value="/admin_product">
+                      <c:param name="pageNum" value="${paging.prev}" />
+                      <c:if test="${not empty param_status}"><c:param name="status" value="${param_status}" /></c:if>
+                      <c:if test="${not empty param_category}"><c:param name="category" value="${param_category}" /></c:if>
+                      <c:if test="${not empty param_q}"><c:param name="q" value="${param_q}" /></c:if>
+                    </c:url>
+                    <li><a href="${prevUrl}" class="px-3 py-2 rounded-lg border hover:bg-gray-50 text-gray-700">이전</a></li>
+                  </c:if>
+
+                  <!-- 번호들 -->
+                  <c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
+                    <c:url var="numUrl" value="/admin_product">
+                      <c:param name="pageNum" value="${num}" />
+                      <c:if test="${not empty param_status}"><c:param name="status" value="${param_status}" /></c:if>
+                      <c:if test="${not empty param_category}"><c:param name="category" value="${param_category}" /></c:if>
+                      <c:if test="${not empty param_q}"><c:param name="q" value="${param_q}" /></c:if>
+                    </c:url>
+                    <li>
+                      <a href="${numUrl}"
+                         class="px-3 py-2 rounded-lg border
+                         ${num == paging.currentPage ? 'bg-gray-900 text-white border-gray-900' : 'hover:bg-gray-50 text-gray-700'}">
+                        ${num}
+                      </a>
+                    </li>
+                  </c:forEach>
+
+                  <!-- 다음 블록 -->
+                  <c:if test="${paging.endPage < paging.pageCount}">
+                    <c:url var="nextUrl" value="/admin_product">
+                      <c:param name="pageNum" value="${paging.next}" />
+                      <c:if test="${not empty param_status}"><c:param name="status" value="${param_status}" /></c:if>
+                      <c:if test="${not empty param_category}"><c:param name="category" value="${param_category}" /></c:if>
+                      <c:if test="${not empty param_q}"><c:param name="q" value="${param_q}" /></c:if>
+                    </c:url>
+                    <li><a href="${nextUrl}" class="px-3 py-2 rounded-lg border hover:bg-gray-50 text-gray-700">다음</a></li>
+                  </c:if>
+                </ul>
+              </div>
+            </div>
+          </c:if>
         </section>
       </main>
     </div>
