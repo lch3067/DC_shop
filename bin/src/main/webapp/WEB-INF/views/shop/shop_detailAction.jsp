@@ -57,7 +57,7 @@
   /* “바로구매” URL 이동 */
   function orderNow(pdId) {
     var qty = getQty();
-    location.href = '${path}/cartTOPay.do?pdId=' + pdId + '&qty=' + qty;
+    location.href = '${path}/cart.do?pdId=' + pdId + '&qty=' + qty;
   }
 </script>
 
@@ -160,15 +160,15 @@
 						    <c:choose>
 						      <c:when test="${hasDiscount}">
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/>원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
+						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/> 원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
 						        </span>
 						        <s class="price-old money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
 						        </s>
 						      </c:when>
 						      <c:otherwise>
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
 						        </span>
 						      </c:otherwise>
 						    </c:choose>
@@ -331,15 +331,10 @@
 					  </form>
 				  </section>
 				
-				  <!-- Q&A -->
+				  <!-- Q&A (자리만) -->
 				  <section id="panel-qa" class="pd-panel" role="tabpanel" aria-labelledby="tab-qa">
-				    
-				    <!-- qna.jsp로 상품 번호(pd_id) 넘김. -->
-				    <%-- qna.jsp는 ${path가 아닌} 상세경로로 지정해주기. --%>
-				  	<jsp:include page="/WEB-INF/views/shop/qna.jsp">
-					    <jsp:param name="pd_id" value="${dto.pd_id}"></jsp:param>
-					</jsp:include>
-					
+				    <p class="empty">문의가 없습니다.</p>
+				    <a class="link" href="${path}/qna/write.do?pd_id=${dto.pd_id}">문의 작성하기</a>
 				  </section>
 				</div>
 
@@ -347,6 +342,7 @@
 
           </div>
         </div>
+
       </div>
     </div>
 

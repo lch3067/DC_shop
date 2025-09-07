@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  
+<mapper namespace="com.spring.DCShop.join.dao.PetDAO">  <!-- namespace="패키지명.인터페이스" -->
+	
+	<insert id="insertPet" parameterType="java.util.List"> 
+		INSERT ALL 
+		<foreach collection="list" item="p"> 
+			INTO PET_TBL ( 
+				u_member_id, p_name, p_gender, p_type, p_weight, p_size, p_birth, p_kind, p_neutered 
+			) VALUES (
+				#{p.u_member_id}, 
+				#{p.pet_name}, 
+				#{p.pet_gender}, 
+				#{p.pet_type}, 
+				#{p.pet_kg, jdbcType=NUMERIC},
+				#{p.pet_size}, 
+				#{p.pet_birthday, jdbcType=DATE}, 
+				#{p.pet_kind}, 
+				#{p.pet_neutered} 
+			)
+		</foreach> SELECT 1 FROM dual </insert>
+	
+</mapper> 
