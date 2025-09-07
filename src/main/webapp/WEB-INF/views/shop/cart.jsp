@@ -18,6 +18,7 @@
 <c:set var="subtotal" value="0" />
 <c:set var="shippingFeeSum" value="0" />
 <c:set var="dissubtotal" value="0" />
+<c:set var="dissubtotalSum" value="0" />
 
 <c:forEach var="c" items="${cart}">
 	<c:set var="qty" value="${empty c.ctQuantity ? 1 : c.ctQuantity}" />
@@ -44,6 +45,8 @@
     </c:if>
 </c:forEach>
 
+
+
 <%-- 컨트롤러에서 shippingFee를 안 줬다면, 상품별 합산을 사용 --%>
 <c:if test="${shippingFee == 0}">
 	<c:set var="shippingFee" value="${shippingFeeSum}" />
@@ -59,6 +62,12 @@
 <c:if test="${subtotal + shippingFee < 100000}">
 	<c:set var="total" value="${subtotal}" />
 </c:if>
+
+<c:if test="${dissubtotal > 0}">
+	<c:set var="dissubtotalSum" value="${dissubtotal + shippingFee}" />
+</c:if>
+
+
 <%-- 사이드 패널 표시용: member가 없으면 user의 uName/uEmail을 사용 --%>
 <c:set var="memberName"
 	value="${not empty member.name ? member.name : (not empty user.uName ? user.uName : 'John Smith')}" />
@@ -436,7 +445,7 @@
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
 							<span class="fw-semibold">총 결제금액</span> <span id="summaryTotal"
-								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotal + shippingFee}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
+								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotalSum}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>					
 						<form name="payMent" method="post" class="w-100 w-md-auto">

@@ -8,6 +8,7 @@ target/
 
 # Build / Packaging
 /target/
+bin/
 /**/target/
 build/
 *.class
