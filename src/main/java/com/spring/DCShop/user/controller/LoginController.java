@@ -83,12 +83,12 @@ public class LoginController {
 		return "comm/comm_CSD";
 	}
 	
-	@RequestMapping("cart.do")
-	public String cart() {
-		logger.info("=== url -> cart ===");
-		
-		return "shop/cart";
-	}
+//	@RequestMapping("cart.do")
+//	public String cart() {
+//		logger.info("=== url -> cart ===");
+//		
+//		return "shop/cart";
+//	}
 	
 	@RequestMapping("pay.do")
 	public String pay() {
