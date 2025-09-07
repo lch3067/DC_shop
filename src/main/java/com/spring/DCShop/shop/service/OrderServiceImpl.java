@@ -1,6 +1,8 @@
 package com.spring.DCShop.shop.service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -122,7 +124,25 @@ public class OrderServiceImpl implements OrderService{
                 
                 System.out.println(dto);
                 
+                // 결제내역 저장
                 dao.orderInsertAction(dto);
+                
+                Map<String, Object> p_map = new HashMap<String, Object>();
+                p_map.put("pd_stock", o_count);
+                p_map.put("pd_id", pd_id);
+                // 재고수량 업데이트
+                dao.productStockUpdate(p_map);
+                
+                int selectCnt = dao.cartCheck(u_member_id);
+                
+                if(selectCnt > 0) {
+                	Map<String, Object> c_map = new HashMap<String, Object>();
+                    c_map.put("u_member_id", u_member_id);
+                    c_map.put("pd_id", pd_id);
+                    // 장바구니 삭제
+                    dao.cartDelete(c_map);
+                }
+                
             }
             
         } catch (ParseException e) {
