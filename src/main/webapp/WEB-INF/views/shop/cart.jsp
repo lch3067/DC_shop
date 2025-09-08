@@ -20,6 +20,7 @@
 <c:set var="dissubtotal" value="0" />
 <c:set var="dissubtotalSum" value="0" />
 
+
 <c:forEach var="c" items="${cart}">
 	<c:set var="qty" value="${empty c.ctQuantity ? 1 : c.ctQuantity}" />
 	<%-- 첫 번째 상품만 사용 --%>
@@ -29,11 +30,10 @@
 	<c:set var="rate" value="${c.productDto[0].pd_discount_rate}" />
 	<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
 	<c:set var="discPriceInt" value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
-
 	<c:set var="itemsCount" value="${itemsCount + qty}" />
 	<c:set var="subtotal" value="${subtotal + (pdPrice * qty)}" />
 	<c:set var="dissubtotal" value="${dissubtotal + (discPriceInt * qty)}" />
-	
+
     <%-- 배송비 0원이 있으면 플래그 true --%>
     <c:if test="${pdShip == 0}">
         <c:set var="hasFreeShipping" value="true" />
@@ -246,10 +246,10 @@
   	    const pdName  = (card.querySelector('.fw-semibold').textContent).trim();
   	    const pdPrice = Number(card.querySelector('.price').dataset.price);
   	    const qty     = Math.max(1, parseInt(card.querySelector('.qty-input').value));
-  	    const img = card.querySelector('.cart-item-thumb');
-  	    const pdImg	  = (img ? img.getAttribute('src') : '');
+  	    const img = card.querySelector('.pd_resource_url');
+  	    const pdImg	  = img.getAttribute('src');
+  	    console.log(pdImg);
   	    const pdDiscountRate = Number(card.querySelector('.pd_discount_rate').value);
-  	    
   	    items.push({ pdId, pdName, pdPrice, qty, pdImg, pdDiscountRate });
   	  });
 
@@ -320,6 +320,7 @@
 											</div>
 										</c:otherwise>
 									</c:choose>
+									<input type="url" class="pd_resource_url" src="${c.productDto[0].pd_image_url}"/>
 									<input type="hidden" class="pd_discount_rate" value="${rate}" />
 									<div class="me-auto">
 										<div class="fw-semibold">
