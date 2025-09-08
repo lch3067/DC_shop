@@ -83,7 +83,7 @@
 								<tr class="hover:bg-gray-50"
 									onclick="showQuestionDetail(${dto.q_num})">
 									<!-- 번호 -->
-									<td class="border border-gray-200 px-4 py-3 text-center">${dto.q_num}</td>
+									<td class="border border-gray-200 px-4 py-3 text-center">${dto.rn}</td>
 									<!-- 작성자ID -->
 									<td class="border border-gray-200 px-4 py-3">${dto.u_id}</td>
 									<!-- 글제목 -->

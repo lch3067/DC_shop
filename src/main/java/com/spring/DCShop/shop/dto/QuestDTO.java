@@ -18,11 +18,13 @@ public class QuestDTO {
     private String q_img;	 //문의 이미지
     private String q_category; //문의 종류 ㅁ
     
+    private int rn;		//상품에 달린 문의의 번호
+    
 	public QuestDTO() {
 		super();
 	}
 	public QuestDTO(int q_num, int pd_id, int u_member_id, String u_id, String q_answer, String q_title, String q_content,
-			String q_secret, Date q_regDate, String q_img, String q_category) {
+			String q_secret, Date q_regDate, String q_img, String q_category, int rn) {
 		super();
 		this.q_num = q_num;
 		this.pd_id = pd_id;
@@ -35,6 +37,7 @@ public class QuestDTO {
 		this.q_regDate = q_regDate;
 		this.q_img = q_img;
 		this.q_category = q_category;
+		this.rn = rn;
 	}
 	public int getQ_num() {
 		return q_num;
@@ -102,12 +105,24 @@ public class QuestDTO {
 	public void setQ_category(String q_category) {
 		this.q_category = q_category;
 	}
+	
+	public int getRn() {
+		return rn;
+	}
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "QuestDTO [q_num=" + q_num + ", pd_id=" + pd_id + ", u_member_id=" + u_member_id + ", q_answer="
-				+ q_answer + ", q_title=" + q_title + ", q_content=" + q_content + ", q_secret=" + q_secret
-				+ ", q_regDate=" + q_regDate + ", q_img=" + q_img + ", q_category=" + q_category + "]";
+		return "QuestDTO [q_num=" + q_num + ", pd_id=" + pd_id + ", u_member_id=" + u_member_id + ", u_id=" + u_id
+				+ ", q_answer=" + q_answer + ", q_title=" + q_title + ", q_content=" + q_content + ", q_secret="
+				+ q_secret + ", q_regDate=" + q_regDate + ", q_img=" + q_img + ", q_category=" + q_category + ", rn="
+				+ rn + "]";
 	}
+	
+	
     
 }
 //CREATE TABLE qna_tbl (
