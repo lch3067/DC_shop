@@ -143,10 +143,29 @@ public class CartController {
 
 		String payload = body.getFirst("_payload");  // 그대로 사용
 		CheckoutRequest req = om.readValue(payload, CheckoutRequest.class);
+
+		int discountPrice;
+		int totalDiscount = 0;
+		System.out.println(req.getTotalClient());
+		for (CartItemRequest it : req.getItems()) {
+			System.out.println(it.getPdId());
+		    System.out.println(it.getPdName());
+		    System.out.println(it.getPdPrice());
+		    System.out.println(it.getQty());
+		    System.out.println(it.getPdImg());
+		    System.out.println(it.getPdDiscountRate());
+		    
+		    if(it.getPdDiscountRate() > 0) {
+		    	discountPrice = ((it.getPdPrice() * it.getQty()) * (100 - it.getPdDiscountRate())) / 100;
+		    	totalDiscount += (it.getPdPrice() * it.getQty()) - discountPrice;
+		    }
+		}
 		
-		model.addAttribute("goPay", req);
+		req.setTotalDiscount(totalDiscount);
 		
-		return "shop/pay";
+		request.getSession().setAttribute("goPay", req);
+		
+		return "redirect:/checkout";
 	}
 	
 	/*
@@ -165,7 +184,7 @@ public class CartController {
 		
 		try {
 			cartservice.addProductListForGoPay(request, response, model);
-			return "shop/pay";
+			return "redirect:/checkout";
 		} catch (Exception ex) {
 			//ex.printStackTrace();
 			return "redirect:/cartListShow.do";

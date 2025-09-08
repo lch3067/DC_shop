@@ -18,6 +18,8 @@
 <c:set var="subtotal" value="0" />
 <c:set var="shippingFeeSum" value="0" />
 <c:set var="dissubtotal" value="0" />
+<c:set var="dissubtotalSum" value="0" />
+
 
 <c:forEach var="c" items="${cart}">
 	<c:set var="qty" value="${empty c.ctQuantity ? 1 : c.ctQuantity}" />
@@ -28,11 +30,10 @@
 	<c:set var="rate" value="${c.productDto[0].pd_discount_rate}" />
 	<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
 	<c:set var="discPriceInt" value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
-
 	<c:set var="itemsCount" value="${itemsCount + qty}" />
 	<c:set var="subtotal" value="${subtotal + (pdPrice * qty)}" />
 	<c:set var="dissubtotal" value="${dissubtotal + (discPriceInt * qty)}" />
-	
+
     <%-- 배송비 0원이 있으면 플래그 true --%>
     <c:if test="${pdShip == 0}">
         <c:set var="hasFreeShipping" value="true" />
@@ -43,6 +44,8 @@
         <c:set var="shippingFeeSum" value="${pdShip}" />
     </c:if>
 </c:forEach>
+
+
 
 <%-- 컨트롤러에서 shippingFee를 안 줬다면, 상품별 합산을 사용 --%>
 <c:if test="${shippingFee == 0}">
@@ -57,8 +60,14 @@
 	<c:set var="total" value="${subtotal}" />
 </c:if>
 <c:if test="${subtotal + shippingFee < 100000}">
-	<c:set var="total" value="${subtotal + shippingFee}" />
+	<c:set var="total" value="${subtotal}" />
 </c:if>
+
+<c:if test="${dissubtotal > 0}">
+	<c:set var="dissubtotalSum" value="${dissubtotal + shippingFee}" />
+</c:if>
+
+
 <%-- 사이드 패널 표시용: member가 없으면 user의 uName/uEmail을 사용 --%>
 <c:set var="memberName"
 	value="${not empty member.name ? member.name : (not empty user.uName ? user.uName : 'John Smith')}" />
@@ -100,7 +109,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="${path}/resources/css/cart.css">
-<link rel="stylesheet" href="${path}/resources/css/main.css">
 <link rel="stylesheet" href="${path}/resources/css/shop/cart.css">
 <body
 	class="bg-body-tertiary<c:if test='${not empty cart}'> has-sticky-footer</c:if>">
@@ -228,7 +236,7 @@
 
   	  // 배송비
   	  const summaryShipping = (document.getElementById("summaryShipping")?.textContent || "").trim();
-  	  const shipping = Number(summaryShipping.replace(/[^\d]/g, '') || 0);
+  	  const pdShippingFee = Number(summaryShipping.replace(/[^\d]/g, '') || 0);
   	  
   	  // 아이템 수집
   	  const items = [];
@@ -237,11 +245,14 @@
   	    const pdName  = (card.querySelector('.fw-semibold').textContent).trim();
   	    const pdPrice = Number(card.querySelector('.price').dataset.price);
   	    const qty     = Math.max(1, parseInt(card.querySelector('.qty-input').value));
-  	    const pd_discount_rate = Number(card.querySelector('.pd_discount_rate').value);
-  	    items.push({ pdId, pdName, pdPrice, qty, pd_discount_rate });
+  	    const img = card.querySelector('.pd_resource_url');
+  	    const pdImg	  = img.getAttribute('src');
+  	    console.log(pdImg);
+  	    const pdDiscountRate = Number(card.querySelector('.pd_discount_rate').value);
+  	    items.push({ pdId, pdName, pdPrice, qty, pdImg, pdDiscountRate });
   	  });
 
-  	  add('_payload', JSON.stringify({ items, totalClient, shipping }));
+  	  add('_payload', JSON.stringify({ items, pdShippingFee, totalClient }));
 
   	  form.method = 'post';
   	  form.action = CTX + '/payQty.do';
@@ -262,6 +273,7 @@
 </script>
 
 	<!-- Main -->
+	<div class="container">
 	<main class="container-xxl py-4">
 		<div class="container-xxl py-3">
 			<div class="d-flex align-items-center gap-3">
@@ -308,6 +320,7 @@
 											</div>
 										</c:otherwise>
 									</c:choose>
+									<input type="url" class="pd_resource_url" src="${c.productDto[0].pd_image_url}"/>
 									<input type="hidden" class="pd_discount_rate" value="${rate}" />
 									<div class="me-auto">
 										<div class="fw-semibold">
@@ -412,7 +425,7 @@
 						<div class="d-flex justify-content-between small mb-2">
 							<span class="text-body-secondary">상품 합계</span> <span
 								id="summarySubtotal" class="fw-medium"> <fmt:formatNumber
-									value="${subtotal}" type="currency" currencySymbol="₩"
+									value="${dissubtotal}" type="currency" currencySymbol="₩"
 									minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>
@@ -433,7 +446,7 @@
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
 							<span class="fw-semibold">총 결제금액</span> <span id="summaryTotal"
-								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotal}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
+								class="fs-5 fw-bold text-primary"> <fmt:formatNumber value="${dissubtotalSum}" type="currency" currencySymbol="₩" minFractionDigits="0" maxFractionDigits="0" />
 							</span>
 						</div>					
 						<form name="payMent" method="post" class="w-100 w-md-auto">

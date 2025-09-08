@@ -31,15 +31,5 @@ public class MypageController {
 		
 		return "/mypage/mypage_main";
 	}
-	
-	
-	@RequestMapping("admin_main.do")
-	public String admin_main() {
-		logger.info("=== url -> mypage_main ===");
-		
-		return "/admin/admin_main";
-	}
-	
-
 
 }

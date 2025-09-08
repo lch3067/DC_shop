@@ -5,20 +5,21 @@ public class CartItemRequest {
 	private String pdName;
 	private Integer pdPrice;
 	private Integer qty;
-	private Integer pd_discount_rate;
+	private String pdImg;
+	private Integer pdDiscountRate;
 	
 	public CartItemRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	public CartItemRequest(Long pdId, String pdName, Integer pdPrice, Integer qty, Integer pd_discount_rate) {
+	
+	public CartItemRequest(Long pdId, String pdName, Integer pdPrice, Integer qty, String pdImg, Integer pdDiscountRate) {
 		super();
 		this.pdId = pdId;
 		this.pdName = pdName;
 		this.pdPrice = pdPrice;
 		this.qty = qty;
-		this.pd_discount_rate = pd_discount_rate;
+		this.pdImg = pdImg;
+		this.pdDiscountRate = pdDiscountRate;
 	}
 
 	public Long getPdId() {
@@ -52,19 +53,27 @@ public class CartItemRequest {
 	public void setQty(Integer qty) {
 		this.qty = qty;
 	}
-
-	public Integer getPd_discount_rate() {
-		return pd_discount_rate;
+	
+	public String getPdImg() {
+		return pdImg;
 	}
-
-	public void setPd_discount_rate(Integer pd_discount_rate) {
-		this.pd_discount_rate = pd_discount_rate;
+	
+	public void setPdImg(String pdImg) {
+		this.pdImg = pdImg;
 	}
-
+	
+	public Integer getPdDiscountRate() {
+		return pdDiscountRate;
+	}
+	
+	public void setPdDiscountRate(Integer pdDiscountRate) {
+		this.pdDiscountRate = pdDiscountRate;
+	}
+	
 	@Override
 	public String toString() {
-		return "CartItemRequest [pdId=" + pdId + ", pdName=" + pdName + ", pdPrice=" + pdPrice + ", qty=" + qty
-				+ ", pd_discount_rate=" + pd_discount_rate + "]";
+		return "CartItemRequest [pdId=" + pdId + ", pdName=" + pdName + ", pdPrice=" + pdPrice + ", qty=" + qty+ ", pdImg=" + pdImg + ", pdDiscountRate=" + pdDiscountRate + "]";
 	}
+
 	
 }
