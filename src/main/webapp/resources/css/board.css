@@ -194,10 +194,23 @@ table tr:hover {
   display: block; /* 이미지 아래에 불필요한 여백 제거 */
   width: 25%;
   height: auto;
- 
+}
+.image-container .p_img1 {
+  display: block; /* 이미지 아래에 불필요한 여백 제거 */
+  width: 25%;
+  height: auto;
+  
 }
 
 .son {
+  display: flex;        /* 가로 정렬 */
+  gap: 10px;            /* 요소 사이 간격 */
+  align-items: center;  /* 세로 가운데 정렬 */
+  position: absolute;
+  top: 49px;   /* 위에서 20px */
+  left: 250px;
+}
+.son1 {
   display: flex;        /* 가로 정렬 */
   gap: 10px;            /* 요소 사이 간격 */
   align-items: center;  /* 세로 가운데 정렬 */
@@ -215,6 +228,18 @@ table tr:hover {
       right: 345px;
 }
 .image-container .a_icon img {
+    width: 25px;
+}
+
+.image-container .a_icon1 {
+    display: block;
+    width: 25px;
+    height: 25px;
+     position: relative;
+      top: 47px;
+      right: 451px;
+}
+.image-container .a_icon1 img {
     width: 25px;
 }
 
