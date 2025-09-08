@@ -312,9 +312,8 @@
 												</div>
 											</c:otherwise>
 										</c:choose>
-										<input type="url" class="pd_resource_url"
-											src="${c.productDto[0].pd_image_url}" /> <input
-											type="hidden" class="pd_discount_rate" value="${rate}" />
+										<input type="hidden" class="pd_resource_url" src="${c.productDto[0].pd_image_url}" /> 
+										<input type="hidden" class="pd_discount_rate" value="${rate}" />
 										<div class="me-auto">
 											<div class="fw-semibold">
 												<c:out value="${hasPd ? pd.pd_name : '알 수 없는 상품'}" />
