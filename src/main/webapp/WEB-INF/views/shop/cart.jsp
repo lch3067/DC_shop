@@ -1,29 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/setting/setting.jsp" %>
 <fmt:setLocale value="ko_KR" />
-<!-- 설정 값 넣기 시작 -->
 <%-- 
   기대하는 모델:
-  - cart : List<CartDTO> (각 DTO에 productDto: List<ProductDTO> 존재, 보통 1개)
+  - cart : List<CartDTO> (각 DTO에 productDto: List<ProductDTO>)
   - user : UserDTO (uName, uEmail 등 필드)
-  선택적으로 member(Map/Bean: name, email) 를 내려도 됨. 없으면 user로 대체.
 --%>
 
-<%-- 배송비/세금(금액) 기본값. shippingFee/tax가 이미 내려오면 그대로 사용 --%>
-<c:set var="shippingFee" value="${empty shippingFee ? 0 : shippingFee}" />
-<c:set var="tax" value="${empty tax ? 0 : tax}" />
-
-<%-- 합계 계산: CartDTO + ProductDTO[0]만 이용 (여러 옵션이면 로직 확장) --%>
+<%-- 초기값 셋팅 --%>
+<c:set var="shippingFee" value="${shippingFee}" />
+<c:set var="tax" value="${tax}" />
 <c:set var="itemsCount" value="0" />
 <c:set var="subtotal" value="0" />
 <c:set var="shippingFeeSum" value="0" />
 <c:set var="dissubtotal" value="0" />
 <c:set var="dissubtotalSum" value="0" />
 
-
+<%-- 카트에 담긴 상품들 가져오기 --%>
+<%-- 첫 번째 상품만 사용 --%>
 <c:forEach var="c" items="${cart}">
 	<c:set var="qty" value="${empty c.ctQuantity ? 1 : c.ctQuantity}" />
-	<%-- 첫 번째 상품만 사용 --%>
 	<c:set var="hasPd" value="${not empty c.productDto and fn:length(c.productDto) gt 0}" />
 	<c:set var="pdPrice" value="${hasPd ? c.productDto[0].pd_price : 0}" />
 	<c:set var="pdShip" value="${hasPd ? c.productDto[0].pd_shipping_fee : 0}" />
