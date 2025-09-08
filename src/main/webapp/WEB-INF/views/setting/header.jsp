@@ -79,7 +79,7 @@
 				<a href="#" class="nav-link1" onclick="window.location='${path}/termsAgreement.do'">회원가입</a>
 				</c:if>
 				<c:if test="${!(empty sessionScope.sessionid)}">
-				<a href="#" class="nav-link1" onclick="window.location='${path}/mypage_main.do'">나의정보</a>
+				<a href="#" class="nav-link1" onclick="window.location='${path}/admin_main'">나의정보</a>
 				</c:if>
 				
 				<c:if test="${empty sessionScope.sessionid}">
