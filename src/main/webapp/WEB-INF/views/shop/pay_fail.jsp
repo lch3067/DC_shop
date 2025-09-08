@@ -58,5 +58,6 @@
 
 	codeElement.textContent = urlParams.get("code");
 	messageElement.textContent = urlParams.get("message");
+	
 </script>
 </html>

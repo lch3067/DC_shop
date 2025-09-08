@@ -34,14 +34,14 @@
 					<span class="response-label">주문번호</span> 
 					<span id="orderId" class="response-text"></span>
 				</div>
-				<div class="flex justify-between">
+				<!-- <div class="flex justify-between">
 					<span class="response-label">paymentKey</span> 
 					<span id="paymentKey" class="response-text"></span>
 				</div>
 				<div class="flex justify-between">
 					<span class="response-label">paymentType</span> 
 					<span id="paymentType" class="response-text"></span>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="w-100 button-group">
