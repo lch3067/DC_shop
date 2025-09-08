@@ -61,9 +61,6 @@
 									번호
 								</th>
 								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
-									작성자
-								</th>
-								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
 									문의 제목
 								</th>
 								<th class="border border-gray-200 px-4 py-3 text-left font-medium text-gray-700">
@@ -84,8 +81,8 @@
 									onclick="showQuestionDetail(${dto.q_num})">
 									<!-- 번호 -->
 									<td class="border border-gray-200 px-4 py-3 text-center">${dto.q_num}</td>
-									<!-- 작성자ID -->
-									<td class="border border-gray-200 px-4 py-3">${dto.u_member_id}</td>
+									
+									<!-- 글 제목 -->
 									<td class="border border-gray-200 px-4 py-3">
 										<!-- 비밀글 여부 체크 --> 
 									<c:if test="${dto.q_secret eq 'Y'}">
