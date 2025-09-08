@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class QuestDTO {
 	private int q_num;	//문의 번호 -> NVL
     private int pd_id;	//문의가 달린 상품 번호 -> 받아야 함
-    private int u_member_id; //문의를 한 유저넘버 -> 세션으로 받기
+    private int u_member_id; //문의를 한 유저넘버 -> insert할땐 세션으로 받기
+    private String u_id;	//문의를 한 유저.
     private String q_answer; //답변 여부 
     private String q_title;  //문의 제목 ㅁ
     private String q_content;//문의 내용 ㅁ
@@ -20,12 +21,13 @@ public class QuestDTO {
 	public QuestDTO() {
 		super();
 	}
-	public QuestDTO(int q_num, int pd_id, int u_member_id, String q_answer, String q_title, String q_content,
+	public QuestDTO(int q_num, int pd_id, int u_member_id, String u_id, String q_answer, String q_title, String q_content,
 			String q_secret, Date q_regDate, String q_img, String q_category) {
 		super();
 		this.q_num = q_num;
 		this.pd_id = pd_id;
 		this.u_member_id = u_member_id;
+		this.u_id = u_id;
 		this.q_answer = q_answer;
 		this.q_title = q_title;
 		this.q_content = q_content;
@@ -51,6 +53,12 @@ public class QuestDTO {
 	}
 	public void setU_member_id(int u_member_id) {
 		this.u_member_id = u_member_id;
+	}
+	public String getU_id() {
+		return u_id;
+	}
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
 	}
 	public String getQ_answer() {
 		return q_answer;
