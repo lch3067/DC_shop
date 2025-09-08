@@ -13,9 +13,6 @@
 <title><c:out value="${dto.pd_name}"/> 상세보기</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/css/header.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/css/footer.css'/>">
 <link rel="stylesheet" href="<c:url value='/resources/css/product/product_detail.css'/>?v=20250825">
 
 <!-- JS -->
@@ -26,6 +23,8 @@
   <div class="wrap">
     <%@ include file="/WEB-INF/views/setting/header.jsp" %>
 
+	<section class="hero-section1">
+	</section>
     <div id="container">
       <div id="contents">
 
