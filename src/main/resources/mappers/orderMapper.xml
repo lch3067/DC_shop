@@ -6,12 +6,14 @@
   
  <mapper namespace="com.spring.DCShop.shop.dao.OrderDAO">
 
+	<!-- 결제자 정보 -->
 	<select id="orderUserAction" parameterType="int" resultType="com.spring.DCShop.user.dto.UserDTO">
 		SELECT *
 		  FROM user_tbl
 		 WHERE u_member_id = #{u_member_id}
 	</select>
  	
+ 	<!-- 결제내역 저장 -->
  	<insert id="orderInsertAction" parameterType="com.spring.DCShop.shop.dto.OrderDTO">
  		INSERT INTO order_tbl(o_num
  							, pd_id
@@ -45,4 +47,24 @@
  			 , #{o_payment_key})
  	</insert>
  	
+ 	<!-- 재고수량 업데이트 -->
+ 	<update id="productStockUpdate" parameterType="java.util.Map">
+ 		UPDATE product_tbl
+ 		   SET pd_stock = pd_stock - #{pd_stock}
+ 		 WHERE pd_id = #{pd_id}
+ 	</update>
+ 	
+ 	<!-- 장바구니 체크 -->
+ 	<select id="cartCheck" parameterType="int" resultType="int">
+ 		SELECT COUNT(*)
+ 		  FROM cart_tbl
+ 		 WHERE u_member_id = #{u_member_id}
+ 	</select>
+ 	
+ 	<!-- 장바구니 삭제 -->
+ 	<delete id="cartDelete" parameterType="java.util.Map">
+ 		DELETE FROM cart_tbl
+ 		 WHERE u_member_id = #{u_member_id}
+ 		   AND pd_id = #{pd_id}
+ 	</delete>
 </mapper>

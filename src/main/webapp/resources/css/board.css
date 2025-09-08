@@ -11,12 +11,44 @@
 #container {
 	width: 100%;
 	margin: 0 auto;
+	/* opacity: 0.9; */
 }
+
+/* #container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+
+  background: url(/DCShop/resources/img_main/icon/free-icon-pawprint-7823012.png) 
+              no-repeat center center fixed;
+  background-size: 200px;
+
+  opacity: 0.2;   🔹 배경만 투명도 적용
+  z-index: -1;    🔹 본문보다 뒤로 보내기
+} */
+
+body::before {
+  content: "";
+  position: fixed;   /* 스크롤해도 고정 */
+  top: 0; left: 0; right: 0; bottom: 0;
+
+  background: url(/DCShop/resources/img_main/icon/free-icon-pawprint-7823012.png) 
+              no-repeat center center;
+  background-size: 500px;
+
+  opacity: 0.15;  /* 배경만 투명하게 */
+  z-index: -1;    /* 본문보다 뒤에 */
+}
+
+/* body {
+  background: linear-gradient(135deg, #fef9f4, #f7f7f7);
+} */
 
 #contents {
 	width: 100%;
 	margin: 0 auto;
 	min-height: 800px;
+	
 }
 
 .titleArea h1 {
@@ -46,7 +78,7 @@
 
 .table_div  table th {
 	font-weight: 400;
-	background-color: #f5ae64;
+	background-color: #f7bb7c;
 	
 }
 
@@ -121,7 +153,7 @@ table tr:hover {
 }
 
 .paging .pagination a:hover {
-    background-color: #000;
+    background-color: #8d6e63;
     color: #fff;
     border-color: #e5e5e5;
 }
@@ -158,32 +190,69 @@ table tr:hover {
    top: 20px;
 }
 
-.image-container img {
+.image-container .p_img {
   display: block; /* 이미지 아래에 불필요한 여백 제거 */
   width: 25%;
   height: auto;
- 
+}
+.image-container .p_img1 {
+  display: block; /* 이미지 아래에 불필요한 여백 제거 */
+  width: 25%;
+  height: auto;
+  
 }
 
-.image-container a {
+.son {
+  display: flex;        /* 가로 정렬 */
+  gap: 10px;            /* 요소 사이 간격 */
+  align-items: center;  /* 세로 가운데 정렬 */
+  position: absolute;
+  top: 49px;   /* 위에서 20px */
+  left: 250px;
+}
+.son1 {
+  display: flex;        /* 가로 정렬 */
+  gap: 10px;            /* 요소 사이 간격 */
+  align-items: center;  /* 세로 가운데 정렬 */
+  position: absolute;
+  top: 49px;   /* 위에서 20px */
+  left: 250px;
+}
+
+.image-container .a_icon {
     display: block;
-    width: 8%;
-    height: auto;
+    width: 25px;
+    height: 25px;
      position: relative;
       top: 47px;
-      right: 309px;
+      right: 345px;
+}
+.image-container .a_icon img {
+    width: 25px;
+}
+
+.image-container .a_icon1 {
+    display: block;
+    width: 25px;
+    height: 25px;
+     position: relative;
+      top: 47px;
+      right: 451px;
+}
+.image-container .a_icon1 img {
+    width: 25px;
 }
 
 .text-overlay {
   position: absolute; /* 부모 요소 기준 위치 지정 */
-  top: 67%; /* 위에서 50% 위치 */
+  top: 65%; /* 위에서 50% 위치 */
   left: 88%; /* 왼쪽에서 50% 위치 */
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
   /* color: #707070; */ /* 텍스트 색상 */
   text-align: center;
-  padding: 10px;
+  padding: 5px;
   /* 필요한 경우 배경색, 테두리 등을 추가합니다. */
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #6d4c41;
   font-family: "Jua", sans-serif;
@@ -206,11 +275,12 @@ table tr:hover {
 
 .board_search {
 	display: block; /* 이미지 아래에 불필요한 여백 제거 */
-  width: 20%;
-  height: 30px;
+	width: 20%;
+	height: 30px;
   /* height: auto; */
-	 position: relative;
-      top: 45px;
+  	position: relative;
+  	top: 45px;
+  	left: 1px;
 }
 
 .comment-count {
@@ -224,6 +294,10 @@ table tr:hover {
 }
 
 
+textarea {
+  resize: none !important;
+  overflow: auto; /* 내용이 넘치면 스크롤 */
+}
 
 .board-filter {
   position: relative;
@@ -232,7 +306,7 @@ table tr:hover {
 
 .filter-link {
   text-decoration: none;
-  background: #f5ae64;
+  background: #f7bb7c;
   color: #6d6d6d;
   border-radius: 4px;
 }
@@ -243,7 +317,7 @@ table tr:hover {
   top: 100%;
   left: 0;
   background: #f5ae64;
-  border: 1px solid #ddd;
+  border: 0px solid #ddd;
   min-width: 120px;
   z-index: 100;
 }
@@ -261,4 +335,134 @@ table tr:hover {
 
 .board-filter:hover .filter-menu {
   display: block;
+}
+
+/* 공지사항/이벤트/자유게시판 구분 스타일 */
+.board-type-notice {
+  background-color: #ffebee !important;
+  border-left: 4px solid #f44336;
+}
+
+.board-type-event {
+  background-color: #e8f5e8 !important;
+  border-left: 4px solid #4caf50;
+}
+
+.board-type-free {
+  background-color: #fff3e0 !important;
+  border-left: 4px solid #ff9800;
+}
+
+/* 공지사항 우선 표시 */
+.notice-priority {
+  font-weight: bold;
+  color: #d32f2f;
+}
+
+.notice-priority::before {
+  content: "[공지] ";
+  color: #f44336;
+  font-weight: bold;
+}
+
+/* 이벤트 특별 표시 */
+.event-badge {
+  background: linear-gradient(45deg, #ff6b6b, #ffa500);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* 카테고리별 색상 구분 */
+.category-notice {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.category-event {
+  color: #388e3c;
+  font-weight: bold;
+}
+
+.category-free {
+  color: #f57c00;
+  font-weight: bold;
+}
+
+.category-tip {
+  color: #7b1fa2;
+  font-weight: bold;
+}
+
+.category-review {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.category-question {
+  color: #5d4037;
+  font-weight: bold;
+}
+
+/* 게시판 헤더 구분 */
+.board-header-notice {
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  color: #d32f2f;
+}
+
+.board-header-event {
+  background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+  color: #388e3c;
+}
+
+.board-header-free {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  color: #f57c00;
+}
+
+/* 통합 게시판용 스타일 */
+.unified-board-item {
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.unified-board-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 게시판 탭 스타일 */
+.board-tabs {
+  display: flex;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.board-tab {
+  padding: 12px 24px;
+  background: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.board-tab.active {
+  background: #f5ae64;
+  color: #fff;
+  border-bottom: 2px solid #f5ae64;
+}
+
+.board-tab:hover {
+  background: #e0e0e0;
+}
+
+.board-tab.active:hover {
+  background: #f5ae64;
 }

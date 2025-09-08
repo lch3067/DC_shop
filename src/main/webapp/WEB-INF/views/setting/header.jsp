@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Insert title here</title>
+
 <link
 	href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
 	rel="stylesheet">
@@ -67,7 +68,7 @@
 				    <div class="nav-item-with-sub">
 				        <a href="#" class="nav-link1">COMMUNITY</a>
 				        <div class="sub-menu">
-				            <a href="${path}/comm_main.do">공지/이벤트</a>
+				            <a href="${path}/notice_list">공지/이벤트</a>
 				            <a href="${path}/board_list" >자유</a>
 				            <a href="${path}/comm_CSD.do">묘한발견(준비중)</a>
 				        </div>

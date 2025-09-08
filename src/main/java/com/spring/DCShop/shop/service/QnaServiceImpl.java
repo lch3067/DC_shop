@@ -37,7 +37,7 @@ public class QnaServiceImpl implements QnaService{
 		QuestDTO dto = new QuestDTO();
 		dto.setPd_id(Integer.parseInt(request.getParameter("pd_id"))); //문의를 작성한 상품 페이지의 상품 번호
 		dto.setU_member_id((Integer)request.getSession().getAttribute("session_u_member_id")); //문의를 한 유저
-		dto.setQ_title(request.getParameter("q_title"));//문의 제목
+		dto.setQ_title(request.getParameter("q_title"));//문의 
 		dto.setQ_content(request.getParameter("q_content"));  //문의 내용
 		dto.setQ_category(request.getParameter("q_category")); //문의 종류
 		

@@ -46,11 +46,6 @@ public class ProductServiceImpl implements ProductService{
 
 	    // 상품 상세
 	    ProductDTO dto = dao.productDetail(pdId);
-	    if (dto == null) {
-	        // 필요 시 처리
-	        // response.sendError(HttpServletResponse.SC_NOT_FOUND);
-	        // return;
-	    }
 
 	    // 최신 5개 리뷰 + 총 리뷰 수
 	    List<ReviewDTO> recent = rdao.recentReviews(pdId);
