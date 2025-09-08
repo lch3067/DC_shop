@@ -134,26 +134,15 @@
 .link{ color:#111827; text-decoration: underline; }
 
 /* 리뷰 */
-.review-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-.review .stars span{ color: #d1d5db; }  /* 옅은 회색 */
-.review .stars span.on{ color: #f59e0b; }  /* 별점 주황색 */
-.review .content{ color:#374151; }
-.review .meta{ color:#9ca3af; font-size: 12px; }
+.review-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+
+.review .content { color: #374151; }
+.review .meta { color: #9ca3af; font-size: 12px; }
 
 /* 반응형 (좁은 화면에서 안쪽 여백만 조금) */
 @media (max-width: 960px){
   .pd-bottom{ padding: 0 12px; }
 }
-
-/* 타이틀 아래 별점 줄 */
-.pd-rating{
-  display:flex; align-items:center; gap:10px;
-  margin: 6px 0 16px;
-}
-.pd-rating .stars { display:inline-flex; gap:4px; }
-.pd-rating .star { font-size:32px; color:#e5e7eb; line-height:1; }
-.pd-rating .star.on { color:#f59e0b; }
-.pd-rating .count { color:#6b7280; font-size:14px; text-decoration:none; }
 
 /* ====== 반응형 강화 ====== */
 .product-detail-2col{
@@ -166,7 +155,6 @@
 .product-detail-2col .left{ width:520px; vertical-align:top; }
 .product-detail-2col .right{ vertical-align:top; }
 
-/* 우측 영역을 조금 더 좁게 */
 @media (max-width:1200px){
   .product-detail-2col{ border-spacing:20px 0; }
   .pd-title{ font-size:36px; }
@@ -191,26 +179,170 @@
 
 /* 상단 콘텐츠도 가운데 고정 폭으로 */
 .product-detail-page #section2 > #right > .center{
-  max-width: 1200px;     /* 탭과 동일한 기준 폭 */
-  margin: 0 auto;        /* 가운데 정렬 */
-  padding: 0 16px;       /* 좌우 여백 */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 /* 상품목록 버튼 가운데 맞추기 */
 .product-detail-page .actions-sub{
   display:flex;
   justify-content:flex-end;
-  max-width: 1200px;     /* ← 추가 */
-  margin: 24px auto 24px;/* ← 중앙 정렬 */
-  padding: 0 16px;       /* ← 좌우 여백만 */
+  max-width: 1200px;
+  margin: 24px auto 24px;
+  padding: 0 16px;
 }
 
 /* 탭 패널 보이기/숨기기 */
 .pd-panel { display: none; }
 .pd-panel.active { display: block; }
 
-/* 활성 탭 스타일*/
+/* 활성 탭 스타일 */
 .pd-tabs .tab.is-active {
   border-bottom: 2px solid #111;
   font-weight: 700;
 }
+
+/* 최근 리뷰(5개) 리스트 레이아웃 */
+.recent-reviews { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
+.rv-item { display:flex; gap:12px; align-items:flex-start; }
+.rv-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  flex: 0 0 120px;
+}
+.rv-text { max-width:520px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.text-right { text-align:right; }
+
+/* 버튼 스타일: 리뷰 전체보기(흰배경/검정), 리뷰 작성(검정배경/흰) */
+.btn-review-list,
+.btn-review-write {
+  border: 1px solid #000;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;   /* ★ 밑줄 제거 */
+  display: inline-block;   /* ★ 버튼처럼 보이게 */
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-review-list {
+  background: #fff;
+  color: #000;
+}
+
+.btn-review-write {
+  background: #000;
+  color: #fff;
+}
+
+.btn-review-list:hover,
+.btn-review-write:hover {
+  opacity: 0.85;
+}
+
+/* 날짜 칸 한 줄 + 폭 확보 */
+th.th-date, td.date-cell { white-space: nowrap; width: 120px; }
+
+/* 버튼(리뷰작성) 공용 스타일 */
+.btn-dark{
+  background:#000;
+  color:#fff;
+  border:1px solid #000;
+  padding:8px 14px;
+  border-radius:4px;
+  text-decoration:none;
+  display:inline-block;
+  font-weight:600;
+}
+.btn-dark:hover{ opacity:.85; }
+
+/* 페이징을 검정/흰 스타일로 */
+.pagination{ list-style:none; padding:0; margin:0; display:inline-flex; gap:6px; }
+.pagination a{
+  display:inline-block;
+  background:#000;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:4px;
+  text-decoration:none;
+  border:1px solid #000;
+}
+.pagination a.active{ filter:brightness(0.9); }
+.pagination a:hover{ opacity:.85; }
+
+/* '리뷰작성' 위 한 줄 제거 */
+.no-border-top td{ border-top:0 !important; }
+
+/* 기본 컨테이너 */
+.stars {
+  display: inline-block;
+  font-size: 22px;   /* 크기 조절 */
+  line-height: 1;
+  letter-spacing: 2px; /* 간격(선택) */
+}
+
+/* 기본은 '빈 별' 색 */
+.stars .star { color: #ddd !important; }
+
+/* 꽉 별 */
+.stars .star.full { color: #f59e0b !important; }
+
+/* 반 별: 바탕은 회색, before로 왼쪽 50%만 주황 */
+.stars .star.half {
+  position: relative;
+  display: inline-block;
+  color: #ddd !important;              /* 회색 바탕 */
+}
+.stars .star.half::before {
+  content: "★";
+  position: absolute;
+  left: 0; top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #f59e0b !important;           /* 주황 채움 */
+}
+
+/* 빈 별 명시(가독성용) */
+.stars .star.empty { color: #ddd !important; }
+
+/* 평균 별점(상단) 별 크기만 살짝 ↑ */
+.product-detail-page .pd-rating .stars {
+  font-size: 32px; /* 기존 22px → 24px (아주 약간 큼) */
+  line-height: 1;
+}
+.product-detail-page .pd-rating .stars .star { margin-right: 1px; }
+
+/* 상품상세 > 최신 5개 리뷰 아이콘 별 색상 */
+.product-detail-page .rv-stars .fa-solid  { color: #f59e0b !important; } /* 채워진 별 */
+.product-detail-page .rv-stars .fa-regular{ color: #ddd     !important; } /* 빈 별    */
+
+/* (원하면 크기도 살짝) */
+.product-detail-page .rv-stars i { font-size: 17px; line-height: 1; }
+
+/* 수량 컨트롤 */
+.qty { display:inline-flex; align-items:center; gap:8px; }
+.qty input[type=number]{
+  width:72px; height:34px; padding:4px 8px;
+  font-size:16px; text-align:center;
+  border:1px solid #d1d5db; border-radius:8px;
+}
+.qty-btn{
+  width:34px; height:34px;
+  border:1px solid #d1d5db; background:#fff;
+  border-radius:8px; font-size:20px; line-height:1;
+  cursor:pointer;
+}
+.qty-btn:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled{
+  opacity:.5; cursor:not-allowed;
+}
+.qty-hint{ color:#6b7280; font-size:12px; }
+.qty-hint.soldout{ color:#dc2626; font-weight:600; }
+
+

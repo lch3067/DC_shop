@@ -17,8 +17,47 @@
 
 <!-- JS -->
 <script defer src="<c:url value='/resources/js/product/product_detail.js'/>"></script>
-</head>
+<script src="https://kit.fontawesome.com/7e22bb38b7.js" crossorigin="anonymous"></script>
 
+<!-- 선택 수량 읽어서 URL에 포함 -->
+<script>
+  /* 입력값을 읽고 min/max 범위로 보정 후 반환 */
+  function getQty() {
+    var el  = document.getElementById('qtyInput');
+    if (!el) return 1;
+    var v   = parseInt(el.value, 10);
+    var min = parseInt(el.min || '1', 10);
+    var max = parseInt(el.max || '9999', 10);
+
+    if (isNaN(v) || v < min) v = min;
+    if (!isNaN(max) && v > max) v = max;
+    el.value = v;
+    return v;
+  }
+  /* +/− 버튼이 호출. 현재 수량에 증감을 적용 */
+  function chgQty(delta) {
+    var el = document.getElementById('qtyInput');
+    if (!el || el.disabled) return;
+    var v = getQty() + delta;
+
+    var min = parseInt(el.min || '1', 10);
+    var max = parseInt(el.max || '9999', 10);
+    if (v < min) v = min;
+    if (v > max) v = max;
+    el.value = v;
+  }
+  /* qty를 쿼리에 붙여 장바구니 URL로 이동 */
+  function addToCart(pdId) {
+    var qty = getQty();
+    location.href = '${path}/cart.do?pdId=' + pdId + '&qty=' + qty;
+  }
+  /* “바로구매” URL 이동 */
+  function orderNow(pdId) {
+    var qty = getQty();
+    location.href = '${path}/cartTOPay.do?pdId=' + pdId + '&qty=' + qty;
+  }
+</script>
+</head>
 <body class="product-detail-page">
   <div class="wrap">
     <%@ include file="/WEB-INF/views/setting/header.jsp" %>
@@ -27,12 +66,12 @@
 	</section>
     <div id="container">
       <div id="contents">
-
         <div id="section2">
           <div id="right">
           	<div class="center">
 
               <%-- 이미지 URL : 절대경로/리소스경로/파일명만 저장된 경우 처리 --%>
+              <%-- 저장된 값이 절대경로/리소스경로면 그대로, 파일명만 있으면 우리 폴더를 붙여 완성 --%>
               <c:set var="img" value="/resources/img/no-image.png"/>
               <c:if test="${not empty dto.pd_image_url}">
                 <c:choose>
@@ -52,18 +91,6 @@
 			 <c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
 			 <c:set var="discPriceInt" value="${ (dto.pd_price * (100 - rate)) div 100 }" />
 			 
-			 <%-- ★ 평균 별점/리뷰수 계산 --%>
-			 <c:set var="revCount" value="${empty reviews ? 0 : fn:length(reviews)}"/>  <!-- 리뷰가 0이면 0반환 / 리뷰가 있으면 reviews의 length반환 -->
-			 <c:set var="sumScore" value="0"/>
-			 <c:forEach var="r" items="${reviews}">
-			   <c:set var="sumScore" value="${sumScore + r.r_score}"/> <!-- reviews를 돌면서 r.r_score(리뷰 점수)를 더해서 sumScore에 누적 -->
-			 </c:forEach>
-			 <%-- 0~5 반올림 정수: (평균*100 + 50) / 100  → 정수 별 개수 --%>
-			 <!-- revCount(리뷰)가 1개이상이면 계산, 그렇지 않으면 0으로 설정 -->
-			 <c:set var="avg" value="${revCount > 0 ? (sumScore / revCount) : 0}"/> 
-			 <!-- avg * 100 => 소수점 둘째자리까지 처리 / + 50 => 반올림하기 위해 더해주는 값 / div 100 => 정수 나눗셈 -->
-			 <c:set var="avgRounded" value="${(avg * 100 + 50) div 100}"/>
-			 
               <table class="product-detail-2col">
 				  <tr>
 				    <!-- 왼쪽: 상품 이미지 -->
@@ -75,17 +102,28 @@
 				    <td class="right">
 				      <h2 class="pd-title"><c:out value="${dto.pd_name}"/></h2>
 				      
-				    <div class="pd-rating" aria-label="평균 별점 ${avgRounded} / 5">
+				    <fmt:formatNumber value="${avgScore}" maxFractionDigits="1" minFractionDigits="1" var="avgDisp"/>
+					
+					<div class="pd-rating" aria-label="평균 별점 ${avgDisp} / 5">
 					  <div class="stars">
-					    <c:forEach var="i" begin="1" end="5">
-					      <span class="star ${i <= avgRounded ? 'on' : ''}">★</span> <!-- avgRounded(평균 별점)이 1~5사이면 on클래스가 되서 채워진 별로 보이게 -->
+					    <!-- 꽉 별 -->
+					    <c:forEach var="i" begin="1" end="${fullStars}">
+					      <span class="star full">★</span>
 					    </c:forEach>
+					
+					    <!-- 반 별 -->
+					    <c:if test="${halfStar == 1}">
+					      <span class="star half">★</span>
+					    </c:if>
+					
+					    <!-- 빈 별 -->
+						<c:forEach var="i" begin="1" end="${emptyStars}">
+						  <span class="star empty">☆</span>
+						</c:forEach>
 					  </div>
-					  <span class="reviews count">
-						  (<c:out value="${revCount}"/>개 리뷰)
-					  </span>
+					  <span class="reviews count">(${revCount}개 리뷰)</span>
 					</div>
-				
+
 				      <table class="kv">
 				        <tr>
 				          <th>상품번호</th>
@@ -117,25 +155,45 @@
 						    <c:choose>
 						      <c:when test="${hasDiscount}">
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/> 원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
+						          <fmt:formatNumber value="${discPriceInt}" type="number" maxFractionDigits="0"/>원  <%-- maxFractionDigits="0" → 소수점 완전히 제거 --%>
 						        </span>
 						        <s class="price-old money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
 						        </s>
 						      </c:when>
 						      <c:otherwise>
 						        <span class="price-now money">
-						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/> 원
+						          <fmt:formatNumber value="${dto.pd_price}" type="number" maxFractionDigits="0"/>원
 						        </span>
 						      </c:otherwise>
 						    </c:choose>
 						  </td>
 						</tr>
 						
+						<c:set var="hasStock" value="${dto.pd_stock gt 0}" />
+						
 				        <tr>
-				          <th>재고수량</th>
-				          <td><c:out value="${dto.pd_stock}"/> 개</td>
-				        </tr>
+						  <th>수량</th>
+						  <td>
+						    <div class="qty">
+						      <button type="button" class="qty-btn" onclick="chgQty(-1)" <c:if test="${!hasStock}">disabled</c:if>>−</button>
+						
+						      <input type="number" id="qtyInput" name="qty"
+						             value="1" min="1" step="1"
+						             <c:if test="${hasStock}">max="${dto.pd_stock}"</c:if>
+						             <c:if test="${!hasStock}">disabled</c:if> />
+						
+						      <button type="button" class="qty-btn" onclick="chgQty(1)" <c:if test="${!hasStock}">disabled</c:if>>+</button>
+						
+						      <c:if test="${hasStock}">
+						        <span class="qty-hint">(재고 <fmt:formatNumber value="${dto.pd_stock}" type="number"/>개)</span>
+						      </c:if>
+						      <c:if test="${!hasStock}">
+						        <span class="qty-hint soldout">품절</span>
+						      </c:if>
+						    </div>
+						  </td>
+						</tr>
 				        
 				        <tr>
 				          <th>배송비</th>
@@ -174,13 +232,15 @@
 				      </table>
 				
 				      <div class="actions actions-main">
-						  <button type="button"
-						          class="btn-primary"
-						          onclick="location.href='${path}/cart.do?pdId=${dto.pd_id}&qty=3'">장바구니 담기</button>
-						
-						  <button type="button"
-						          class="btn-secondary"
-						          onclick="location.href='${path}/order/now.do?pd_id=${dto.pd_id}&qty=1'">바로구매</button>
+						 <button type="button" class="btn-primary" onclick="addToCart(${dto.pd_id})"
+       						 <c:if test="${!hasStock}">disabled</c:if>>
+						 	 장바구니 담기
+						</button>
+
+						<button type="button" class="btn-secondary" onclick="orderNow(${dto.pd_id})"
+						        <c:if test="${!hasStock}">disabled</c:if>>
+						  		바로구매
+						</button>
 						</div>
 					 </td>
 					</tr>	
@@ -195,7 +255,6 @@
 					    </div>
 					  </td>
 					</tr>
-					
 				</table>
 				
 				<div class="pd-bottom">
@@ -215,67 +274,71 @@
 				
 				  <!-- 리뷰 목록 -->
 				  <section id="panel-rev" class="pd-panel" role="tabpanel" aria-labelledby="tab-rev">
+				  <c:set var="ctx" value="${pageContext.request.contextPath}" />
+				  <c:set var="pid" value="${dto.pd_id}" />
+				  
 				    <c:choose>
-				      <c:when test="${empty reviews}">
-				        <p class="empty">아직 등록된 리뷰가 없습니다.</p>
-				        <a class="link" href="<c:url value='/review_insert.bc'/>?pd_id=${dto.pd_id}">리뷰 작성하기</a>
-				      </c:when>
+					  <c:when test="${empty recentReviews}">
+					    <p class="empty">아직 등록된 리뷰가 없습니다.</p>
+					    <a class="link" href="<c:url value='/review_insert.bc'/>?pd_id=${pid}">리뷰 작성하기</a>
+					  </c:when>
 				      <c:otherwise>
-				        <ul class="review-list">
-				          <c:forEach var="r" items="${reviews}">
-				            <li class="review">
-				              <div class="pd-rating" aria-label="평균 별점 ${avg05} / 5">
-                 <span class="rating-stars">
-                   <!-- 꽉 별 -->
-                   <c:forEach begin="1" end="${fullStars}">
-                     <i class="fa-solid fa-star on"></i>
-                   </c:forEach>
-               
-                   <!-- 반 별 -->
-                   <c:if test="${halfStar == 1}">
-                     <i class="fa-solid fa-star-half-stroke on"></i>
-                   </c:if>
-               
-                   <!-- 빈 별 -->
-                   <c:forEach begin="1" end="${emptyStars}">
-                     <i class="fa-regular fa-star"></i>
-                   </c:forEach>
-                 </span>
-               
-                  <span class="reviews count">(${revCount}개 리뷰)</span>
-               </div>
-				            </li>
-				          </c:forEach>
-				        </ul>
-				      </c:otherwise>
-				    </c:choose>
-				    
-				    <c:set var="ctx" value="${pageContext.request.contextPath}" />
- 				    <c:set var="pid" value="${dto.pd_id}" />
- 				    
- 				     <!-- 리뷰 목록 이동 -->
-					  <a href="${ctx}/review/list.do?pd_id=${pid}">리뷰 목록</a>
+					    <%-- 최신 리뷰 5개 --%>
+					    <ul class="recent-reviews">
+					      <c:forEach var="r" items="${recentReviews}">
+					        <li class="rv-item">
+					          <c:if test="${not empty r.r_img}">
+					            <a href="<c:url value='/review_detailAction.bc'/>?r_num=${r.r_num}">
+					              <img class="rv-thumb"
+					                   src="<c:url value='/resources/upload/review/${r.r_img}'/>"
+					                   alt="리뷰 이미지">
+					            </a>
+					          </c:if>
 					
+					          <div class="rv-meta">
+					            <div class="rv-stars" aria-label="별점 ${r.r_score}">
+								  <c:forEach var="i" begin="1" end="5">
+								    <i class="${i <= r.r_score ? 'fa-solid' : 'fa-regular'} fa-star"></i>
+								  </c:forEach>
+								</div>
+					            <div class="rv-text"><c:out value="${r.r_content}"/></div>
+					            <div class="rv-date">
+					              <fmt:formatDate value="${r.r_regDate}" pattern="yyyy-MM-dd"/>
+					            </div>
+					           </div>
+					        </li>
+					      </c:forEach>
+					    </ul>
+					
+					    <%-- 전체 보기 & 작성 --%>
+					    <div class="review-actions text-right" style="margin-top:8px">
+						  <a href="<c:url value='/review_list.bc'/>?pd_id=${pid}" class="btn-review-list">리뷰 전체보기</a>
+						  <a href="<c:url value='/review_insert.bc'/>?pd_id=${pid}" class="btn-review-write">리뷰 작성</a>
+						</div>
+					  </c:otherwise>
+					 </c:choose>
+				    
 					  <!-- 리뷰 작성 폼 -->
 					  <form action="${ctx}/review/insert.do" method="post">
 					    <input type="hidden" name="pd_id" value="${pid}">
-					    
 					  </form>
 				  </section>
 				
-				  <!-- Q&A (자리만) -->
+				  <!-- Q&A -->
 				  <section id="panel-qa" class="pd-panel" role="tabpanel" aria-labelledby="tab-qa">
-				    <p class="empty">문의가 없습니다.</p>
-				    <a class="link" href="${path}/qna/write.do?pd_id=${dto.pd_id}">문의 작성하기</a>
+				    
+				    <!-- qna.jsp로 상품 번호(pd_id) 넘김. -->
+				    <%-- qna.jsp는 ${path가 아닌} 상세경로로 지정해주기. --%>
+				  	<jsp:include page="/WEB-INF/views/shop/qna.jsp">
+					    <jsp:param name="pd_id" value="${dto.pd_id}"></jsp:param>
+					</jsp:include>
+					
 				  </section>
 				</div>
-				<!-- ▲▲▲ 여기까지 추가 ▲▲▲ -->
 
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
 

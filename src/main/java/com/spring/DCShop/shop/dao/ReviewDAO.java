@@ -16,6 +16,11 @@ public interface ReviewDAO {
 	// 리뷰 상세 처리
 	public ReviewDTO getReviewDetail(int r_num);
 	
+	public List<ReviewDTO> recentReviews(int pd_id);
+	
+	// 평균별점
+	public Double avgScoreByProduct(int pd_id);
+	
 	// 리뷰 수정삭제 버튼 클릭시 - 회원번호 인증처리
 	public int review_chk(Map <String, Object> map);
 	
@@ -27,4 +32,5 @@ public interface ReviewDAO {
 	
 	// 리뷰 작성 처리
 	public void insertReview(ReviewDTO dto);
+	
 }

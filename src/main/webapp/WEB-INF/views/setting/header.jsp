@@ -68,7 +68,7 @@
 				    <div class="nav-item-with-sub">
 				        <a href="#" class="nav-link1">COMMUNITY</a>
 				        <div class="sub-menu">
-				            <a href="${path}/comm_main.do">공지/이벤트</a>
+				            <a href="${path}/notice_list">공지/이벤트</a>
 				            <a href="${path}/board_list" >자유</a>
 				            <a href="${path}/comm_CSD.do">묘한발견(준비중)</a>
 				        </div>
@@ -80,7 +80,7 @@
 				<a href="#" class="nav-link1" onclick="window.location='${path}/termsAgreement.do'">회원가입</a>
 				</c:if>
 				<c:if test="${!(empty sessionScope.sessionid)}">
-				<a href="#" class="nav-link1" onclick="window.location='${path}/mypage_main.do'">나의정보</a>
+				<a href="#" class="nav-link1" onclick="window.location='${path}/admin_main'">나의정보</a>
 				</c:if>
 				
 				<c:if test="${empty sessionScope.sessionid}">
