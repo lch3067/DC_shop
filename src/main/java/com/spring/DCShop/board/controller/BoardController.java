@@ -167,5 +167,14 @@ public class BoardController {
 		return ResponseEntity.noContent().build();
 	}
 	// 검색
+	
+	// 커뮤니티 메인 페이지
+	@RequestMapping("comm_main")
+	public String comm_main(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException {
+		logger.info("<<< url => comm_main >>>");
+		
+		return "comm/comm_main";
+	}
 
 }

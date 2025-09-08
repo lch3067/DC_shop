@@ -182,6 +182,112 @@ $(function() {
   });
 });
 
+// =========================
+// 반려동물 다중등록 UI 
+// =========================
+(function () {
+  var notice  = document.getElementById('multiPetNotice');
+  var chips   = document.getElementById('petChips');
+  var addBtn  = document.getElementById('addAnotherBtn');
+  var skipBtn = document.getElementById('skipBtn');
 
+  // insert.jsp가 아니면 스킵
+  if (!chips || !addBtn) { return; }
 
+  function chipCount() {
+    return chips ? chips.getElementsByClassName('chip').length : 0;
+  }
 
+  function updateNotice() {
+    if (!notice) return;
+    notice.style.display = chipCount() > 0 ? 'block' : 'none';
+  }
+
+  function addChip(label, payload) {
+    var div = document.createElement('div');
+    div.className = 'chip';
+    var name = (payload && payload.name) ? payload.name : '';
+    var type = (payload && payload.type) ? payload.type : '';
+    var kg   = (payload && payload.kg)   ? payload.kg   : '';
+    var size = (payload && payload.size) ? payload.size : '';
+
+    div.innerHTML =
+      '<span class="chip-label">' + (label || '') + '</span>' +
+      '<button type="button" class="chip-del" aria-label="삭제">×</button>' +
+      '<input type="hidden" name="pet_name[]" value="' + name + '">' +
+      '<input type="hidden" name="pet_type[]" value="' + type + '">' +
+      '<input type="hidden" name="pet_kg[]" value="' + kg + '">' +
+      '<input type="hidden" name="pet_size[]" value="' + size + '">';
+
+    chips.appendChild(div);
+
+    var del = div.getElementsByClassName('chip-del')[0];
+    if (del) {
+      del.addEventListener('click', function () {
+        if (div.parentNode) div.parentNode.removeChild(div);
+        updateNotice();
+      });
+    }
+    updateNotice();
+  }
+
+  // “+ 추가 등록” → 현재 입력값을 칩으로 묶어 아래에 추가
+  addBtn.addEventListener('click', function () {
+    var nameEl = document.getElementById('pet_name');
+    var name   = nameEl ? nameEl.value : '';
+
+    var type = '';
+    try {
+      var typeEl = document.querySelector('input[name="pet_type"]:checked');
+      if (typeEl) type = typeEl.value;
+    } catch (e) { /* querySelector 미지원 브라우저 대비 */ }
+
+    var kgEl   = document.getElementById('pet_kg');
+    var kg     = kgEl ? kgEl.value : '';
+
+    var sizeEl = document.getElementById('pet_size');
+    var size   = sizeEl ? sizeEl.value : '';
+
+    if (!name) {
+      alert('반려동물 이름을 입력해 주세요.');
+      if (nameEl) nameEl.focus();
+      return;
+    }
+
+    addChip(name + (type ? ' (' + type + ')' : ''), { name: name, type: type, kg: kg, size: size });
+
+    // 필요 시 입력 초기화
+    // if (nameEl) nameEl.value = '';
+  });
+
+  // “건너뛰기” → 반려동물 없이 진행 플래그 추가 후 제출
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function () {
+      if (chipCount() > 0) {
+        if (!confirm('이미 추가된 반려동물이 있습니다. 반려동물 없이 가입을 진행할까요?')) return;
+      }
+
+      // closest 폴리필
+      var form = null;
+      if (skipBtn.closest) {
+        form = skipBtn.closest('form');
+      } else {
+        var p = skipBtn.parentNode;
+        while (p && p.nodeName !== 'FORM') p = p.parentNode;
+        form = p;
+      }
+
+      if (form) {
+        var skip = document.createElement('input');
+        skip.type = 'hidden';
+        skip.name = 'skipPets';
+        skip.value = 'Y';
+        form.appendChild(skip);
+        form.submit();
+      }
+    });
+  }
+
+  // 초기 상태 반영
+  updateNotice();
+})();

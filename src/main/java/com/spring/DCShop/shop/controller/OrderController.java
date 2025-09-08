@@ -61,6 +61,12 @@ public class OrderController {
 	public String fail(HttpServletRequest request, HttpServletResponse response, Model model) 
 			throws ServletException, IOException { 
 		logger.info("<<< url => fail >>>");
+		
+		System.out.println(request.getParameter("message"));
+		System.out.println(request.getParameter("code"));
+		
+		model.addAttribute("message", request.getParameter("message"));
+		model.addAttribute("code", request.getParameter("code"));
 	    
 		return "shop/pay_fail"; 
 	}

@@ -62,7 +62,7 @@ public class CartServiceImpl implements CartService {
 		dto.setPdId(pdId);
 		dto.setCtQuantity(qty);
 		
-		cartdao.upsertCart(dto);
+		// cartdao.upsertCart(dto);
 		
 		// 바로 결제로 넘길 상품 가져오기
 		ProductDTO pDto = pDao.productDetail(pdId);
