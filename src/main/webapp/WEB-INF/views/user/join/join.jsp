@@ -66,6 +66,7 @@
 								<input type="hidden" id="agreeMarketing" name="agreeMarketing" value="${agreementdto.agreeMarketing}">
 								<input type="hidden" name="privacyAgree" value="${privacyAgree}">
 								<input type="hidden" name="marketingAgree" value="${marketingAgree}">
+								<input type="hidden" id="user_email" name="user_email">
 								<table>
 									<!-- 아이디 시작 -->
 									<tr>
@@ -185,7 +186,7 @@
 											</div>
 
 											<div id="emailMsg" class="msg"></div> <!-- 인증코드 입력 영역: 최초 숨김 -->
-											<!-- 인증코드 영역 (초기 숨김) -->
+											<!-- 인증코드 영역 (초기 숨김) - 이메일 인증 영역 시작 -->
 											<div id="emailVerifyBox" class="hidden mt-2">
 												<div class="input-group">
 													<span class="input-group-text" id="input-group-text">인증코드</span>
@@ -208,7 +209,7 @@
 														aria-live="polite">03:00</span>
 												</div>
 											</div> 
-											<input type="hidden" id="user_email" name="user_email">
+											<!-- 인증코드 영역 (초기 숨김) - 이메일 인증 영역 끝 -->
 
 										</td>
 									</tr>

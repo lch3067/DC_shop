@@ -29,6 +29,7 @@ function onExpire(){
     $('#emailTimer').text('만료됨').removeClass('muted');
     // 인증코드/버튼 숨김
     $('#emailCode').val('');
+    $('#input-group-text').addClass('hidden');
     $('#btnVerify').prop('disabled', true).addClass('hidden');
     $('#emailCode').addClass('hidden');
     showMsg('인증코드가 만료되었습니다. 다시 발송해 주세요.', 'err', 3000);
@@ -149,19 +150,21 @@ function verifyEmailCode(){
         
         success: function(res) {
 	      if (res && res.ok) {
+	      	// 인증 성공했다. 그러면, N -> Y
 	        $('#emailVerified').val('Y');
-	        clearInterval(emailTimerId);
+	        clearInterval(emailTimerId); // 시간 부분 초기화
+	        // ----> 여기부터 객체
 	        $('#emailTimer').text('인증 완료').removeClass('muted');
 	        showMsg('인증이 완료되었습니다.', 'ok', 2000);
-	
 	        $('#input-group-text').addClass('hidden'); // 있으면 숨김
 	        $('#btnVerify').addClass('hidden');
 	        $('#emailCode').addClass('hidden').prop('disabled', true);
+	        // <--- 여기까지 객체
+	        
 	      } else if (res && res.reason === 'expired') {
 	        onExpire(); // 서버가 만료 판정 시 즉시 만료 UI 동기화
 	      } else {
 	        showMsg('인증 실패. 코드를 확인하세요. ' + (res && res.reason || ''), 'err', 2500);
-	        $btn.prop('disabled', false);
 	        $('#emailVerified').val('N');
 	        $('#emailCode').focus().select();
 	      }
