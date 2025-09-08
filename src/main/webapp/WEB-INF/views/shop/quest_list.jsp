@@ -159,19 +159,21 @@
 							</c:forEach>
 							<!-- paging -->
 							<tr>
-								<td colspan="5" align="center">
-									<ul class="pagination">
+								<td colspan="6" align="center">
+									<ul class="pagination" style="display: flex; justify-content: center; list-style-type: none; padding: 0; text-align: center;">
 										<!-- 페이징처리 -->
 										<!-- 이전버튼 활성화 -->
 										<c:if test="${paging.startPage > 10}">
 											<li>
-												<a href="${path}/quest_list.qa?pageNum=${paging.prev}" class="prevPage"> [이전] </a>
+												<a onclick="question_list(${paging.prev})" class="prevPage"> [이전] </a>
 											</li>
 										</c:if>
 										
 										<c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
 											<li>
-												<a href="${path}/board_list.bc?pageNum=${num}" class="<c:if test='${num == paging.currentPage}'>active</c:if>">${num}</a>
+												<c:if test="${num != 0}">
+													<a onclick="question_list(${num})" class="<c:if test='${num == paging.currentPage}'>active</c:if>">${num}</a>
+												</c:if>
 											</li>
 										</c:forEach>
 										
@@ -179,7 +181,7 @@
 										<!-- 다음버튼 활성화 -->
 										<c:if test="${paging.startPage < paging.pageCount}">
 											<li>
-												<a href="${path}/board_list.bc?pageNum=${paging.next}" class="nextPage"> [다음] </a>
+												<a onclick="question_list(${paging.next})" class="nextPage"> [다음] </a>
 											</li>
 										</c:if>
 									</ul>
