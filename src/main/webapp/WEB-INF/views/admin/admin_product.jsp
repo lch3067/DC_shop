@@ -45,13 +45,12 @@
 
       <!-- 메인 콘텐츠 -->
       <main class="flex-1 p-8 bg-gray-50">
-        <h1 class="text-2xl font-bold mb-2">${sessionid}님의 마이페이지</h1>
-        <p class="text-gray-500 mb-6">상품을 검색하고 상태를 일괄 변경하거나 등록/수정/삭제할 수 있습니다.</p>
+        <h1 class="text-2xl font-bold mb-2">상품관리</h1><br>
+        
 
         <section class="bg-white border rounded-xl shadow-sm">
           <div class="p-4">
-            <h2 class="text-lg font-semibold mb-3">상품관리</h2>
-
+			<p class="text-gray-500 mb-6">상품을 검색하고 상태를 일괄 변경하거나 등록/수정/삭제할 수 있습니다.</p>
             <!-- 검색줄 -->
             <form action="${path}/admin_product" method="get" class="flex gap-2 w-full mb-3 flex-wrap">
               <!-- 상태 필터 -->
@@ -124,7 +123,7 @@
               <thead class="bg-gray-50 sticky top-0 z-10">
                 <tr class="text-left text-gray-600">
                   <th class="px-4 py-3 w-10"><input id="checkAll" type="checkbox" class="accent-gray-800" /></th>
-                  <th class="px-4 py-3 w-24">썸네일</th>
+                  <th class="px-4 py-3 w-28">썸네일</th>
                   <th class="px-4 py-3 w-36 whitespace-nowrap">상품번호</th>
                   <th class="px-4 py-3 text-center whitespace-nowrap">상품명</th>
                   <th class="px-4 py-3 w-28 text-right whitespace-nowrap">가격</th>

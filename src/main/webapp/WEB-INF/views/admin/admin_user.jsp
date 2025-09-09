@@ -62,13 +62,13 @@
 
         <!-- 네비게이션 -->
         <nav class="w-full space-y-2 text-sm">
-          <a href="./admin_board"   class="block py-2 px-3 rounded hover:bg-gray-100">게시판관리</a>
-          <a href="./admin_order"   class="block py-2 px-3 rounded hover:bg-gray-100">주문관리</a>
-          <a href="./admin_product" class="block py-2 px-3 rounded hover:bg-gray-100">상품관리</a>
-          <a href="./admin_qna"     class="block py-2 px-3 rounded hover:bg-gray-100">문의관리</a>
-          <a href="./admin_review"  class="block py-2 px-3 rounded hover:bg-gray-100">리뷰관리</a>
-          <a href="./admin_user"    class="block py-2 px-3 rounded hover:bg-gray-100">회원관리</a>
-          <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100 text-red-500">로그아웃</a>
+          <a href="${path}/admin_board"   class="block py-2 px-3 rounded hover:bg-gray-100">게시판관리</a>
+          <a href="${path}/admin_order"   class="block py-2 px-3 rounded hover:bg-gray-100">주문관리</a>
+          <a href="${path}/admin_product" class="block py-2 px-3 rounded hover:bg-gray-100">상품관리</a>
+          <a href="${path}/admin_qna"     class="block py-2 px-3 rounded hover:bg-gray-100">문의관리</a>
+          <a href="${path}/admin_review"  class="block py-2 px-3 rounded hover:bg-gray-100">리뷰관리</a>
+          <a href="${path}/admin_user"    class="block py-2 px-3 rounded bg-gray-900 text-white">회원관리</a>
+          <a href="${path}/logout" class="block py-2 px-3 rounded hover:bg-gray-100 text-red-500">로그아웃</a>
         </nav>
       </aside>
 
@@ -86,62 +86,73 @@
             </div>
           </div>
 
-          <!-- 요약 카드 -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">강아지 수</p>
-              <p class="text-2xl font-bold">
-                ${empty dogCount ? 0 : dogCount}
-              </p>
+          <!-- 레이아웃: 왼쪽(작은 도넛 차트) + 오른쪽(지표 6개) -->
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <!-- LEFT: 작은 도넛 차트 카드 -->
+            <div class="bg-white rounded-xl border p-4 md:w-[280px]">
+              <h3 class="text-base font-semibold mb-3">강아지 vs 고양이 비율</h3>
+              <div class="w-full flex justify-center">
+                <!-- 캔버스 실제 사이즈 축소 -->
+                <canvas id="speciesChart" width="220" height="220" style="max-width: 220px; max-height: 220px;"></canvas>
+              </div>
             </div>
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">고양이 수</p>
-              <p class="text-2xl font-bold">
-                ${empty catCount ? 0 : catCount}
-              </p>
-            </div>
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">총 반려동물</p>
-              <p class="text-2xl font-bold">
-                ${ (empty dogCount ? 0 : dogCount) + (empty catCount ? 0 : catCount) }
-              </p>
-            </div>
-          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">수컷</p>
-              <p class="text-2xl font-bold">
-                ${empty maleCount ? 0 : maleCount}
-              </p>
-            </div>
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">암컷</p>
-              <p class="text-2xl font-bold">
-                ${empty femaleCount ? 0 : femaleCount}
-              </p>
-            </div>
-            <div class="bg-white rounded-xl border p-4">
-              <p class="text-sm text-gray-500">중성화</p>
-              <p class="text-2xl font-bold">
-                ${empty neuteredCount ? 0 : neuteredCount}
-              </p>
-            </div>
-          </div>
-
-          <!-- 원형 그래프 -->
-          <div class="bg-white rounded-xl border p-6">
-            <h3 class="text-lg font-semibold mb-4">강아지 vs 고양이 비율</h3>
-            <div class="w-full max-w-xl">
-              <canvas id="speciesChart" height="220"></canvas>
+            <!-- RIGHT: 지표 6개 (2열 × 3행) -->
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+              <!-- 강아지 수 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">강아지 수</p>
+                <p class="text-2xl font-bold">
+                  ${empty dogCount ? 0 : dogCount}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(<span id="dogPct">0%</span>)</p>
+              </div>
+              <!-- 고양이 수 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">고양이 수</p>
+                <p class="text-2xl font-bold">
+                  ${empty catCount ? 0 : catCount}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(<span id="catPct">0%</span>)</p>
+              </div>
+              <!-- 총 반려동물 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">총 반려동물</p>
+                <p class="text-2xl font-bold">
+                  ${ (empty dogCount ? 0 : dogCount) + (empty catCount ? 0 : catCount) }
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(100%)</p>
+              </div>
+              <!-- 수컷 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">수컷</p>
+                <p class="text-2xl font-bold">
+                  ${empty maleCount ? 0 : maleCount}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(<span id="malePct">0%</span>)</p>
+              </div>
+              <!-- 암컷 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">암컷</p>
+                <p class="text-2xl font-bold">
+                  ${empty femaleCount ? 0 : femaleCount}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(<span id="femalePct">0%</span>)</p>
+              </div>
+              <!-- 중성화 -->
+              <div class="bg-white rounded-xl border p-4">
+                <p class="text-sm text-gray-500">중성화</p>
+                <p class="text-2xl font-bold">
+                  ${empty neuteredCount ? 0 : neuteredCount}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">(<span id="neuteredPct">0%</span>)</p>
+              </div>
             </div>
           </div>
         </section>
 
         <!-- 회원관리 -->
         <section class="mb-8">
-          <h2>회원관리</h2>
-
           <h2 class="text-lg font-semibold mb-3">가입 회원 <font size="1">최신순</font></h2>
           <form>
             <table border="1" class="fixed-table">
@@ -221,9 +232,22 @@
     // 서버에서 온 값이 없으면 0 처리
     const dogCount = Number('${empty dogCount ? 0 : dogCount}');
     const catCount = Number('${empty catCount ? 0 : catCount}');
+    const maleCount = Number('${empty maleCount ? 0 : maleCount}');
+    const femaleCount = Number('${empty femaleCount ? 0 : femaleCount}');
+    const neuteredCount = Number('${empty neuteredCount ? 0 : neuteredCount}');
     const total = (isNaN(dogCount) ? 0 : dogCount) + (isNaN(catCount) ? 0 : catCount);
 
-    // 도넛 차트
+    // 퍼센트 텍스트 채우기 (오른쪽 카드들)
+    const fmt = (n) => isFinite(n) ? n.toFixed(0) : '0';
+    const pct = (part, whole) => whole ? Math.round((part / whole) * 100) : 0;
+
+    document.getElementById('dogPct')     && (document.getElementById('dogPct').innerText     = fmt(pct(dogCount, total)) + '%');
+    document.getElementById('catPct')     && (document.getElementById('catPct').innerText     = fmt(pct(catCount, total)) + '%');
+    document.getElementById('malePct')    && (document.getElementById('malePct').innerText    = fmt(pct(maleCount, total)) + '%');
+    document.getElementById('femalePct')  && (document.getElementById('femalePct').innerText  = fmt(pct(femaleCount, total)) + '%');
+    document.getElementById('neuteredPct')&& (document.getElementById('neuteredPct').innerText= fmt(pct(neuteredCount, total)) + '%');
+
+    // 도넛 차트 (왼쪽, 소형)
     const ctx = document.getElementById('speciesChart');
     if (ctx && window.Chart) {
       new Chart(ctx, {
@@ -236,32 +260,34 @@
         },
         options: {
           responsive: true,
-          cutout: '55%',
+          maintainAspectRatio: false, // width/height 속성 존중
+          cutout: '60%',
           plugins: {
             legend: {
-              position: 'bottom',
-              labels: { boxWidth: 12, usePointStyle: true }
+              display: false // 좌측 작은 카드라 레전드는 생략
             },
             tooltip: {
               callbacks: {
                 label: function(c) {
                   const val = c.parsed || 0;
-                  const pct = total ? Math.round((val / total) * 100) : 0;
-                  return `${c.label}: ${val} (${pct}%)`;
+                  const p = total ? Math.round((val / total) * 100) : 0;
+                  return `${c.label}: ${val} (${p}%)`;
                 }
               }
             },
-            // 차트 위에 퍼센트 표시
             datalabels: {
               color: '#333',
               font: { weight: 'bold' },
-              formatter: (val, ctx) => {
-                const sum = (ctx.chart.data.datasets[0].data || []).reduce((a, b) => (Number(a)||0) + (Number(b)||0), 0);
+              formatter: (val, chartCtx) => {
+                const sum = (chartCtx.chart.data.datasets[0].data || []).reduce((a, b) => (Number(a)||0) + (Number(b)||0), 0);
                 if (!sum) return '0%';
-                const pct = Math.round((val / sum) * 100);
-                return pct + '%';
+                const p = Math.round((val / sum) * 100);
+                return p + '%';
               }
             }
+          },
+          layout: {
+            padding: 4
           }
         },
         plugins: [ChartDataLabels]
