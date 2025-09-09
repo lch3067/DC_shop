@@ -13,10 +13,7 @@
 <title><c:out value="${dto.pd_name}"/> 상세보기</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/css/header.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/css/footer.css'/>">
-<link rel="stylesheet" href="<c:url value='/resources/css/product/product_detail.css'/>?v=20250904a">
+<link rel="stylesheet" href="<c:url value='/resources/css/product/product_detail.css'/>?v=20250825">
 
 <!-- JS -->
 <script defer src="<c:url value='/resources/js/product/product_detail.js'/>"></script>
@@ -65,6 +62,7 @@
   <div class="wrap">
     <%@ include file="/WEB-INF/views/setting/header.jsp" %>
 	<div id="header-spacer" style="height: var(--header-height, 96px)"></div>
+
     <div id="container">
       <div id="contents">
         <div id="section2">
@@ -354,7 +352,6 @@
 				  <section id="panel-qa" class="pd-panel" role="tabpanel" aria-labelledby="tab-qa">
 				    
 				    <!-- qna.jsp로 상품 번호(pd_id) 넘김. -->
-				    <%-- qna.jsp는 ${path가 아닌} 상세경로로 지정해주기. --%>
 				  	<jsp:include page="/WEB-INF/views/shop/qna.jsp">
 					    <jsp:param name="pd_id" value="${dto.pd_id}"></jsp:param>
 					</jsp:include>
