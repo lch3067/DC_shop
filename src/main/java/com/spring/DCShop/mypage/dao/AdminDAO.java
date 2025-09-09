@@ -38,5 +38,19 @@ public interface AdminDAO {
 	
 	// 상품관리 - 삭제
 	public int adminProductDelete(List<Integer> ids);
+	// 상품관리 - 자식삭제(리뷰삭제)
+	public int adminProductReviewDelete(List<Integer> ids);
+	// 상품관리 - 자식삭제(qna삭제)
+	public int adminProductQnaDelete(List<Integer> ids);
+	
+	// 상품관리 - 등록
+	public int adminProductInsert(ShopDTO dto);
+	
+	// 상품관리 - 수정폼
+	public ShopDTO adminProductUpdateForm(int pdId);
+	
+	// 상품관리 - 수정처리
+	public int adminProductUpdate(ShopDTO dto);
+	
 	
 }

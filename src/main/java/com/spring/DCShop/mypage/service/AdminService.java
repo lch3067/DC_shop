@@ -34,7 +34,16 @@ public interface AdminService {
 	public void adminProductDelete(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
 		
-	// 상품관리 - 상품등록폼
+	// 상품관리 - 상품등록처리
 	public void adminProductInsert(HttpServletRequest request, HttpServletResponse response, Model model)
 		throws ServletException, IOException;
+	
+	// 상품관리 - 상품수정폼
+	public void adminProductUpdateForm(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+		
+	// 상품관리 - 상품수정처리
+	public void adminProductUpdate(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException;
+		
 }
