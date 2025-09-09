@@ -2,11 +2,22 @@
 <%@ include file="/WEB-INF/views/setting/setting.jsp"%>
 <fmt:setLocale value="ko_KR" />
 <c:set var="shippingFeeSum" value="0" />
+<c:set var="dissubtotal" value="0" />
+<c:set var="dissubtotalSum" value="0" />
 
 <c:forEach var="c" items="${cart}">
+
 	<!-- 상품 배송비 -->
 	<c:set var="pdShip" value="${c.productDto[0].pdShippingFee}" />
-
+		<!-- 갯수 가져오기 -->
+	<c:set var="qty" value="${c.ctQuantity}" />
+	<!-- 상품 할인 비율 -->
+	<c:set var="rate" value="${c.productDto[0].pdDiscountRate}" />
+	<!-- 상품 할인된 가격 가져오기 -->
+	<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
+	<c:set var="discPriceInt" value="${ (c.productDto[0].pdPrice * (100 - rate)) div 100 }" />
+	<c:set var="dissubtotal" value="${dissubtotal + (discPriceInt * qty)}" />
+	
 	<%-- 배송비 0원이 있으면 플래그 true --%>
 	<c:if test="${pdShip == 0}">
 		<c:set var="hasFreeShipping" value="true" />
@@ -16,10 +27,12 @@
 	<c:if test="${pdShip gt shippingFeeSum}">
 		<c:set var="shippingFeeSum" value="${pdShip}" />
 	</c:if>
+	
 </c:forEach>
 
 <%-- 플래그에 따라 최종 배송비 확정 --%>
 <c:choose>
+
 	<c:when test="${hasFreeShipping}">
 		<c:set var="shippingFee" value="0" />
 	</c:when>
@@ -32,9 +45,10 @@
 	<c:otherwise>
 		<c:set var="shippingFee" value="${shippingFeeSum}" />
 	</c:otherwise>
+	
 </c:choose>
 
-<c:set var="dissubtotalSum" value="${cartTotalPrice + shippingFee}" />
+<c:set var="dissubtotalSum" value="${dissubtotal + shippingFee}" />
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -203,7 +217,8 @@
 	   rows.forEach(row => {
 		   const pdId = (row.dataset.pdId);
 		   const pdName = (row.querySelector(".pd-name").textContent).trim();
-		   const pdPrice = (row.querySelector(".order-amount").textContent).trim();
+		   const pdPriceValue = (row.querySelector(".order-amount").textContent).trim();
+		   const pdPrice = Number(pdPriceValue.replace(/[^\d]/g, '') || 0);
 		   const qty = (row.querySelector(".pd-qty").textContent).trim();
 		   const pdImg  = (row.querySelector(".pd-img").value);
 		   const pdDiscountRate = (row.querySelector(".pd-discount").value);
@@ -339,10 +354,12 @@
 								<tbody class="border-top" id="cartItems">
 										
 										<c:forEach var="item" items="${cart}">
-										
-											<div id="cart-item" data-id="${item.pdId}"></div>
 											
+											<div id="cart-item" data-id="${item.pdId}"></div>
 											<c:set var="pd" value="${item.productDto[0]}" />
+											<c:set var="rate" value="${pd.pdDiscountRate}" />
+											<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
+											<c:set var="discPriceInt" value="${ (pd.pdPrice * (100 - rate)) div 100 }" />
 											<tr class="cart-row" data-pd-id="${item.pdId}" data-ct-id="${item.ctNum}">
 												<td class="ps-3">
 													<input class="form-check-input cart-item-checkbox" type="checkbox"
@@ -385,9 +402,32 @@
 													</div>
 												</td>
 												
-												<td class="text-end fw-semibold order-amount">
-													<c:out value="${pd.pdPrice}" />
+												<td class="text-end fw-semibold ">
+													
+												
+													<c:choose>
+														<c:when test="${hasDiscount}">
+															<span class="price-now money order-amount"> <fmt:formatNumber
+																	value="${discPriceInt}" type="currency"
+																	currencySymbol="₩" minFractionDigits="0"
+																	maxFractionDigits="0" />
+															</span>
+															<s class="price-old money"> <fmt:formatNumber
+																	value="${pd.pdPrice}" type="currency" currencySymbol="₩"
+																	minFractionDigits="0" maxFractionDigits="0" />
+															</s>
+														</c:when>
+														<c:otherwise>
+															<span class="price-now money order-amount"> <fmt:formatNumber
+																	value="${pd.pdPrice}" type="currency" currencySymbol="₩"
+																	minFractionDigits="0" maxFractionDigits="0" />
+															</span>
+														</c:otherwise>
+													</c:choose>
+												
 												</td>
+												
+												
 												<td class="text-end fw-bold"><c:out
 														value="${pd.pdPrice * item.ctQuantity}" /></td>
 												<td class="text-center">

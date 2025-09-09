@@ -31,8 +31,7 @@
 	<c:set var="rate" value="${c.productDto[0].pd_discount_rate}" />
 	<!-- 상품 할인된 가격 가져오기 -->
 	<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
-	<c:set var="discPriceInt"
-		value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
+	<c:set var="discPriceInt" value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
 	<c:set var="itemsCount" value="${itemsCount + qty}" />
 	<c:set var="subtotal" value="${subtotal + (pdPrice * qty)}" />
 	<c:set var="dissubtotal" value="${dissubtotal + (discPriceInt * qty)}" />
@@ -282,8 +281,7 @@
 							<c:forEach var="c" items="${cart}">
 								<c:set var="rate" value="${c.productDto[0].pd_discount_rate}" />
 								<c:set var="hasDiscount" value="${rate gt 0 and rate lt 100}" />
-								<c:set var="discPriceInt"
-									value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
+								<c:set var="discPriceInt" value="${ (c.productDto[0].pd_price * (100 - rate)) div 100 }" />
 								<c:set var="qty" value="${c.ctQuantity}" />
 								<%-- <c:set var="hasPd" value="${not empty c.productDto and fn:length(c.productDto) gt 0}" /> --%>
 								<c:set var="pd" value="${c.productDto[0]}" />
