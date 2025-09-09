@@ -127,5 +127,53 @@
 		  SET u_image = #{u_image}
 		WHERE u_id = #{u_id}
 	</update>
- 
+	
+	
+	<!-- pet정보 가져오기 -->
+	<select id="getPetList" parameterType="int" resultType="com.spring.DCShop.mypage.dto.MyPetDTO">
+		SELECT 	p_num, u_member_id, p_name, p_gender, p_type,
+     			p_weight, p_size, p_birth, p_kind, p_neutered
+		  FROM pet_tbl 
+		 WHERE u_member_id = #{_parameter}
+		 ORDER BY TO_NUMBER(p_num)
+	</select>
+	
+	<!-- pet 추가 등록 -->
+	<insert id="petInfoInsert" parameterType="com.spring.DCShop.mypage.dto.MyPetDTO">
+	  INSERT INTO pet_tbl
+	      (u_member_id, p_name, p_gender, p_type, p_weight, p_size, p_birth, p_kind, p_neutered)
+	  VALUES
+	      (#{u_member_id, jdbcType=NUMERIC},
+	       #{p_name, jdbcType=VARCHAR},
+	       #{p_gender, jdbcType=VARCHAR},
+	       #{p_type, jdbcType=VARCHAR},
+	       #{p_weight, jdbcType=NUMERIC},
+	       #{p_size, jdbcType=VARCHAR},
+	       #{p_birth, jdbcType=DATE},
+	       #{p_kind, jdbcType=VARCHAR},
+	       #{p_neutered, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 펫 정보 업데이트 -->
+	<update id="petInfoUpdate" parameterType="com.spring.DCShop.mypage.dto.MyPetDTO">
+		UPDATE pet_tbl
+	       SET p_name     = #{p_name},
+	           p_gender   = #{p_gender},
+	           p_type     = #{p_type},
+	           p_weight   = #{p_weight},
+	           p_size     = #{p_size},
+	           p_birth    = #{p_birth},
+	           p_kind     = #{p_kind},
+	           p_neutered = #{p_neutered}
+	     WHERE p_num = #{p_num}
+	       AND u_member_id = #{u_member_id}
+	</update>
+	
+	<delete id="petInfoDelete" parameterType="java.util.Map" >
+		DELETE FROM pet_tbl
+		 WHERE p_num = #{p_num}
+		   AND u_member_id = #{u_member_id}
+	</delete>
+	
+ 		
  </mapper>
