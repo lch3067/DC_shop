@@ -27,4 +27,9 @@ public interface MypageService {
 	public void profileUpdate(MultipartHttpServletRequest request, HttpServletResponse response, Model model)
 			throws ServletException, IOException;
 	
+	// 주문내역 가져오기
+	public void carListInfo(HttpServletRequest request, HttpServletResponse response, Model model);
+	
+	// 장바구니 내역 가져오기
+	public void orderListInfo(HttpServletRequest request, HttpServletResponse response, Model model);
 }

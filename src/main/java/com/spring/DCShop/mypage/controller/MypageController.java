@@ -31,6 +31,12 @@ public class MypageController {
 	public String mypage_main(HttpServletRequest request, HttpServletResponse response, Model model) {
 		logger.info("=== url -> mypage_main ===");
 		
+		String sessionid = (String)request.getSession().getAttribute("sessionid");
+		
+		if(sessionid == null) {
+			return "user/login/login_main";
+		}
+		
 		// 주문 상품 리스트와 장바구니 리스트 가져와서 뿌려주기
 		myService.getCartAndOrderList(request, response, model);
 		
@@ -125,5 +131,38 @@ public class MypageController {
 		logger.info("=== url -> logout ===");
 		return "";
 	}
-
+	
+	// 장바구니 페이지 이동
+	@RequestMapping("cartList")
+	public String cartList(HttpServletRequest req, HttpServletResponse res, Model model)
+			throws ServletException, IOException{
+		logger.info("=== url -> cartList ===");
+		
+		String sessionid = (String)req.getSession().getAttribute("sessionid");
+		
+		if(sessionid == null) {
+			return "user/login/login_main";
+		}
+		
+		myService.carListInfo(req, res, model);
+		
+		return "mypage/cartList";
+	}
+	
+	// 주문내역 페이지 이동
+	@RequestMapping("orderList")
+	public String orderList(HttpServletRequest req, HttpServletResponse res, Model model)
+			throws ServletException, IOException{
+		logger.info("=== url -> orderList ===");
+		
+		String sessionid = (String)req.getSession().getAttribute("sessionid");
+		
+		if(sessionid == null) {
+			return "user/login/login_main";
+		}
+		
+		myService.orderListInfo(req, res, model);
+		
+		return "mypage/orderList";
+	}
 }
