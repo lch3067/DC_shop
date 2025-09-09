@@ -19,8 +19,22 @@
 	    WHERE ROWNUM <= 5
 	    ]]>
 	</select>
+	
+	<!-- 회원관리 - 펫통계 -->
+	<select id="adminUserPet" resultType="hashmap">
+		<![CDATA[
+		SELECT
+		    NVL(SUM(CASE WHEN p_type   = '강아지' THEN 1 ELSE 0 END), 0) AS "dog_count",
+		    NVL(SUM(CASE WHEN p_type   = '고양이' THEN 1 ELSE 0 END), 0) AS "cat_count",
+		    NVL(SUM(CASE WHEN p_gender = 'M'     THEN 1 ELSE 0 END), 0) AS "male_count",
+		    NVL(SUM(CASE WHEN p_gender = 'F'     THEN 1 ELSE 0 END), 0) AS "female_count",
+		    NVL(SUM(CASE WHEN p_neutered = 'Y'   THEN 1 ELSE 0 END), 0) AS "neutered_count"
+		FROM pet_tbl
+	    ]]>
+	</select>
+	
 	<!-- Board 목록 매핑: BoardDTO + 작성자(UserDTO) 리스트 -->
-	  <resultMap id="BoardListMap" type="com.spring.DCShop.board.dto.BoardDTO">
+	<resultMap id="BoardListMap" type="com.spring.DCShop.board.dto.BoardDTO">
 	    <id     property="b_num"        column="b_num"/>
 	    <result property="u_member_id"  column="u_member_id"/>
 	    <result property="b_title"      column="b_title"/>
@@ -39,7 +53,7 @@
 	      <result property="u_nickname"  column="u_nickname"/>
 	      <!-- 필요시 u_id, u_email 등 추가 가능 -->
 	    </collection>
-	  </resultMap>
+	</resultMap>
 	
 	  <!-- 게시판 목록(검색+페이징) -->
 	  <select id="adminBoardList" parameterType="map" resultMap="BoardListMap">

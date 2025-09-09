@@ -23,6 +23,13 @@ public class AdminDAOImpl implements AdminDAO{
 		List<UserDTO> list = sqlSession.selectList("com.spring.DCShop.mypage.dao.AdminDAO.adminUserList1");
 		return list;
 	}
+	
+	// 회원목록 - 펫통계
+	@Override
+	public Map<String, Object> adminUserPet() {
+		Map<String, Object> map = sqlSession.selectOne("com.spring.DCShop.mypage.dao.AdminDAO.adminUserPet");
+		return map;
+	}
 
 	// 게시판목록
 	@Override
@@ -119,6 +126,8 @@ public class AdminDAOImpl implements AdminDAO{
 		int productupdateCnt = sqlSession.update("com.spring.DCShop.mypage.dao.AdminDAO.adminProductUpdate", dto);
 		return productupdateCnt;
 	}
+
+	
 
 	
 	

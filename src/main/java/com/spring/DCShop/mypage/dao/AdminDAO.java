@@ -12,6 +12,9 @@ public interface AdminDAO {
 	// 회원목록-최신가입자5건조회
 	public List<UserDTO> adminUserList1();
 	
+	// 회원목록 - 펫통계
+	public Map<String, Object> adminUserPet();
+	
 	// 게시판목록
 	public List<BoardDTO> adminBoardList(Map<String, Object> params);
 	

@@ -140,6 +140,7 @@ public class AdminController {
 		logger.info("=== url -> admin_user ===");
 		
 		service.adminUser(request, response, model);
+		service.adminUserPet(request, response, model);
 		return "admin/admin_user";
 	}
 }
