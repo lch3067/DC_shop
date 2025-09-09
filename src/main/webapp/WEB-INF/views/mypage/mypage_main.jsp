@@ -72,7 +72,7 @@
             <!-- 네비게이션 -->
             <nav class="w-full space-y-2 text-sm">
                <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100">주문내역</a> 
-                  <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100">위시리스트</a> 
+                  <a href="${pageContext.request.contextPath}/mypage_editPet.do" class="block py-2 px-3 rounded hover:bg-gray-100">반려동물 정보수정</a> 
                   <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100">장바구니</a> 
                   <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100">1:1 문의</a> 
                   <a href="#" class="block py-2 px-3 rounded hover:bg-gray-100">Q&A</a> 
