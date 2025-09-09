@@ -20,9 +20,10 @@
 	
 	<%-- 배송비 0원이 있으면 플래그 true --%>
 	<c:if test="${pdShip == 0}">
+		
 		<c:set var="hasFreeShipping" value="true" />
 	</c:if>
-
+	
 	<%-- 무료배송이 아닌 경우 최대 배송비 계산 --%>
 	<c:if test="${pdShip gt shippingFeeSum}">
 		<c:set var="shippingFeeSum" value="${pdShip}" />
@@ -36,10 +37,7 @@
 	<c:when test="${hasFreeShipping}">
 		<c:set var="shippingFee" value="0" />
 	</c:when>
-	<c:when test="${shippingFee == 0}">
-		<c:set var="shippingFee" value="0" />
-	</c:when>
-	<c:when test="${cartTotalPrice >= 100000}">
+	<c:when test="${dissubtotal >= 100000}">
 		<c:set var="shippingFee" value="0" />
 	</c:when>
 	<c:otherwise>
@@ -283,7 +281,7 @@
 							value="/resources/image/profile/${dto.u_image}" />
 					</c:otherwise>
 				</c:choose>
-
+				
 				<div class="relative inline-block">
 					<img id="profileImg" src="${imgUrl}" alt="Profile"
 						class="rounded-full w-28 h-28 object-cover mb-4 cursor-pointer border" />
@@ -304,7 +302,7 @@
 				<button
 					class="px-4 py-2 bg-blue-500 text-white rounded-lg mb-6 hover:bg-blue-600"
 					onclick="window.location='${path}/mypage_pwdcheck.do'">정보수정</button>
-
+				
 				<!-- 네비게이션 -->
 				<nav class="w-full space-y-2 text-sm">
 					<a href="./orderList"
@@ -323,7 +321,7 @@
 			<!-- 메인 콘텐츠 -->
 			<main class="flex-1 p-8 bg-gray-50">
 				<h1 class="text-3xl font-bold text-gray-900 mb-2">장바구니</h1>
-
+				<c:out value="${hasFreeShipping}">dd</c:out>
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<div class="text-secondary small">
 						주문한 상품 총: <strong id="totalItemsCount">${cartCountSum}</strong>개
@@ -333,7 +331,6 @@
 						class="btn btn-outline-secondary btn-sm"
 						onclick="deleteSelected()">선택상품 삭제</button>
 				</div>
-
 
 				<!-- 장바구니 상품 목록 -->
 				<div class="card shadow-sm mb-4">
@@ -407,12 +404,12 @@
 												
 													<c:choose>
 														<c:when test="${hasDiscount}">
-															<span class="price-now money order-amount"> <fmt:formatNumber
+															<span class="price-now money"> <fmt:formatNumber
 																	value="${discPriceInt}" type="currency"
 																	currencySymbol="₩" minFractionDigits="0"
 																	maxFractionDigits="0" />
 															</span>
-															<s class="price-old money"> <fmt:formatNumber
+															<s class="price-old money order-amount"> <fmt:formatNumber
 																	value="${pd.pdPrice}" type="currency" currencySymbol="₩"
 																	minFractionDigits="0" maxFractionDigits="0" />
 															</s>
@@ -428,8 +425,11 @@
 												</td>
 												
 												
-												<td class="text-end fw-bold"><c:out
-														value="${pd.pdPrice * item.ctQuantity}" /></td>
+												<td class="text-end fw-bold">
+													<fmt:formatNumber value="${discPriceInt * item.ctQuantity}" type="currency" currencySymbol="₩"
+																	minFractionDigits="0" maxFractionDigits="0" />
+														
+												</td>
 												<td class="text-center">
 													<button class="btn btn-link text-secondary px-2"
 														onclick="removeFunction(${item.pdId}, this)"
@@ -458,7 +458,7 @@
 								<div class="text-end fw-bold order-amount">
 									<div class="text-secondary small">총 상품금액</div>
 									<div class="fs-5 fw-semibold" id="totalAmount">
-										<fmt:formatNumber value="${cartTotalPrice}" type="currency"
+										<fmt:formatNumber value="${dissubtotal}" type="currency"
 											currencySymbol="₩" minFractionDigits="0"
 											maxFractionDigits="0" />
 									</div>
@@ -472,7 +472,7 @@
 									<div class="fs-5 fw-semibold" id="shippingFee">
 										<c:choose>
 											<c:when test="${shippingFee == 0}">무료</c:when>
-											<c:when test="${cartTotalPrice >= 100000}">무료</c:when>
+											<c:when test="${discPriceInt >= 100000}">무료</c:when>
 											<c:otherwise>
 												<fmt:formatNumber value="${shippingFeeSum}" type="currency"
 													currencySymbol="₩" minFractionDigits="0"

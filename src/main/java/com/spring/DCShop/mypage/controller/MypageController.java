@@ -178,6 +178,21 @@ public class MypageController {
 		return "mypage/cartList";
 	}
 	
+	// 장바구니 페이지 이동
+	@RequestMapping("recommendProduct")
+	public String recommendProduct(HttpServletRequest req, HttpServletResponse res, Model model)
+			throws ServletException, IOException{
+		logger.info("=== url -> recommendProduct ===");
+		
+//		String sessionid = (String)req.getSession().getAttribute("sessionid");
+//		
+//		if(sessionid == null) {
+//			return "user/login/login_main";
+//		}
+
+		return "mypage/recommanedProduct";
+	}
+	
 	// 주문내역 페이지 이동
 	@RequestMapping("orderList")
 	public String orderList(HttpServletRequest req, HttpServletResponse res, Model model)
